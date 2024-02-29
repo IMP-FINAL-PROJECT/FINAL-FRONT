@@ -1,0 +1,110 @@
+[versions]
+adapter-rxjava2 = "2.9.0"
+androidx-hilt-compiler = "1.0.0"
+agp = "7.4.0"
+appcompat = "1.6.1"
+core-splashscreen = "1.1.0-alpha02"
+constraintlayout = "2.1.4"
+converter-gson = "2.9.0"
+coreKtx = "1.12.0"
+espressoCore = "3.5.1"
+fragment = "1.6.2"
+glide = "4.16.0"
+glide-transformations = "4.3.0"
+googleService = "4.3.15"
+gradle = "8.1.1"
+gson = "2.10.1"
+hilt-android = "2.48"
+hilt-compiler = "2.48"
+hilt-work = "1.0.0"
+jetbrainsKotlin = "1.6.0"
+jetbrainsKotlinJvm = "1.8.10"
+jetbrainsParcelize = "1.6.10"
+junit = "4.13.2"
+junitVersion = "1.1.5"
+kotlinx-coroutines-android = "1.7.2"
+kotlinx-coroutines-core = "1.7.2"
+ksp = "1.8.10-1.0.9"
+lifecycle-livedata-ktx = "2.6.2"
+lifecycle-viewmodel-savedstate = "2.6.2"
+lifecycle-viewmodel-ktx = "2.6.2"
+logging-interceptor = "4.11.0"
+material = "1.11.0"
+moshi = "1.15.0"
+moshi-kotlin-codegen = "1.15.0"
+navigationFragmentKtx = "2.7.7"
+navigationUiKtx = "2.7.7"
+okhttp = "4.11.0"
+okhttp-urlconnection = "4.9.0"
+retrofit = "2.9.0"
+reactivex-rxandroid = "2.1.1"
+reactivex-rxjava = "2.2.21"
+rxandroid = "3.0.2"
+rxjava = "3.1.6"
+rxkotlin = "3.0.1"
+screen-easy = "0.1.0"
+work-runtime-ktx = "2.8.1"
+
+
+[libraries]
+adapter-rxjava2 = { module = "com.squareup.retrofit2:adapter-rxjava2", version.ref = "adapter-rxjava2" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "core-splashscreen" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+androidx-fragment = { module = "androidx.fragment:fragment", version.ref = "fragment" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+androidx-hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "androidx-hilt-compiler" }
+androidx-hilt-work = { module = "androidx.hilt:hilt-work", version.ref = "hilt-work" }
+androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycle-livedata-ktx" }
+androidx-lifecycle-viewmodel-savedstate = { module = "androidx.lifecycle:lifecycle-viewmodel-savedstate", version.ref = "lifecycle-viewmodel-savedstate" }
+androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle-viewmodel-ktx" }
+androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
+androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigationUiKtx" }
+androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "work-runtime-ktx" }
+converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converter-gson" }
+google-services = { module = "com.google.gms:google-services", version.ref = "googleService" }
+glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+glide-transformations = { module = "jp.wasabeef:glide-transformations", version.ref = "glide-transformations" }
+gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt-android" }
+hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt-android" }
+hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt-compiler" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines-android" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines-core" }
+logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "logging-interceptor" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+moshi = { module = "com.squareup.moshi:moshi", version.ref = "moshi" }
+moshi-kotlin-codegen = { module = "com.squareup.moshi:moshi-kotlin-codegen", version.ref = "moshi-kotlin-codegen" }
+okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+okhttp-urlconnection = { module = "com.squareup.okhttp3:okhttp-urlconnection", version.ref = "okhttp-urlconnection" }
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+rxandroid = { module = "io.reactivex.rxjava3:rxandroid", version.ref = "rxandroid" }
+rxjava = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjava" }
+rxjava2-rxandroid = { module = "io.reactivex.rxjava2:rxandroid", version.ref = "reactivex-rxandroid" }
+rxjava2-rxjava = { module = "io.reactivex.rxjava2:rxjava", version.ref = "reactivex-rxjava" }
+rxkotlin = { module = "io.reactivex.rxjava3:rxkotlin", version.ref = "rxkotlin" }
+screen-easy = { module = "io.github.torrydo:screen-easy", version.ref = "screen-easy" }
+
+
+[plugins]
+androidApplication = { id = "com.android.application", version.ref = "agp" }
+googleDevtoolsKsp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+androidLibrary = { id = "com.android.library", version.ref = "agp" }
+googleService = { id = "com.google.gms.google-services", version.ref = "googleService" }
+jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "jetbrainsKotlin" }
+jetbrainsKotlinParcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "jetbrainsParcelize" }
+jetbrainsKotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
+
+
+[bundles]
+hilt = ["hilt-android", "hilt-compiler", "androidx-hilt-work", "androidx-hilt-compiler"]
+lifecycle = ["androidx-lifecycle-viewmodel-ktx", "androidx-lifecycle-viewmodel-savedstate", "androidx-lifecycle-livedata-ktx"]
+rxjava3 = ["rxjava", "rxkotlin", "rxandroid"]
+rxjava2 = ["rxjava2-rxjava", "rxjava2-rxandroid"]
+coroutine = ["kotlinx-coroutines-core", "kotlinx-coroutines-android"]
+retrofit = ["retrofit",  "converter-gson", "adapter-rxjava2"]
+okhttp = ["okhttp", "okhttp-urlconnection", "logging-interceptor"]

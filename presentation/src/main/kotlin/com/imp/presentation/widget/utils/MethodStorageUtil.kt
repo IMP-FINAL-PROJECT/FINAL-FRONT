@@ -1,0 +1,281 @@
+package com.imp.presentation.widget.utils
+
+import android.annotation.SuppressLint
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
+import android.os.Build
+import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.view.HapticFeedbackConstants
+import android.view.View
+import android.widget.ImageView
+import android.widget.Toast
+import androidx.appcompat.widget.AppCompatImageView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.gif.GifDrawable
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.CustomViewTarget
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.target.Target
+import com.bumptech.glide.request.transition.Transition
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.ObservableEmitter
+import io.reactivex.rxjava3.schedulers.Schedulers
+import java.io.File
+import java.util.Locale
+
+/**
+ * Method Storage Util
+ */
+class MethodStorageUtil {
+
+    companion object {
+
+        /**
+         * 이미지 출력 (rxJava)
+         *
+         * @param imageView
+         * @param bitmap
+         * @param completeCallback
+         */
+        @SuppressLint("CheckResult")
+        fun rxJavaSetImage(imageView: ImageView, bitmap: Bitmap?, completeCallback: (() -> Unit)) {
+
+            if (imageView.context == null) {
+                CommonUtil.log("imageView context is null")
+                return
+            }
+
+            if (bitmap == null) {
+                CommonUtil.log("Bitmap is null")
+                return
+            }
+
+            Observable.create { emitter: ObservableEmitter<Drawable> ->
+                try {
+                    val drawable = Glide.with(imageView.context)
+                        .load(bitmap)
+                        .override(imageView.width, imageView.height)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .dontAnimate()
+                        .submit()
+                        .get()
+
+                    emitter.onNext(drawable)
+                    emitter.onComplete()
+                } catch (e: Exception) {
+                    emitter.onError(e)
+                }
+            }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    { drawable ->
+                        imageView.setImageDrawable(drawable)
+                        imageView.visibility = View.VISIBLE
+                        completeCallback.invoke()
+                    },
+                    { error ->
+                        error.printStackTrace()
+                    }
+                )
+        }
+
+        /**
+         * 이미지 출력 (Glide)
+         *
+         * @param imageView
+         * @param file
+         */
+        fun setImageFile(imageView: ImageView, file: File) {
+
+            if (imageView.context == null) return
+
+            try {
+
+                Glide.with(imageView.context)
+                    .load(file)
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .override(imageView.width, imageView.height)
+                    .skipMemoryCache(true)
+                    .dontAnimate()
+                    .into(object : SimpleTarget<Drawable>() {
+                        override fun onResourceReady(
+                            resource: Drawable,
+                            transition: Transition<in Drawable>?
+                        ) {
+
+                            imageView.setImageDrawable(resource)
+                        }
+                    })
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+        /**
+         * 이미지 출력 (Glide)
+         *
+         * @param imageView
+         * @param bitmap
+         * @param glide
+         */
+        fun setImageBitmap(imageView: AppCompatImageView, bitmap: Bitmap?, glide: RequestManager) {
+
+            val placeholderDrawable = BitmapDrawable(imageView.resources, bitmap)
+
+            glide.asBitmap()
+                .load(bitmap)
+                .dontAnimate()
+                .diskCacheStrategy(DiskCacheStrategy.DATA)
+                .skipMemoryCache(true)
+                .placeholder(placeholderDrawable)
+                .override(imageView.width, imageView.height)
+                .into(imageView)
+        }
+
+        /**
+         * GIF 출력 (Glide)
+         *
+         * @param context
+         * @param glide
+         * @param imageFile
+         * @param preview
+         * @param gifView
+         */
+        fun setGIF(context: Context?, glide: RequestManager, imageFile: File?, preview: ImageView, gifView: ImageView) {
+
+            if (context == null) return
+
+            imageFile?.let { file ->
+
+                val options = RequestOptions()
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .override(gifView.width, gifView.height)
+                    .skipMemoryCache(true)
+
+                glide
+                    .asGif()
+                    .load(file)
+                    .apply(options)
+                    .listener(object : RequestListener<GifDrawable> {
+
+                        override fun onLoadFailed(
+                            e: GlideException?,
+                            model: Any?,
+                            target: Target<GifDrawable>,
+                            isFirstResource: Boolean
+                        ): Boolean {
+                            return false
+                        }
+
+                        override fun onResourceReady(
+                            resource: GifDrawable,
+                            model: Any,
+                            target: Target<GifDrawable>?,
+                            dataSource: DataSource,
+                            isFirstResource: Boolean
+                        ): Boolean {
+
+                            preview.visibility = View.VISIBLE
+                            return false
+                        }
+                    })
+                    .into(object : CustomViewTarget<ImageView, GifDrawable>(gifView) {
+
+                        override fun onResourceReady(
+                            resource: GifDrawable,
+                            transition: Transition<in GifDrawable>?
+                        ) {
+
+                            preview.visibility = View.GONE
+                            resource.start()
+                            gifView.setImageDrawable(resource)
+                        }
+
+                        override fun onLoadFailed(errorDrawable: Drawable?) {}
+                        override fun onResourceCleared(placeholder: Drawable?) {}
+                    })
+            }
+        }
+
+        /**
+         * 디바이스 언어 설정 가져오기
+         */
+        fun getSystemLanguage(): String = Locale.getDefault().language
+
+        /**
+         * 디바이스 국가 설정 가져오기
+         */
+        fun getSystemCountry(): String = Locale.getDefault().country
+
+        /**
+         * 앱 설치 여부 확인
+         *
+         * @param context
+         * @param packageName
+         */
+        fun isAppInstalled(context: Context, packageName: String): Boolean {
+
+            val packageManager = context.packageManager
+            return try {
+                packageManager.getApplicationInfo(packageName, 0)
+                true
+            } catch (e: Exception) {
+                false
+            }
+        }
+
+        /**
+         * 클릭 시 해당 앱 이동
+         *
+         * @param context
+         * @param pkg
+         */
+        fun moveToApp(context: Context, pkg: String) {
+
+            val options = Bundle()
+
+            try {
+                context.startActivity(context.packageManager.getLaunchIntentForPackage(pkg), options)
+            } catch (e: NullPointerException) {
+                if (pkg.isEmpty()) {
+                    Toast.makeText(context, "패키지명이 없습니다", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(context, "not installed", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+        /**
+         * Touch Vibrate
+         *
+         * @param context
+         * @param view
+         */
+        fun createVibRate(context: Context?, view: View) {
+
+            context?.let {
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+
+                    val vibrator = it.getSystemService(Vibrator::class.java)
+                    vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK))
+                } else {
+
+                    view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
+                }
+            }
+        }
+    }
+}

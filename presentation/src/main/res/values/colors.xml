@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="colorPrimary">#ffffff</color>
+    <color name="colorPrimaryDark">#ffffff</color>
+    <color name="colorAccent">#ffffff</color>
+    <color name="transparent">@android:color/transparent</color>
+
+    <!-- Ripple -->
+    <color name="defaultRippleColor">#1A000000</color>
+    <color name="defaultRippleColorLight">#4Dffffff</color>
+
+    <color name="background">#F7F7F8</color>
+
+    <!-- White -->
+    <color name="white">#ffffff</color>
+
+    <!-- Black -->
+    <color name="black">#000000</color>
+    <color name="black_alpha_10">#1a000000</color>
+    <color name="black_alpha_20">#33000000</color>
+    <color name="black_alpha_30">#4D000000</color>
+    <color name="black_alpha_40">#66000000</color>
+    <color name="black_alpha_50">#80000000</color>
+    <color name="black_alpha_60">#99000000</color>
+    <color name="black_alpha_70">#b3000000</color>
+    <color name="black_alpha_80">#CC000000</color>
+
+</resources>
