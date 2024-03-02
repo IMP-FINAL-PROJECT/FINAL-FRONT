@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- home -->
+    <item
+        android:id="@+id/home"
+        android:enabled="true"
+        android:icon="@drawable/icon_home"
+        android:title="HOME" />
+
+    <!-- monthly/weekly/daily log -->
+    <item
+        android:id="@+id/log"
+        android:enabled="true"
+        android:icon="@drawable/icon_log"
+        android:title="LOG" />
+
+    <!-- chat -->
+    <item
+        android:id="@+id/chat"
+        android:enabled="true"
+        android:icon="@drawable/icon_chat"
+        android:title="CHAT" />
+
+    <!-- my page -->
+    <item
+        android:id="@+id/myPage"
+        android:enabled="true"
+        android:icon="@drawable/icon_mypage"
+        android:title="MY PAGE" />
+
+</menu>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/home">
+
+    <fragment
+        android:id="@+id/home"
+        android:name="com.imp.presentation.view.main.fragment.FrgHome"
+        android:label="HOME"
+        tools:layout="@layout/frg_home" />
+
+    <fragment
+        android:id="@+id/log"
+        android:name="com.imp.presentation.view.main.fragment.FrgLog"
+        android:label="LOG"
+        tools:layout="@layout/frg_log" />
+
+    <fragment
+        android:id="@+id/chat"
+        android:name="com.imp.presentation.view.main.fragment.FrgChat"
+        android:label="CHAT"
+        tools:layout="@layout/frg_chat" />
+
+    <fragment
+        android:id="@+id/myPage"
+        android:name="com.imp.presentation.view.main.fragment.FrgMyPage"
+        android:label="MYPAGE"
+        tools:layout="@layout/frg_mypage" />
+
+</navigation>
