@@ -26,4 +26,9 @@
     <color name="black_alpha_70">#b3000000</color>
     <color name="black_alpha_80">#CC000000</color>
 
+    <!-- color -->
+    <color name="color_3377ff">#3377ff</color>
+    <color name="color_999999">#999999</color>
+    <color name="color_f7f7f7">#f7f7f7</color>
+
 </resources>

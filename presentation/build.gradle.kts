@@ -103,4 +103,7 @@ dependencies {
 
     /** Splash */
     implementation(libs.androidx.core.splashscreen)
+
+    /** MP Chart */
+    implementation(libs.mpandroidchart)
 }
