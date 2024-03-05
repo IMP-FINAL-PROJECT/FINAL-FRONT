@@ -115,4 +115,9 @@
         <item name="itemBackground">@color/background</item>
     </style>
 
+    <style name="BottomNavigationViewTextAppearance" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/suit_bold</item>
+        <item name="android:textSize">9dp</item>
+    </style>
+
 </resources>

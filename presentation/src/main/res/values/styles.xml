@@ -1,4 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- SUIT-ExtraBold -->
+    <style name="suitExtraBold" parent="Widget.AppCompat.TextView">
+        <item name="fontFamily">@font/suit_extrabold</item>
+        <item name="android:textColor">#000000</item>
+    </style>
+
+    <style name="suitExtraBold.24">
+        <item name="android:textSize">24dp</item>
+    </style>
+
+    <!-- SUIT-Bold -->
+    <style name="suitBold" parent="Widget.AppCompat.TextView">
+        <item name="fontFamily">@font/suit_bold</item>
+        <item name="android:textColor">#000000</item>
+    </style>
+
+    <style name="suitBold.10">
+        <item name="android:textSize">10dp</item>
+    </style>
+
+    <style name="suitBold.11">
+        <item name="android:textSize">11dp</item>
+    </style>
+
+    <style name="suitBold.12">
+        <item name="android:textSize">12dp</item>
+    </style>
+
+    <style name="suitBold.13">
+        <item name="android:textSize">13dp</item>
+    </style>
+
+    <style name="suitBold.14">
+        <item name="android:textSize">14dp</item>
+    </style>
+
+    <style name="suitBold.15">
+        <item name="android:textSize">15dp</item>
+    </style>
+
+    <style name="suitBold.16">
+        <item name="android:textSize">16dp</item>
+    </style>
+
+    <style name="suitBold.17">
+        <item name="android:textSize">17dp</item>
+    </style>
+
+    <style name="suitBold.18">
+        <item name="android:textSize">18dp</item>
+    </style>
+
+    <style name="suitBold.19">
+        <item name="android:textSize">19dp</item>
+    </style>
+
+    <style name="suitBold.20">
+        <item name="android:textSize">20dp</item>
+    </style>
+
+    <!-- SUIT-SemiBold -->
+    <style name="suitSemiBold" parent="Widget.AppCompat.TextView">
+        <item name="fontFamily">@font/suit_semibold</item>
+        <item name="android:textColor">#000000</item>
+    </style>
+
+    <style name="suitSemiBold.10">
+        <item name="android:textSize">10dp</item>
+    </style>
+
+    <style name="suitSemiBold.11">
+        <item name="android:textSize">11dp</item>
+    </style>
+
+    <style name="suitSemiBold.12">
+        <item name="android:textSize">12dp</item>
+    </style>
+
+    <style name="suitSemiBold.13">
+        <item name="android:textSize">13dp</item>
+    </style>
+
+    <style name="suitSemiBold.14">
+        <item name="android:textSize">14dp</item>
+    </style>
+
+    <style name="suitSemiBold.15">
+        <item name="android:textSize">15dp</item>
+    </style>
+
+    <!-- SUIT-Regular -->
+    <style name="suitRegular" parent="Widget.AppCompat.TextView">
+        <item name="fontFamily">@font/suit_regular</item>
+        <item name="android:textColor">#000000</item>
+    </style>
+
+    <style name="suitRegular.10">
+        <item name="android:textSize">10dp</item>
+    </style>
+
+    <style name="suitRegular.11">
+        <item name="android:textSize">11dp</item>
+    </style>
+
+    <style name="suitRegular.12">
+        <item name="android:textSize">12dp</item>
+    </style>
+
+    <style name="suitRegular.13">
+        <item name="android:textSize">13dp</item>
+    </style>
+
+    <style name="suitRegular.14">
+        <item name="android:textSize">14dp</item>
+    </style>
+
+    <style name="suitRegular.15">
+        <item name="android:textSize">15dp</item>
+    </style>
+
 </resources>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Bottom Navigation Bar -->
+    <string name="navigation_home">홈</string>
+    <string name="navigation_log">로그</string>
+    <string name="navigation_chat">채팅</string>
+    <string name="navigation_mypage">마이페이지</string>
+
+</resources>
