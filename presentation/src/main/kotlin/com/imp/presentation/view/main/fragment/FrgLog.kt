@@ -113,6 +113,18 @@ class FrgLog: BaseFragment<FrgLogBinding>() {
      */
     private fun initLight() {
 
+        with(mBinding.incLight) {
+
+            tvTitle.text = "조도"
+
+            /** 조도 */
+            incChartLight.apply {
+
+                tvDate.text = "오늘, 3월 4일"
+                tvSummary.visibility = View.GONE
+
+            }
+        }
     }
 
     private fun getData(max: Int): ArrayList<BarEntry> {
