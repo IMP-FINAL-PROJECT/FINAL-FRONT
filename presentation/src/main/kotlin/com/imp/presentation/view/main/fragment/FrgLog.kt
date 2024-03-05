@@ -83,6 +83,29 @@ class FrgLog: BaseFragment<FrgLogBinding>() {
      */
     private fun initStep() {
 
+        with(mBinding.incStep) {
+
+            tvTitle.text = "걸음"
+
+            /** 걸음 */
+            incChartStep.apply {
+
+                tvDate.text = "오늘, 3월 4일"
+                tvSummary.text = "4,901걸음"
+
+                chart.apply {
+
+                    setRadius(4)
+                    animateY(300)
+                    setAxisLeft(5, 0f, 1000f)
+
+                    val barDataSet = ChartUtil.barChartDataSet(context, getData(1000))
+                    val chartData = BarData(barDataSet)
+                    data = chartData
+                    invalidate()
+                }
+            }
+        }
     }
 
     /**
