@@ -30,7 +30,6 @@ class RoundedBarChart : BarChart {
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
         readRadiusAttr(context, attrs)
     }
-
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {
         readRadiusAttr(context, attrs)
     }
@@ -52,6 +51,7 @@ class RoundedBarChart : BarChart {
         setNoDataText("")
         setNoDataTextColor(0xFFFFFF)
 
+        setRadius(4)
         setTouchEnabled(false)
         setDrawGridBackground(false)
         getTransformer(YAxis.AxisDependency.LEFT)
@@ -64,11 +64,11 @@ class RoundedBarChart : BarChart {
 
         xAxis.apply {
 
-            setDrawAxisLine(true)
+            setDrawAxisLine(false)
             setDrawGridLines(false)
             typeface = ResourcesCompat.getFont(context, R.font.suit_regular)
             textColor = ContextCompat.getColor(context, R.color.color_999999)
-            textSize = 12f
+            textSize = 10f
             enableGridDashedLine(2f, 2f, 0f)
         }
 
@@ -77,7 +77,7 @@ class RoundedBarChart : BarChart {
             setDrawAxisLine(false)
             typeface = ResourcesCompat.getFont(context, R.font.suit_regular)
             textColor = ContextCompat.getColor(context, R.color.color_999999)
-            textSize = 12f
+            textSize = 10f
             enableGridDashedLine(10f,10f,0f)
         }
     }

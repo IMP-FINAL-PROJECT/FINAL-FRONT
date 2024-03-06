@@ -45,7 +45,7 @@
             tools:text="3시간 47분" />
 
         <!-- Chart -->
-        <com.imp.presentation.widget.component.RoundedBarChart
+        <com.imp.presentation.widget.component.CommonLineChart
             android:id="@+id/chart"
             android:layout_width="match_parent"
             android:layout_height="180dp"

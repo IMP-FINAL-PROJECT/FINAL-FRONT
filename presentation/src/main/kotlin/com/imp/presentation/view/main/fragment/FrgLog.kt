@@ -3,17 +3,27 @@ package com.imp.presentation.view.main.fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import com.github.mikephil.charting.data.BarData
-import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.data.LineData
+import com.imp.domain.model.LogModel
+import com.imp.presentation.R
 import com.imp.presentation.base.BaseFragment
 import com.imp.presentation.databinding.FrgLogBinding
+import com.imp.presentation.viewmodel.LogViewModel
 import com.imp.presentation.widget.utils.ChartUtil
-import kotlin.random.Random
+import com.imp.presentation.widget.utils.DateUtil
 
 /**
  * Main - Log Fragment
  */
 class FrgLog: BaseFragment<FrgLogBinding>() {
+
+    /**
+     * Log ViewModel 초기화
+     */
+    private val viewModel: LogViewModel by activityViewModels()
+
 
     override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?) = FrgLogBinding.inflate(inflater, container, false)
 
@@ -23,118 +33,150 @@ class FrgLog: BaseFragment<FrgLogBinding>() {
 
     override fun initView() {
 
-        initScreenTime()
-        initStep()
-        initLight()
+        initObserver()
+        initDisplay()
+
+        viewModel.loadData()
     }
 
     /**
-     * 스크린 타임 그래프 초기화
+     * Initialize Observer
      */
-    private fun initScreenTime() {
+    private fun initObserver() {
 
-        with(mBinding.incScreenTime) {
-
-            tvTitle.text = "스크린 타임"
-            tvAwakeTitle.text = "화면 깨우기"
-
-            /** 스크린 타임 */
-            incChartTime.apply {
-
-                tvDate.text = "오늘, 3월 4일"
-                tvSummary.text = "3시간 47분"
-
-                chart.apply {
-
-                    setRadius(4)
-                    animateY(300)
-                    setAxisLeft(2, 0f, 60f)
-
-                    val barDataSet = ChartUtil.barChartDataSet(context, getData(61))
-                    val chartData = BarData(barDataSet)
-                    data = chartData
-                    invalidate()
-                }
-            }
-
-            /** 화면 깨우기 */
-            incChartAwake.apply {
-
-                tvDate.text = "오늘, 3월 4일"
-                tvSummary.text = "61번"
-
-                chart.apply {
-
-                    setRadius(4)
-                    animateY(300)
-                    setAxisLeft(2, 0f, 10f)
-
-                    val barDataSet = ChartUtil.barChartDataSet(context, getData(10))
-                    val chartData = BarData(barDataSet)
-                    data = chartData
-                    invalidate()
-                }
-            }
-        }
+        viewModel.logData.observe(viewLifecycleOwner) { setLogGraph(it) }
     }
 
     /**
-     * 걸음 수 그래프 초기화
+     * Initialize Display
      */
-    private fun initStep() {
+    private fun initDisplay() {
 
-        with(mBinding.incStep) {
+        with(mBinding) {
 
-            tvTitle.text = "걸음"
+            /**
+             * 스크린 타임 그래프 초기화
+             */
+            incScreenTime.apply {
 
-            /** 걸음 */
-            incChartStep.apply {
+                tvTitle.text = getString(R.string.log_text_1)
+                tvAwakeTitle.text = getString(R.string.log_text_2)
 
-                tvDate.text = "오늘, 3월 4일"
-                tvSummary.text = "4,901걸음"
+                /** 스크린 타임 */
+                incChartTime.tvDate.text = DateUtil.getCurrentMonthDay()
+                incChartTime.chart.animateY(300)
 
-                chart.apply {
+                /** 화면 깨우기 */
+                incChartAwake.tvDate.text = DateUtil.getCurrentMonthDay()
+                incChartAwake.chart.animateY(300)
+            }
 
-                    setRadius(4)
-                    animateY(300)
-                    setAxisLeft(5, 0f, 1000f)
+            /**
+             * 걸음 수 그래프 초기화
+             */
+            incStep.apply {
 
-                    val barDataSet = ChartUtil.barChartDataSet(context, getData(1000))
-                    val chartData = BarData(barDataSet)
-                    data = chartData
-                    invalidate()
+                tvTitle.text = getString(R.string.log_text_3)
+
+                /** 걸음 */
+                incChartStep.tvDate.text = DateUtil.getCurrentMonthDay()
+                incChartStep.chart.animateY(300)
+            }
+
+            /**
+             * 조도 센서 그래프 초기화
+             */
+            incLight.apply {
+
+                tvTitle.text = getString(R.string.log_text_4)
+
+                /** 조도 */
+                incChartLight.apply {
+
+                    tvDate.text = DateUtil.getCurrentMonthDay()
+                    tvSummary.visibility = View.GONE
+
+                    chart.animateY(300)
                 }
             }
         }
     }
 
-    /**
-     * 조도 센서 그래프 초기화
-     */
-    private fun initLight() {
+    private fun setLogGraph(data: LogModel) {
 
-        with(mBinding.incLight) {
+        with(mBinding) {
 
-            tvTitle.text = "조도"
+            /**
+             * 스크린 타임 그래프
+             */
+            incScreenTime.apply {
 
-            /** 조도 */
-            incChartLight.apply {
+                /** 스크린 타임 */
+                incChartTime.apply {
 
-                tvDate.text = "오늘, 3월 4일"
-                tvSummary.visibility = View.GONE
+                    tvSummary.text = getString(R.string.unit_hour_minute, 3, 47)
 
+                    val barDataSet = ChartUtil.barChartDataSet(
+                        requireContext(),
+                        ChartUtil.mappingBarEntryData(data.screenTime.valueList)
+                    )
+                    chart.data = BarData(barDataSet)
+                    chart.setAxisLeft(2, 0f, data.screenTime.max)
+                    chart.invalidate()
+                }
+
+                /** 화면 깨우기 */
+                incChartAwake.apply {
+
+                    tvSummary.text = getString(R.string.unit_times, 61)
+
+                    val barDataSet = ChartUtil.barChartDataSet(
+                        requireContext(),
+                        ChartUtil.mappingBarEntryData(data.screenAwake.valueList)
+                    )
+                    chart.data = BarData(barDataSet)
+                    chart.setAxisLeft(ChartUtil.getLabelCount(data.screenAwake.max), 0f, data.screenAwake.max)
+                    chart.invalidate()
+                }
+            }
+
+            /**
+             * 걸음 수 그래프
+             */
+            incStep.apply {
+
+                /** 걸음 */
+                incChartStep.apply {
+
+                    tvSummary.text = getString(R.string.unit_steps, "4,901")
+
+                    val barDataSet = ChartUtil.barChartDataSet(
+                        requireContext(),
+                        ChartUtil.mappingBarEntryData(data.step.valueList)
+                    )
+                    chart.data = BarData(barDataSet)
+                    chart.setAxisLeft(ChartUtil.getLabelCount(data.step.max), 0f, data.step.max)
+                    chart.invalidate()
+                }
+            }
+
+            /**
+             * 조도 센서 그래프
+             */
+            incLight.apply {
+
+                /** 조도 */
+                incChartLight.apply {
+
+                    val lineDataset = ChartUtil.lineChartDataSet(
+                        requireContext(),
+                        ChartUtil.mappingEntryData(data.light.valueList)
+                    )
+                    chart.data = LineData(lineDataset)
+                    chart.setAxisLeft(ChartUtil.getLabelCount(data.light.max), 0f, data.light.max)
+                    chart.invalidate()
+                }
             }
         }
-    }
-
-    private fun getData(max: Int): ArrayList<BarEntry> {
-
-        val entries = ArrayList<BarEntry>()
-
-        for (i in 0 until 24) {
-            entries.add(BarEntry(i.toFloat(), Random.Default.nextInt(max).toFloat()))
-        }
-
-        return entries
     }
 }
