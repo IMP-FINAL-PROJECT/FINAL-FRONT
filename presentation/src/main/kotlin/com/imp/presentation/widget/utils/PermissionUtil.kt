@@ -26,7 +26,6 @@ object PermissionUtil {
     fun checkPermissions(context: Context): Boolean {
         return checkPermissionNotification(context) && checkPermissionLocation(context)
                 && checkPermissionBackgroundLocation(context) && checkPermissionActivity(context)
-                && checkPermissionCall(context)//&& checkPermissionStorage(context)
     }
 
     /**
@@ -151,6 +150,9 @@ object PermissionUtil {
             multipleLauncher.launch(permissions)
 
         } else {
+
+            CommonUtil.log("ACCESS_FINE_LOCATION: ${activity.shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)}")
+            CommonUtil.log("ACCESS_COARSE_LOCATION: ${activity.shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION)}")
 
             // 권한을 거부한 경우, 설정으로 이동
             val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
