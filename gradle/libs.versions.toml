@@ -72,6 +72,7 @@ gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt-android" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt-android" }
+hilt-android-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt-android" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt-compiler" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines-android" }
@@ -94,8 +95,9 @@ screen-easy = { module = "io.github.torrydo:screen-easy", version.ref = "screen-
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
-googleDevtoolsKsp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
+daggerHiltAndroidPlugin = { id = "dagger.hilt.android.plugin" }
+googleDevtoolsKsp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 googleService = { id = "com.google.gms.google-services", version.ref = "googleService" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "jetbrainsKotlin" }
 jetbrainsKotlinParcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "jetbrainsParcelize" }
@@ -103,7 +105,6 @@ jetbrainsKotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrains
 
 
 [bundles]
-hilt = ["hilt-android", "hilt-compiler", "androidx-hilt-work", "androidx-hilt-compiler"]
 lifecycle = ["androidx-lifecycle-viewmodel-ktx", "androidx-lifecycle-viewmodel-savedstate", "androidx-lifecycle-livedata-ktx"]
 rxjava3 = ["rxjava", "rxkotlin", "rxandroid"]
 rxjava2 = ["rxjava2-rxjava", "rxjava2-rxandroid"]
