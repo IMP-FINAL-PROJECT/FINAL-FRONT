@@ -27,6 +27,17 @@ class DateUtil {
         }
 
         /**
+         * Get Current Date (yyyy년 MM월 dd일)
+         */
+        fun getCurrentDateWithText(): String {
+
+            val calendar = Calendar.getInstance()
+            val dateFormat = SimpleDateFormat("yyyy년 MM월 dd일", Locale.getDefault())
+
+            return dateFormat.format(calendar.time)
+        }
+
+        /**
          * Get Current Date (오늘, MM월 dd일)
          */
         fun getCurrentMonthDay(): String {

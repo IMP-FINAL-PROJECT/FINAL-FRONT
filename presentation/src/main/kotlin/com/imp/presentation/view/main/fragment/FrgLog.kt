@@ -54,6 +54,13 @@ class FrgLog: BaseFragment<FrgLogBinding>() {
 
         with(mBinding) {
 
+            /** Header */
+            incHeader.tvTitle.text = getString(R.string.navigation_log)
+            incHeader.ivAddChat.visibility = View.GONE
+
+            /** Date */
+            tvData.text = DateUtil.getCurrentDateWithText()
+
             /**
              * 스크린 타임 그래프 초기화
              */

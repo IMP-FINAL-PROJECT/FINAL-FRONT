@@ -7,6 +7,8 @@ import android.view.View
 import android.view.WindowManager
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.viewbinding.ViewBinding
 import com.imp.presentation.R
 import io.reactivex.disposables.CompositeDisposable
@@ -36,6 +38,7 @@ abstract class BaseActivity<B: ViewBinding> : AppCompatActivity() {
         setFullScreen()
         initView()
         transparentStatusBar()
+        whiteStatusAndNavigationBar()
 
         // Slide 애니메이션 여부
         activityOpenAnimation()
@@ -144,6 +147,21 @@ abstract class BaseActivity<B: ViewBinding> : AppCompatActivity() {
             window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
         } else {
             window.setDecorFitsSystemWindows(false)
+        }
+    }
+
+    /**
+     * Status Bar, Navigation Bar White 색상으로 설정
+     */
+    private fun whiteStatusAndNavigationBar() {
+
+        with(mBinding) {
+
+            window.navigationBarColor = ContextCompat.getColor(this@BaseActivity, R.color.white)
+            window.statusBarColor = ContextCompat.getColor(this@BaseActivity, R.color.white)
+
+            WindowInsetsControllerCompat(window, mBinding.root).isAppearanceLightNavigationBars = true
+            WindowInsetsControllerCompat(window, mBinding.root).isAppearanceLightStatusBars = true
         }
     }
 }
