@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:background="@color/color_f7f7f7">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ctContents"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_radius_8_ffffff"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp">
+
+        <!-- Date -->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvDate"
+            style="@style/suitSemiBold.12"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:includeFontPadding="false"
+            android:textColor="@color/color_999999"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="오늘, 3월 4일" />
+
+        <!-- Summary -->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSummary"
+            style="@style/suitExtraBold.24"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            android:includeFontPadding="false"
+            android:textColor="@color/black"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvDate"
+            tools:text="3시간 47분" />
+
+        <!-- Chart -->
+        <com.imp.presentation.widget.component.CommonLineChart
+            android:id="@+id/chart"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="10dp"
+            app:circularflow_radiusInDP="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvSummary" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.jetbrainsKotlinParcelize)
     alias(libs.plugins.googleDevtoolsKsp)
+    id(libs.plugins.daggerHiltAndroidPlugin.get().pluginId)
 }
 
 android {
@@ -50,12 +51,8 @@ android {
         }
 
         compileOptions {
-            sourceCompatibility = JavaVersion.VERSION_1_8
-            targetCompatibility = JavaVersion.VERSION_1_8
-        }
-
-        kotlinOptions {
-            jvmTarget = "1.8"
+            sourceCompatibility = JavaVersion.VERSION_17
+            targetCompatibility = JavaVersion.VERSION_17
         }
 
         buildFeatures {
@@ -111,5 +108,6 @@ dependencies {
     implementation(libs.androidx.work.runtime.ktx)
 
     /** Hilt */
-    implementation(libs.bundles.hilt)
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
 }
