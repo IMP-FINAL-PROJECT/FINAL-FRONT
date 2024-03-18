@@ -9,9 +9,14 @@ import android.os.Build
 import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
+import android.text.Spannable
+import android.text.Spanned
+import android.text.style.AbsoluteSizeSpan
+import android.text.style.StyleSpan
 import android.view.HapticFeedbackConstants
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
 import com.bumptech.glide.Glide
@@ -276,6 +281,33 @@ class MethodStorageUtil {
                     view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
                 }
             }
+        }
+
+        /**
+         * Set Spannable
+         * @param textView 텍스트 뷰
+         * @param start 시작 index
+         * @param end 끝 index
+         * @param size 폰트 사이즈
+         */
+        fun setSpannable(textView: TextView, start: Int, end: Int, size: Int) {
+
+            val spannable = textView.text as Spannable
+            spannable.setSpan(AbsoluteSizeSpan(size), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+
+        /**
+         * Set Spannable
+         * @param textView 텍스트 뷰
+         * @param start 시작 index
+         * @param end 끝 index
+         * @param font 폰트
+         */
+        fun setSpannable(textView: TextView, start: Int, end: Int, size: Int, font: Int) {
+
+            val spannable = textView.text as Spannable
+            spannable.setSpan(StyleSpan(font), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            spannable.setSpan(AbsoluteSizeSpan(size), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
     }
 }
