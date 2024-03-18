@@ -23,6 +23,9 @@ object LogSampleData {
             light = LogDao.LogValue(
                 max = 100f,
                 valueList = getRandomData(100)
+            ),
+            location = LogDao.LogPointValue(
+                valueList = getDummyPointList()
             )
         )
     }
@@ -36,5 +39,15 @@ object LogSampleData {
         }
 
         return list
+    }
+
+    private fun getDummyPointList(): ArrayList<ArrayList<Double>> {
+
+        return arrayListOf(
+            arrayListOf(37.537229, 127.005515),
+            arrayListOf(37.545024, 127.03923),
+            arrayListOf(37.527896, 127.036245),
+            arrayListOf(37.541889, 127.095388)
+        )
     }
 }

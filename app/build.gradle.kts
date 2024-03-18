@@ -1,3 +1,8 @@
+import java.util.Properties
+
+val properties = Properties()
+properties.load(project.rootProject.file("local.properties").inputStream())
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
@@ -16,6 +21,8 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
+
+        manifestPlaceholders["KAKAO_API_KEY"] = properties["kakao_api_key"].toString()
 
         applicationVariants.all {
 

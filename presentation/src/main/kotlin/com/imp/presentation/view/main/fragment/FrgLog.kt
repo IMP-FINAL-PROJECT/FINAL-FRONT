@@ -11,8 +11,11 @@ import com.imp.presentation.R
 import com.imp.presentation.base.BaseFragment
 import com.imp.presentation.databinding.FrgLogBinding
 import com.imp.presentation.viewmodel.LogViewModel
+import com.imp.presentation.widget.component.CommonMapView
 import com.imp.presentation.widget.utils.ChartUtil
 import com.imp.presentation.widget.utils.DateUtil
+import net.daum.mf.map.api.MapPoint
+
 
 /**
  * Main - Log Fragment
@@ -39,12 +42,21 @@ class FrgLog: BaseFragment<FrgLogBinding>() {
         viewModel.loadData()
     }
 
+    override fun onDestroy() {
+        removeMapView()
+        super.onDestroy()
+    }
+
     /**
      * Initialize Observer
      */
     private fun initObserver() {
 
+        /** Log Data */
         viewModel.logData.observe(viewLifecycleOwner) { setLogGraph(it) }
+
+        /** Location Map Point List */
+        viewModel.pointList.observe(viewLifecycleOwner) { addMapView(it) }
     }
 
     /**
@@ -105,6 +117,18 @@ class FrgLog: BaseFragment<FrgLogBinding>() {
 
                     chart.animateY(300)
                 }
+            }
+
+            /**
+             * 이동 경로 맵 초기화
+             */
+            incMap.apply {
+
+                // 타이틀
+                tvTitle.text = getString(R.string.log_text_5)
+
+                // 날짜
+                tvDate.text = DateUtil.getCurrentMonthDay()
             }
         }
     }
@@ -185,5 +209,36 @@ class FrgLog: BaseFragment<FrgLogBinding>() {
                 }
             }
         }
+    }
+
+    /**
+     * Add Map View
+     */
+    private fun addMapView(pointList: ArrayList<MapPoint>) {
+
+        context?.let { ctx ->
+
+            with(mBinding.incMap) {
+
+                val mapView = CommonMapView(ctx).apply {
+
+                    // add polyLine
+                    addPolyline(pointList)
+
+                    // add marker
+                    addMarker(pointList)
+                }
+
+                clMapContainer.addView(mapView)
+            }
+        }
+    }
+
+    /**
+     * Remove Map View
+     *   - 2개 이상의 Kakao MapView를 추가할 수 없음
+     */
+    private fun removeMapView() {
+        mBinding.incMap.clMapContainer.removeAllViews()
     }
 }

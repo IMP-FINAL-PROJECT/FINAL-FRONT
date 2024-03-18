@@ -29,6 +29,9 @@ object LogMapper {
             light = LogModel.LogValue(
                 response.light.max,
                 response.light.valueList
+            ),
+            location = LogModel.LogPointValue(
+                response.location.valueList
             )
         )
     }
