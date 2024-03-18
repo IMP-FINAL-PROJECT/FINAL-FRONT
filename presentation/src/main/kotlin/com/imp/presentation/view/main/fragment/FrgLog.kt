@@ -45,7 +45,7 @@ class FrgLog: BaseFragment<FrgLogBinding>() {
     }
 
     override fun onDestroy() {
-        removeMapView()
+        //removeMapView()
         super.onDestroy()
     }
 
