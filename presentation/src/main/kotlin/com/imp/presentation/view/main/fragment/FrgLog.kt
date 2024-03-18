@@ -73,7 +73,7 @@ class FrgLog: BaseFragment<FrgLogBinding>() {
             incHeader.ivAddChat.visibility = View.GONE
 
             // Date
-            tvData.text = DateUtil.getCurrentDateWithText()
+            tvData.text = DateUtil.getCurrentDateWithText("yyyy년 MM월 dd일")
 
             /**
              * 스크린 타임 그래프 초기화

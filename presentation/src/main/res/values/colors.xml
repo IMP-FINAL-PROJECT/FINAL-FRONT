@@ -28,7 +28,10 @@
 
     <!-- color -->
     <color name="color_3377ff">#3377ff</color>
+    <color name="color_bdd3ff">#BDD3FF</color>
+    <color name="color_e3e6f0">#E3E6F0</color>
     <color name="color_999999">#999999</color>
     <color name="color_f7f7f7">#f7f7f7</color>
+    <color name="color_343942">#343942</color>
 
 </resources>

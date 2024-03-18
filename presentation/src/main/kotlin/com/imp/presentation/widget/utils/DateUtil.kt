@@ -29,10 +29,10 @@ class DateUtil {
         /**
          * Get Current Date (yyyy년 MM월 dd일)
          */
-        fun getCurrentDateWithText(): String {
+        fun getCurrentDateWithText(pattern: String): String {
 
             val calendar = Calendar.getInstance()
-            val dateFormat = SimpleDateFormat("yyyy년 MM월 dd일", Locale.getDefault())
+            val dateFormat = SimpleDateFormat(pattern, Locale.getDefault())
 
             return dateFormat.format(calendar.time)
         }

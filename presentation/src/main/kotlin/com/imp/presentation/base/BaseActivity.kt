@@ -155,13 +155,10 @@ abstract class BaseActivity<B: ViewBinding> : AppCompatActivity() {
      */
     private fun whiteStatusAndNavigationBar() {
 
-        with(mBinding) {
+        window.navigationBarColor = ContextCompat.getColor(this@BaseActivity, R.color.white)
+        window.statusBarColor = ContextCompat.getColor(this@BaseActivity, R.color.white)
 
-            window.navigationBarColor = ContextCompat.getColor(this@BaseActivity, R.color.white)
-            window.statusBarColor = ContextCompat.getColor(this@BaseActivity, R.color.white)
-
-            WindowInsetsControllerCompat(window, mBinding.root).isAppearanceLightNavigationBars = true
-            WindowInsetsControllerCompat(window, mBinding.root).isAppearanceLightStatusBars = true
-        }
+        WindowInsetsControllerCompat(window, mBinding.root).isAppearanceLightNavigationBars = true
+        WindowInsetsControllerCompat(window, mBinding.root).isAppearanceLightStatusBars = true
     }
 }
