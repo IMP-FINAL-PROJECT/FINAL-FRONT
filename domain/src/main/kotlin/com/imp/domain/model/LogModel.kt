@@ -15,12 +15,20 @@ data class LogModel (
     var step: LogValue = LogValue(),
 
     // light
-    var light: LogValue = LogValue()
+    var light: LogValue = LogValue(),
+
+    // location
+    var location: LogPointValue = LogPointValue()
 ) {
 
     data class LogValue (
 
         var max: Float = 0f,
         var valueList: ArrayList<Float> = ArrayList()
+    )
+
+    data class LogPointValue (
+
+        var valueList: ArrayList<ArrayList<Double>> = ArrayList()
     )
 }
