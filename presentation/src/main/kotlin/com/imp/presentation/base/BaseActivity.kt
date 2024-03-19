@@ -161,4 +161,15 @@ abstract class BaseActivity<B: ViewBinding> : AppCompatActivity() {
         WindowInsetsControllerCompat(window, mBinding.root).isAppearanceLightNavigationBars = true
         WindowInsetsControllerCompat(window, mBinding.root).isAppearanceLightStatusBars = true
     }
+
+    /**
+     * Status Bar 색상 설정
+     */
+    fun setStatusBarColor(colorId: Int = -1) {
+
+        val color = if (colorId != -1) colorId else R.color.white
+        window.statusBarColor = ContextCompat.getColor(this@BaseActivity, color)
+
+        WindowInsetsControllerCompat(window, mBinding.root).isAppearanceLightStatusBars = true
+    }
 }

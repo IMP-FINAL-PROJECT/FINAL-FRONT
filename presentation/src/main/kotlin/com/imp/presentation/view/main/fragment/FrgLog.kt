@@ -9,7 +9,9 @@ import com.github.mikephil.charting.data.LineData
 import com.imp.domain.model.LogModel
 import com.imp.presentation.R
 import com.imp.presentation.base.BaseFragment
+import com.imp.presentation.constants.BaseConstants
 import com.imp.presentation.databinding.FrgLogBinding
+import com.imp.presentation.view.main.activity.ActMain
 import com.imp.presentation.viewmodel.LogViewModel
 import com.imp.presentation.widget.component.CommonMapView
 import com.imp.presentation.widget.extension.toDp
@@ -37,6 +39,9 @@ class FrgLog: BaseFragment<FrgLogBinding>() {
     }
 
     override fun initView() {
+
+        // set status bar color
+        activity?.let { if (it is ActMain) it.setCurrentStatusBarColor(BaseConstants.MAIN_NAV_LABEL_LOG) }
 
         initObserver()
         initDisplay()

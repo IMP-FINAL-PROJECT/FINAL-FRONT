@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.imp.presentation.R
 import com.imp.presentation.base.BaseFragment
+import com.imp.presentation.constants.BaseConstants
 import com.imp.presentation.databinding.FrgHomeBinding
+import com.imp.presentation.view.main.activity.ActMain
 import com.imp.presentation.widget.extension.toDp
 import com.imp.presentation.widget.utils.DateUtil
 import com.imp.presentation.widget.utils.MethodStorageUtil
@@ -27,6 +29,9 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
 
     override fun initView() {
 
+        // set status bar color
+        activity?.let { if (it is ActMain) it.setCurrentStatusBarColor(BaseConstants.MAIN_NAV_LABEL_HOME) }
+
         initDisplay()
         initScoreBoard()
     }
@@ -44,19 +49,12 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
 
         with(mBinding) {
 
-            /** App Title */
-            tvAppTitle.text = getString(R.string.app_name)
-
-            /** Date */
-            tvScoreDate.text = DateUtil.getCurrentDateWithText("MM월 dd일")
-
-            /** Score Title */
-            tvScoreTitle.text = getString(R.string.home_text_1)
-
             /** Score */
+            tvScoreDate.text = DateUtil.getCurrentDateWithText("MM월 dd일")
+            tvScoreTitle.text = getString(R.string.home_text_1)
             tvScore.text = getString(R.string.unit_happy_score)
 
-            /** Tracking Title */
+            /** Tracking */
             tvTrackingTitle.text = getString(R.string.home_text_2)
         }
     }

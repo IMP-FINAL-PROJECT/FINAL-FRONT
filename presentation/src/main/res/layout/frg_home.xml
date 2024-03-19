@@ -20,35 +20,34 @@
                 android:layout_height="wrap_content"
                 android:background="@color/color_e3e6f0"
                 android:paddingStart="24dp"
-                android:paddingTop="18dp"
                 android:paddingEnd="24dp"
                 android:paddingBottom="20dp"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <!-- App Title -->
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvAppTitle"
-                    style="@style/aggroBold.22"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:includeFontPadding="false"
-                    android:textColor="@color/color_343942"
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivAppLogo"
+                    android:layout_width="155dp"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="8dp"
+                    android:adjustViewBounds="true"
+                    android:paddingTop="3dp"
+                    android:src="@drawable/icon_logo"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="FluffyMood" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <!-- 오늘의 행복 점수 -->
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/llScoreBoard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="33dp"
+                    android:layout_marginTop="15dp"
                     android:background="@drawable/bg_radius_8_ffffff"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:paddingTop="25dp"
                     android:paddingBottom="25dp"
-                    app:layout_constraintTop_toBottomOf="@+id/tvAppTitle">
+                    app:layout_constraintTop_toBottomOf="@+id/ivAppLogo">
 
                     <!-- 날짜 -->
                     <androidx.appcompat.widget.AppCompatTextView

@@ -1,11 +1,13 @@
 package com.imp.presentation.view.main.activity
 
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.imp.presentation.R
 import com.imp.presentation.base.BaseContractActivity
+import com.imp.presentation.constants.BaseConstants
 import com.imp.presentation.databinding.ActMainBinding
 import com.imp.presentation.widget.utils.PermissionUtil
 import dagger.hilt.android.AndroidEntryPoint
@@ -101,6 +103,9 @@ class ActMain : BaseContractActivity<ActMainBinding>() {
         }
     }
 
+    /** Navigation Controller */
+    private lateinit var navController: NavController
+
     override fun getViewBinding() = ActMainBinding.inflate(layoutInflater)
 
     override fun initData() {
@@ -137,10 +142,24 @@ class ActMain : BaseContractActivity<ActMainBinding>() {
         with(mBinding) {
 
             val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment)
-            val navController = (navHostFragment as NavHostFragment).findNavController()
+            navController = (navHostFragment as NavHostFragment).findNavController()
 
             navigationBar.itemIconTintList = null
             navigationBar.setupWithNavController(navController)
+        }
+    }
+
+    /**
+     * Set Status Bar Color
+     *
+     * @param destination
+     */
+    fun setCurrentStatusBarColor(destination: String) {
+
+        when(destination) {
+
+            BaseConstants.MAIN_NAV_LABEL_HOME -> setStatusBarColor(R.color.color_e3e6f0)
+            else -> setStatusBarColor()
         }
     }
 }
