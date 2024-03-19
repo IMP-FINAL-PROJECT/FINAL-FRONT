@@ -1,10 +1,13 @@
 package com.imp.presentation.widget.utils
 
+import android.annotation.SuppressLint
 import java.text.SimpleDateFormat
 import java.time.Instant
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
 
@@ -69,6 +72,47 @@ class DateUtil {
             val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
 
             return formatter.format(dateTime)
+        }
+
+        /**
+         * Get Locale Date
+         */
+        fun getLocaleDate(timestamp: Long): LocalDateTime {
+            return LocalDateTime.ofInstant(Instant.ofEpochMilli(timestamp), ZoneId.systemDefault())
+        }
+
+        /**
+         * Get Hour
+         */
+        fun getHour(timestamp: Long): Int {
+            return LocalDateTime.ofInstant(Instant.ofEpochMilli(timestamp), ZoneId.systemDefault()).hour
+        }
+
+        /**
+         * Get Minute
+         */
+        fun getMin(timestamp: Long): Int {
+            return LocalDateTime.ofInstant(Instant.ofEpochMilli(timestamp), ZoneId.systemDefault()).minute
+        }
+
+        /**
+         * Timestamp to Data
+         */
+        @SuppressLint("SimpleDateFormat")
+        fun timestampToData(timestamp: Long): String {
+
+            val timestamp = if (timestamp == 0L) System.currentTimeMillis() else timestamp
+            return SimpleDateFormat("yyyy-MM-dd").format(Date(timestamp))
+        }
+
+        /**
+         * Timestamp to Data
+         */
+        @SuppressLint("SimpleDateFormat")
+        fun timestampToDataMin(timestamp: Long): String {
+
+            val timestamp = if (timestamp == 0L) System.currentTimeMillis() else timestamp
+            return SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date(timestamp))
         }
     }
 }

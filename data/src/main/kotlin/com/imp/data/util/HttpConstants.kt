@@ -15,7 +15,7 @@ class HttpConstants {
 
         // Current
         //--------------------------------------------------
-        private val SERVER: Int = DEV
+        private const val SERVER: Int = DEV
 
         @JvmStatic
         fun getHost(): String = when (BuildConfig.DEBUG) {
@@ -29,7 +29,10 @@ class HttpConstants {
 
         // Server Release Url
         //--------------------------------------------------
-        private const val SERVICE_SERVER_HOST = ""
-        private const val DEV_SERVER_HOST = ""
+        private const val SERVICE_SERVER_HOST = BuildConfig.SERVICE_SERVER_HOST
+        private const val DEV_SERVER_HOST = BuildConfig.DEV_SERVER_HOST
+
+        // Api url
+        const val API_SENSOR_INSERT = "/api/sensor/insert"          // 센싱 데이터 저장
     }
 }

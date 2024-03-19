@@ -20,17 +20,13 @@ import com.imp.presentation.widget.utils.DateUtil
 import com.imp.presentation.widget.utils.MethodStorageUtil
 import net.daum.mf.map.api.MapPoint
 
-
 /**
  * Main - Log Fragment
  */
 class FrgLog: BaseFragment<FrgLogBinding>() {
 
-    /**
-     * Log ViewModel 초기화
-     */
+    /** Log ViewModel */
     private val viewModel: LogViewModel by activityViewModels()
-
 
     override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?) = FrgLogBinding.inflate(inflater, container, false)
 
