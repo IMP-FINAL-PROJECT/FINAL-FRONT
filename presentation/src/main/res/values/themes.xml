@@ -90,6 +90,7 @@
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
 
         <item name="windowSplashScreenBackground">@color/white</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/dummy_splash</item>
         <item name="windowSplashScreenAnimationDuration">0</item>
 
         <item name="android:windowLightStatusBar">true</item>

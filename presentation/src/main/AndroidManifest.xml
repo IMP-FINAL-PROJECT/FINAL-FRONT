@@ -10,10 +10,10 @@
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
     <!-- Activity -->
-    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION"/>
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
 
     <!-- Light Sensor -->
-    <uses-feature android:name="android.hardware.sensor.light" android:required="true"/>
+    <uses-feature android:name="android.hardware.sensor.light" android:required="true" />
 
     <!-- Reboot -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -33,14 +33,30 @@
 
     <application android:theme="@style/AppTheme.SemiFullScreen">
 
+        <!-- Splash -->
         <activity
-            android:name=".view.main.activity.ActMain"
-            android:exported="true">
+            android:name=".view.splash.ActSplash"
+            android:configChanges="screenSize|orientation"
+            android:exported="true"
+            android:finishOnTaskLaunch="true"
+            android:noHistory="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.App.Starting">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
+
+        <!-- Main -->
+        <activity
+            android:name=".view.main.activity.ActMain"
+            android:configChanges="screenSize|screenLayout|orientation"
+            android:exported="true"
+            android:noHistory="false"
+            android:screenOrientation="portrait" />
 
     </application>
 

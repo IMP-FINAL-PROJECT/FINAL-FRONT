@@ -108,4 +108,7 @@ dependencies {
 
     /** MP Chart */
     implementation(libs.mpandroidchart)
+
+    /** Lottie */
+    implementation(libs.lottie)
 }
