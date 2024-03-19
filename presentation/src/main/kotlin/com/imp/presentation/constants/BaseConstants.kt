@@ -18,7 +18,6 @@ class BaseConstants {
         const val ACTION_TYPE_UPDATE_LOCATION = "ACTION_TYPE_UPDATE_LOCATION"
         const val ACTION_TYPE_UPDATE_LIGHT_SENSOR = "ACTION_TYPE_UPDATE_LIGHT_SENSOR"
         const val ACTION_TYPE_UPDATE_STEP_SENSOR = "ACTION_TYPE_UPDATE_STEP_SENSOR"
-        const val ACTION_TYPE_UPDATE_CALL_STATE = "ACTION_TYPE_UPDATE_CALL_STATE"
 
         /**
          * Intent Key
@@ -26,7 +25,6 @@ class BaseConstants {
         const val INTENT_KEY_LOCATION = "LOCATION"
         const val INTENT_KEY_LIGHT_SENSOR = "LIGHT_SENSOR"
         const val INTENT_KEY_STEP_SENSOR = "STEP_SENSOR"
-        const val INTENT_KEY_CALL_STATE = "CALL_STATE"
 
         /**
          * Screen State

@@ -371,20 +371,6 @@ class TrackingForegroundService : InCallService() {
     }
 
     /**
-     * Update Call State
-     *
-     * @param state
-     */
-    private fun updateCallState(state: String) {
-
-        Intent(BaseConstants.ACTION_TYPE_UPDATE_CALL_STATE).apply {
-
-            putExtra(BaseConstants.INTENT_KEY_CALL_STATE, state)
-            sendBroadcast(this)
-        }
-    }
-
-    /**
      * Current Location Listener
      */
     inner class CurrentLocationListener: LocationListener {

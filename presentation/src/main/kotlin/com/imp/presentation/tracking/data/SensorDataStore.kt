@@ -171,8 +171,7 @@ class SensorDataStore {
                         val location = data.trim().split(",")
                         if (location.size >= 3) {
 
-                            result.add(
-                                LocationDao(
+                            result.add(LocationDao(
                                 latitude = location[0].trim().toFloat(),
                                 longitude = location[1].trim().toFloat(),
                                 timestamp = if (location[2].trim().isEmpty()) {
@@ -180,8 +179,7 @@ class SensorDataStore {
                                 } else {
                                     location[2].trim().toLong()
                                 }
-                            )
-                            )
+                            ))
                         }
                     }
                 }
@@ -216,16 +214,14 @@ class SensorDataStore {
                         val light = data.trim().split(",")
                         if (light.size >= 2) {
 
-                            result.add(
-                                LightDao(
+                            result.add(LightDao(
                                 light = light[0].trim().toFloat(),
                                 timestamp = if (light[1].trim().isNotEmpty()) {
                                     light[1].trim().toLong()
                                 } else {
                                     System.currentTimeMillis()
                                 }
-                            )
-                            )
+                            ))
                         }
                     }
                 }
@@ -260,16 +256,14 @@ class SensorDataStore {
                         val step = data.trim().split(",")
                         if (step.size >= 2) {
 
-                            result.add(
-                                StepDao(
+                            result.add(StepDao(
                                 step = step[0].trim().toInt(),
                                 timestamp = if (step[1].trim().isEmpty()) {
                                     System.currentTimeMillis()
                                 } else {
                                     step[1].trim().toLong()
                                 }
-                            )
-                            )
+                            ))
                         }
                     }
                 }
@@ -304,16 +298,14 @@ class SensorDataStore {
                         val screen = data.trim().split(",")
                         if (screen.size >= 2) {
 
-                            result.add(
-                                ScreenDao(
+                            result.add(ScreenDao(
                                 state = screen[0].trim(),
                                 timestamp = if (screen[1].trim().isEmpty()) {
                                     System.currentTimeMillis()
                                 } else {
                                     screen[1].trim().toLong()
                                 }
-                            )
-                            )
+                            ))
                         }
                     }
                 }

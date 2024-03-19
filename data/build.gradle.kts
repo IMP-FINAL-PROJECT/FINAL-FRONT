@@ -11,15 +11,17 @@ val properties = Properties()
 properties.load(project.rootProject.file("local.properties").inputStream())
 
 android {
+
     namespace = "com.imp.data"
     compileSdk = 34
 
-//    buildConfigField("String", "SERVICE_SERVER_HOST", properties["service_server_host"].toString())
-//    buildConfigField("String","DEV_SERVER_HOST", properties["dev_server_host"].toString())
-
     defaultConfig {
+
         minSdk = 26
         consumerProguardFiles("consumer-rules.pro")
+
+        buildConfigField("String", "SERVICE_SERVER_HOST", properties["service_server_host"].toString())
+        buildConfigField("String","DEV_SERVER_HOST", properties["dev_server_host"].toString())
     }
 
     buildTypes {

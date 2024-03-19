@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import com.imp.presentation.tracking.data.SensorDataStore
+import com.imp.presentation.widget.utils.PreferencesUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -16,12 +17,12 @@ class ScreenStateReceiver: BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
 
-        if (intent == null) return
+        if (intent == null || context == null) return
 
         when(intent.action) {
 
-            Intent.ACTION_SCREEN_ON -> { saveScreenState(isOn = true) }
-            Intent.ACTION_SCREEN_OFF -> { saveScreenState(isOn = false) }
+            Intent.ACTION_SCREEN_ON -> { saveScreenState(context, isOn = true) }
+            Intent.ACTION_SCREEN_OFF -> { saveScreenState(context, isOn = false) }
         }
     }
 
@@ -30,7 +31,7 @@ class ScreenStateReceiver: BroadcastReceiver() {
      *
      * @param isOn
      */
-    private fun saveScreenState(isOn: Boolean) {
+    private fun saveScreenState(context: Context, isOn: Boolean) {
 
         val state = if (isOn) "ON" else "OFF"
 
@@ -41,5 +42,11 @@ class ScreenStateReceiver: BroadcastReceiver() {
             // Save Screen On/Off Data into Preference DataStore
             SensorDataStore.saveScreenData(state, System.currentTimeMillis())
         }
+
+        // todo: 임시
+        var count = PreferencesUtil.getPreferencesInt(context, PreferencesUtil.TRACKING_SCREEN_AWAKE_KEY)
+        if (isOn) count++
+
+        PreferencesUtil.setPreferencesInt(context, PreferencesUtil.TRACKING_SCREEN_AWAKE_KEY, count)
     }
 }

@@ -27,7 +27,7 @@ class HttpConstants {
             false -> SERVICE_SERVER_HOST
         }
 
-        // Server Release Url
+        // Server Url
         //--------------------------------------------------
         private const val SERVICE_SERVER_HOST = BuildConfig.SERVICE_SERVER_HOST
         private const val DEV_SERVER_HOST = BuildConfig.DEV_SERVER_HOST

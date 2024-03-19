@@ -1,6 +1,10 @@
 package com.imp.presentation.view.main.activity
 
+import android.content.BroadcastReceiver
+import android.content.Intent
+import android.content.IntentFilter
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -9,6 +13,8 @@ import com.imp.presentation.R
 import com.imp.presentation.base.BaseContractActivity
 import com.imp.presentation.constants.BaseConstants
 import com.imp.presentation.databinding.ActMainBinding
+import com.imp.presentation.tracking.data.SensorDataStore
+import com.imp.presentation.tracking.service.TrackingForegroundService
 import com.imp.presentation.widget.utils.PermissionUtil
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -110,6 +116,8 @@ class ActMain : BaseContractActivity<ActMainBinding>() {
 
     override fun initData() {
 
+        // todo: 임시
+        SensorDataStore.context = this
     }
 
     override fun initView() {
@@ -160,6 +168,52 @@ class ActMain : BaseContractActivity<ActMainBinding>() {
 
             BaseConstants.MAIN_NAV_LABEL_HOME -> setStatusBarColor(R.color.color_e3e6f0)
             else -> setStatusBarColor()
+        }
+    }
+
+    /**
+     * Start Tracking Service
+     */
+    fun startTrackingService() {
+
+        Intent(this@ActMain, TrackingForegroundService::class.java).apply {
+            ContextCompat.startForegroundService(this@ActMain, this)
+        }
+    }
+
+    /**
+     * Stop Tracking Service
+     */
+    fun stopTrackingService() {
+
+        Intent(this@ActMain, TrackingForegroundService::class.java).apply {
+            stopService(this)
+        }
+    }
+
+    /**
+     * Register UI Update Broadcast
+     */
+    fun registerUIBroadcast(receiver: BroadcastReceiver) {
+
+        IntentFilter().apply {
+
+            addAction(BaseConstants.ACTION_TYPE_UPDATE_LOCATION)
+            addAction(BaseConstants.ACTION_TYPE_UPDATE_LIGHT_SENSOR)
+            addAction(BaseConstants.ACTION_TYPE_UPDATE_STEP_SENSOR)
+            registerReceiver(receiver, this, RECEIVER_EXPORTED)
+        }
+    }
+
+    /**
+     * Unregister UI Update Broadcast
+     */
+    fun unregisterUIBroadcast(receiver: BroadcastReceiver) {
+
+        try {
+            unregisterReceiver(receiver)
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 }
