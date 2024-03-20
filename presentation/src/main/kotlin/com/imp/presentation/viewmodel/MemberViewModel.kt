@@ -22,9 +22,20 @@ class MemberViewModel @Inject constructor(private val useCase: MemberUseCase) : 
     private val _loginData = MutableLiveData<MemberModel>()
     val loginData: LiveData<MemberModel> get() = _loginData
 
+    /** Register Response Data */
+    private val _registerResData = MutableLiveData<MemberModel>()
+    val registerResData: LiveData<MemberModel> get() = _registerResData
+
+    /** Email Validation Data */
+    private val _emailValidationData = MutableLiveData<Boolean>()
+    val emailValidationData: LiveData<Boolean> get() = _emailValidationData
+
     /** Error Callback */
     private val _errorCallback = MutableLiveData<Event<ErrorCallbackModel?>>()
     val errorCallback: LiveData<Event<ErrorCallbackModel?>> get() = _errorCallback
+
+    /** Register Data */
+    val registerData: MemberModel = MemberModel()
 
     /**
      * Login
@@ -35,6 +46,30 @@ class MemberViewModel @Inject constructor(private val useCase: MemberUseCase) : 
             id = id,
             password = password,
             successCallback = { _loginData.value = it },
+            errorCallback = { _errorCallback.value = Event(it) }
+        )
+    }
+
+    /**
+     * register
+     */
+    fun register() = viewModelScope.launch {
+
+        useCase.register(
+            data = registerData,
+            successCallback = { _registerResData.value = it },
+            errorCallback = { _errorCallback.value = Event(it) }
+        )
+    }
+
+    /**
+     * Check Email Validation
+     */
+    fun checkEmail(id: String) = viewModelScope.launch {
+
+        useCase.checkEmail(
+            id = id,
+            successCallback = { _emailValidationData.value = it },
             errorCallback = { _errorCallback.value = Event(it) }
         )
     }

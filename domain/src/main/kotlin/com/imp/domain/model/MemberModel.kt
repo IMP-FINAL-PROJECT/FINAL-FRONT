@@ -8,8 +8,11 @@ data class MemberModel (
     // user id
     var id: String? = null,
 
+    // password
+    var password: String? = null,
+
     // brith (yyyy-MM-dd)
-    var screenAwake: String? = null,
+    var brith: String? = null,
 
     // name
     var name: String? = null,

@@ -33,7 +33,9 @@ class HttpConstants {
         private const val DEV_SERVER_HOST = BuildConfig.DEV_SERVER_HOST
 
         // Api url
-        const val API_LOGIN = "/api/login"                          // 로그인
-        const val API_SENSOR_INSERT = "/api/sensor/insert"          // 센싱 데이터 저장
+        const val API_LOGIN = "/api/login"                                    // 로그인
+        const val API_REGISTER = "/api/register"                              // 회원 가입
+        const val API_REGISTER_VALIDATION = "/api/register/validation"        // 이메일 중복 검사
+        const val API_SENSOR_INSERT = "/api/sensor/insert"                    // 센싱 데이터 저장
     }
 }

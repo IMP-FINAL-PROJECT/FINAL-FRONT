@@ -16,4 +16,18 @@ class MemberUseCase @Inject constructor(private val repository: MemberRepository
     suspend fun login(id: String, password: String, successCallback: (MemberModel) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit) {
         repository.login(id, password, successCallback, errorCallback)
     }
+
+    /**
+     * Register
+     */
+    suspend fun register(data: MemberModel, successCallback: (MemberModel) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit) {
+        repository.register(data, successCallback, errorCallback)
+    }
+
+    /**
+     * Check Email Validation
+     */
+    suspend fun checkEmail(id: String, successCallback: (Boolean) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit) {
+        repository.checkEmail(id, successCallback, errorCallback)
+    }
 }
