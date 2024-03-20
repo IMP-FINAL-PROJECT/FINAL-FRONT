@@ -9,6 +9,9 @@
     <string name="navigation_chat">채팅</string>
     <string name="navigation_mypage">마이페이지</string>
 
+    <!-- Common -->
+    <string name="next">다음</string>
+
     <!-- Splash -->
     <string name="splash_text_1">나에 대해 알아가는 시간,\n지금 FluffyMood를 시작해보세요!</string>
 
