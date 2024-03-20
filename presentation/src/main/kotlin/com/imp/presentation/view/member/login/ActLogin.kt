@@ -154,6 +154,9 @@ class ActLogin : BaseContractActivity<ActMemberLoginBinding>() {
                 // id, password 저장
                 userId = incEmail.etInput.text.toString()
                 userPassword = incPassword.etInput.text.toString()
+
+                // login api 호츌
+                viewModel.login(userId, userPassword)
             }
         }
     }

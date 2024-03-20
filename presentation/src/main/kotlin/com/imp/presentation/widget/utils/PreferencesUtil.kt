@@ -9,7 +9,11 @@ class PreferencesUtil {
 
         const val PREF_NAME = "com.imp.fluffymood"
 
-        // Preference Key
+        // Member Key
+        const val AUTO_LOGIN_ID_KEY = "AUTO_LOGIN_ID_KEY"
+        const val AUTO_LOGIN_PASSWORD_KEY = "AUTO_LOGIN_PASSWORD_KEY"
+
+        // Tracking Key
         const val TRACKING_SWITCH_KEY = "TRACKING_SWITCH_KEY"
         const val TRACKING_SCREEN_AWAKE_KEY = "TRACKING_SCREEN_AWAKE_KEY"
 

@@ -2,8 +2,10 @@ package com.imp.fluffymood.di
 
 import com.imp.data.repository.HomeRepositoryImpl
 import com.imp.data.repository.LogRepositoryImpl
+import com.imp.data.repository.MemberRepositoryImpl
 import com.imp.domain.repository.HomeRepository
 import com.imp.domain.repository.LogRepository
+import com.imp.domain.repository.MemberRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,6 +15,10 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class RepositoryModule {
+
+    @Provides
+    @Singleton
+    fun provideMemberRepository(): MemberRepository = MemberRepositoryImpl()
 
     @Provides
     @Singleton
