@@ -7,6 +7,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
+import android.os.PowerManager
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.text.Spannable
@@ -280,6 +281,24 @@ class MethodStorageUtil {
 
                     view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
                 }
+            }
+        }
+
+        /**
+         * Check Current Screen On/Off
+         *
+         * @return
+         */
+        fun checkDeviceStatus(context: Context): Boolean {
+
+            return try {
+
+                val powerManager = context.getSystemService(Context.POWER_SERVICE) as PowerManager
+                powerManager.isInteractive
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+                false
             }
         }
 

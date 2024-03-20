@@ -20,17 +20,13 @@ import com.imp.presentation.widget.utils.DateUtil
 import com.imp.presentation.widget.utils.MethodStorageUtil
 import net.daum.mf.map.api.MapPoint
 
-
 /**
  * Main - Log Fragment
  */
 class FrgLog: BaseFragment<FrgLogBinding>() {
 
-    /**
-     * Log ViewModel 초기화
-     */
+    /** Log ViewModel */
     private val viewModel: LogViewModel by activityViewModels()
-
 
     override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?) = FrgLogBinding.inflate(inflater, container, false)
 
@@ -49,9 +45,10 @@ class FrgLog: BaseFragment<FrgLogBinding>() {
         viewModel.loadData()
     }
 
-    override fun onDestroy() {
-        //removeMapView()
-        super.onDestroy()
+    override fun onPause() {
+
+        removeMapView()
+        super.onPause()
     }
 
     /**
@@ -150,8 +147,8 @@ class FrgLog: BaseFragment<FrgLogBinding>() {
                         tvSummary.text = getString(R.string.unit_hour_minute, 3, 47)
                         tvSummary.textSize = 24f
 
-                        MethodStorageUtil.setSpannable(tvSummary, 1, 3, 11.toDp(ctx).toInt(), R.font.suit_meduim)
-                        MethodStorageUtil.setSpannable(tvSummary, tvSummary.length() - 1, tvSummary.length(), 11.toDp(ctx).toInt(), R.font.suit_meduim)
+                        MethodStorageUtil.setSpannable(tvSummary, 1, 3, 11.toDp(ctx).toInt(), R.font.suit_medium)
+                        MethodStorageUtil.setSpannable(tvSummary, tvSummary.length() - 1, tvSummary.length(), 11.toDp(ctx).toInt(), R.font.suit_medium)
 
                         val barDataSet = ChartUtil.barChartDataSet(
                             requireContext(),
@@ -167,7 +164,7 @@ class FrgLog: BaseFragment<FrgLogBinding>() {
 
                         tvSummary.text = getString(R.string.unit_times, 61)
 
-                        MethodStorageUtil.setSpannable(tvSummary, tvSummary.length() - 1, tvSummary.length(), 11.toDp(ctx).toInt(), R.font.suit_meduim)
+                        MethodStorageUtil.setSpannable(tvSummary, tvSummary.length() - 1, tvSummary.length(), 11.toDp(ctx).toInt(), R.font.suit_medium)
 
                         val barDataSet = ChartUtil.barChartDataSet(
                             requireContext(),
@@ -188,7 +185,7 @@ class FrgLog: BaseFragment<FrgLogBinding>() {
 
                         tvSummary.text = getString(R.string.unit_steps, "4,901")
 
-                        MethodStorageUtil.setSpannable(tvSummary, tvSummary.length() - 2, tvSummary.length(), 11.toDp(ctx).toInt(), R.font.suit_meduim)
+                        MethodStorageUtil.setSpannable(tvSummary, tvSummary.length() - 2, tvSummary.length(), 11.toDp(ctx).toInt(), R.font.suit_medium)
 
                         val barDataSet = ChartUtil.barChartDataSet(
                             requireContext(),
@@ -227,6 +224,9 @@ class FrgLog: BaseFragment<FrgLogBinding>() {
             with(mBinding.incMap) {
 
                 val mapView = CommonMapView(ctx).apply {
+
+                    // set center position
+                    setCurrentLocation(37.537906, 127.046245)
 
                     // add polyLine
                     addPolyline(pointList)

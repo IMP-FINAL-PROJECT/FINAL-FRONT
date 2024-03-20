@@ -29,7 +29,7 @@
     <!-- Main - Home -->
     <string name="home_text_1">오늘의 행복 점수는?</string>
     <string name="home_text_2">실시간 트래킹</string>
-    <string name="home_text_3"></string>
+    <string name="home_text_3">밝기</string>
     <string name="home_text_4"></string>
     <string name="home_text_5"></string>
     <string name="home_text_6"></string>
@@ -50,10 +50,24 @@
     <string name="log_text_9"></string>
     <string name="log_text_10"></string>
 
+    <!-- Main - My Page -->
+    <string name="my_page_text_1">실시간 트래킹</string>
+    <string name="my_page_text_2"></string>
+    <string name="my_page_text_3"></string>
+    <string name="my_page_text_4"></string>
+    <string name="my_page_text_5"></string>
+    <string name="my_page_text_6"></string>
+    <string name="my_page_text_7"></string>
+    <string name="my_page_text_8"></string>
+    <string name="my_page_text_9"></string>
+    <string name="my_page_text_10"></string>
+
     <!-- unit -->
     <string name="unit_happy_score">%d/100점</string>
     <string name="unit_hour_minute">%d시간 %d분</string>
     <string name="unit_times">%d번</string>
+    <string name="unit_count">%d회</string>
     <string name="unit_steps">%s걸음</string>
+    <string name="unit_light">%s (%d lux)</string>
 
 </resources>

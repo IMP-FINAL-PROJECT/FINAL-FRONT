@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsKotlinAndroid)
@@ -5,23 +7,21 @@ plugins {
     id(libs.plugins.daggerHiltAndroidPlugin.get().pluginId)
 }
 
+val properties = Properties()
+properties.load(project.rootProject.file("local.properties").inputStream())
+
 android {
+
     namespace = "com.imp.data"
     compileSdk = 34
 
     defaultConfig {
+
         minSdk = 26
         consumerProguardFiles("consumer-rules.pro")
-    }
 
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
+        buildConfigField("String", "SERVICE_SERVER_HOST", properties["service_server_host"].toString())
+        buildConfigField("String","DEV_SERVER_HOST", properties["dev_server_host"].toString())
     }
 
     buildTypes {

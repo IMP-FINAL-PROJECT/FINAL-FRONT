@@ -111,4 +111,11 @@ dependencies {
 
     /** Lottie */
     implementation(libs.lottie)
+
+    /** WorkManager */
+    implementation(libs.androidx.work.runtime)
+
+    /** DataStore */
+    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.datastore.preferences.core)
 }
