@@ -64,7 +64,7 @@ class ActSplash : BaseSplashActivity<ActSplashBinding>() {
 
         /** Error Callback */
         viewModel.errorCallback.observe(this) { event ->
-            event.getContentIfNotHandled()?.let { errorMessage ->
+            event.getContentIfNotHandled()?.let { error ->
 
                 // splash main 화면 노출 전일 경우, 초기화
                 if (mBinding.ctMainButton.visibility == View.GONE) {
@@ -72,7 +72,7 @@ class ActSplash : BaseSplashActivity<ActSplashBinding>() {
                     initMainScreen()
                 }
 
-                Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show()
             }
         }
     }
