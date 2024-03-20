@@ -189,8 +189,8 @@ class ActLogin : BaseContractActivity<ActMemberLoginBinding>() {
                         // 전체 삭제 버튼 노출 여부
                         incEmail.ivCancel.visibility = value.isNotEmpty().toVisibleOrGone()
 
-                        // check login enabled
-                        checkLoginEnabled()
+                        // check login validate
+                        checkLoginEValidate()
                     }
                 })
             }
@@ -214,21 +214,21 @@ class ActLogin : BaseContractActivity<ActMemberLoginBinding>() {
                         incPassword.ivCancel.visibility = value.isNotEmpty().toVisibleOrGone()
                         incPassword.ivVisibility.visibility = value.isNotEmpty().toVisibleOrGone()
 
-                        // check login enabled
-                        checkLoginEnabled()
+                        // check login validate
+                        checkLoginEValidate()
                     }
                 })
             }
 
             // 화면 진입 시 키보드 올리기
-            mBinding.incEmail.etInput.focusAndShowKeyboard(this@ActLogin)
+            incEmail.etInput.focusAndShowKeyboard(this@ActLogin)
         }
     }
 
     /**
-     * Check Login Button Enabled
+     * Check Login Button Validate
      */
-    private fun checkLoginEnabled() {
+    private fun checkLoginEValidate() {
 
         with(mBinding) {
 

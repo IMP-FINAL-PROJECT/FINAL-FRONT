@@ -43,5 +43,12 @@ class BaseConstants {
         const val CHANNEL_ID = "TrackingServiceChannel"
         const val CHANNEL_ID_2 = "TrackingServiceChannel2"
         const val NOTIFICATION_ID = 1
+
+        /**
+         * Gender Type
+         */
+        const val GENDER_TYPE_MALE = "M"
+        const val GENDER_TYPE_FEMALE = "F"
+        const val GENDER_TYPE_NONE = "N"
     }
 }

@@ -171,6 +171,10 @@
         <item name="android:textSize">15dp</item>
     </style>
 
+    <style name="suitMedium.16">
+        <item name="android:textSize">16dp</item>
+    </style>
+
     <!-- SUIT-Regular -->
     <style name="suitRegular" parent="Widget.AppCompat.TextView">
         <item name="fontFamily">@font/suit_regular</item>
