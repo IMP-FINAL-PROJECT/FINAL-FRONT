@@ -14,10 +14,11 @@
 
     <!-- Login -->
     <string name="login_text_1">로그인</string>
-    <string name="login_text_2"></string>
-    <string name="login_text_3"></string>
-    <string name="login_text_4"></string>
-    <string name="login_text_5"></string>
+    <string name="login_text_2">이메일</string>
+    <string name="login_text_3">이메일 입력</string>
+    <string name="login_text_4">비밀번호</string>
+    <string name="login_text_5">비밀번호 입력</string>
+    <string name="login_text_6">아이디 또는 비밀번호가 일치하지 않습니다.</string>
 
     <!-- Register -->
     <string name="register_text_1">회원가입</string>

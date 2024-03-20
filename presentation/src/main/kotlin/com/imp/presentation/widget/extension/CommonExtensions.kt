@@ -1,13 +1,22 @@
 package com.imp.presentation.widget.extension
 
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.TypedValue
 import android.view.View
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
+import androidx.appcompat.widget.AppCompatEditText
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.imp.presentation.widget.utils.CommonUtil
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.io.Serializable
 
 /**
@@ -116,4 +125,40 @@ fun RecyclerView.setDragSensitivity(f: Int = 1) {
     touchSlopField.isAccessible = true
     val touchSlop = touchSlopField.getInt(this)
     touchSlopField.setInt(this, touchSlop * f)
+}
+
+/**
+ * 키보드 올리기
+ */
+fun EditText.focusAndShowKeyboard(context: Context?) {
+
+    CoroutineScope(Dispatchers.Main).launch {
+        delay(50)
+
+        requestFocus()
+
+        if ( context == null ) {
+            CommonUtil.log("focusAndShowKeyboard context is null")
+            return@launch
+        }
+
+        val inputMethodManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.showSoftInput(this@focusAndShowKeyboard, InputMethodManager.SHOW_IMPLICIT)
+    }
+}
+
+/**
+ * 키보드 내리기
+ */
+fun hideKeyboard(context: Context?, view: View?, vararg editText: AppCompatEditText?) {
+
+    editText.forEach { it?.clearFocus() }
+
+    if ( context == null ) {
+        CommonUtil.log("hideKeyboard context is null")
+        return
+    }
+
+    val inputMethodManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
 }

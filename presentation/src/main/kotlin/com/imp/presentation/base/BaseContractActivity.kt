@@ -55,16 +55,4 @@ abstract class BaseContractActivity<B: ViewBinding> : BaseActivity<B>() {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or View.SYSTEM_UI_FLAG_FULLSCREEN
         }
     }
-
-    /**
-     * Hidden Keyboard
-     */
-    fun hideKeyboard(view: View?) {
-
-        view?.let {
-
-            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(view.windowToken, 0)
-        }
-    }
 }

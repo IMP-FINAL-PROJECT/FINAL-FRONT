@@ -121,9 +121,8 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
      */
     private fun initObserver() {
 
-        /** Location Map Point List */
+        /** Error Callback */
         viewModel.errorCallback.observe(viewLifecycleOwner) { event ->
-
             event.getContentIfNotHandled()?.let { errorMessage ->
 
                 context?.let { Toast.makeText(it, errorMessage, Toast.LENGTH_SHORT).show() }

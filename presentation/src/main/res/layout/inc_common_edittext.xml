@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- 타이틀 -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvTitle"
+        style="@style/suitSemiBold.12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color_999999"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="이메일" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ctEditText"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/etInput"
+            style="@style/suitSemiBold.18"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="12dp"
+            android:background="@null"
+            android:gravity="center_vertical"
+            android:inputType="text"
+            android:maxLength="50"
+            android:textColor="@color/black"
+            android:textColorHighlight="@color/color_e6e6e6"
+            android:textColorHint="@color/color_999999"
+            android:textCursorDrawable="@drawable/bg_edittext_cursor"
+            android:textSelectHandle="@drawable/bg_edittext_handle"
+            android:textSelectHandleLeft="@drawable/bg_edittext_handle"
+            android:textSelectHandleRight="@drawable/bg_edittext_handle"
+            app:layout_constraintEnd_toStartOf="@+id/ivCancel"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:hint="이메일 입력" />
+
+        <!-- 전체 삭제 -->
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingStart="2dp"
+            android:src="@drawable/icon_edittext_cancel"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- 비밀번호 노출 여부 -->
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivVisibility"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="2dp"
+            android:src="@drawable/icon_edittext_password_visibility"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@+id/ivCancel" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/lineView"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/color_999999"
+        app:layout_constraintEnd_toEndOf="@+id/ctEditText"
+        app:layout_constraintStart_toStartOf="@+id/ctEditText"
+        app:layout_constraintTop_toBottomOf="@+id/ctEditText" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

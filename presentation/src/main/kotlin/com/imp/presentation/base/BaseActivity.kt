@@ -22,7 +22,7 @@ abstract class BaseActivity<B: ViewBinding> : AppCompatActivity() {
     protected val mBinding get() = _mBinding!!
     protected lateinit var mDisposable: CompositeDisposable
 
-    var slideAnimation = false
+    var slideAnimation = true
     var verticalSlideAnimation = false
     var fullScreen = false
     var transparentStatusVar = false
@@ -83,7 +83,7 @@ abstract class BaseActivity<B: ViewBinding> : AppCompatActivity() {
     /**
      * Activity Close Animation
      */
-    private fun activityCloseAnimation() {
+    fun activityCloseAnimation() {
 
         if (slideAnimation) {
             overridePendingTransition(R.anim.anim_window_close_in, R.anim.anim_window_close_out)

@@ -121,4 +121,9 @@
         <item name="android:textSize">9dp</item>
     </style>
 
+    <!-- Custom EditText Style -->
+    <style name="CustomEditTextStyle" parent="Widget.AppCompat.EditText">
+        <item name="colorAccent">@color/color_3377ff</item>
+    </style>
+
 </resources>
