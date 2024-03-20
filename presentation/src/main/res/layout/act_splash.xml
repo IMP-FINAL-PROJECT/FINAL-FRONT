@@ -1,18 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ctTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/icon_logo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- Logo -->
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivLogo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Sub Title -->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSubTitle"
+            style="@style/aggroLight.14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="center"
+            android:textColor="@color/black_alpha_60"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivLogo"
+            tools:text="나에 대해 알아가는 시간,\n지금 FluffyMood를 시작해보세요!"
+            tools:visibility="visible" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- 로딩 -->
     <com.airbnb.lottie.LottieAnimationView
@@ -20,6 +50,7 @@
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_marginBottom="60dp"
+        android:visibility="gone"
         app:layout_anchorGravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,5 +58,40 @@
         app:lottie_autoPlay="false"
         app:lottie_fileName="loading.json"
         app:lottie_loop="true" />
+
+    <!-- 하단 버튼 -->
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/ctMainButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="41dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:visibility="visible">
+
+        <!-- Login -->
+        <include
+            android:id="@+id/incLogin"
+            layout="@layout/inc_common_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!-- Register -->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvRegister"
+            style="@style/suitSemiBold.14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:padding="15dp"
+            android:textColor="@color/black"
+            tools:text="회원가입" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

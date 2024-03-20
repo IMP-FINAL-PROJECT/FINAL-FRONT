@@ -1,14 +1,19 @@
 package com.imp.presentation.view.splash
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Handler
 import android.os.Looper
-import androidx.activity.result.contract.ActivityResultContracts
+import android.view.View
+import androidx.core.animation.doOnStart
+import com.imp.presentation.R
 import com.imp.presentation.base.BaseSplashActivity
 import com.imp.presentation.databinding.ActSplashBinding
 import com.imp.presentation.view.main.activity.ActMain
+import com.imp.presentation.view.member.login.ActLogin
+import com.imp.presentation.view.member.register.activity.ActRegister
 import com.imp.presentation.widget.extension.toVisibleOrGone
-import com.imp.presentation.widget.utils.PermissionUtil
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -17,90 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class ActSplash : BaseSplashActivity<ActSplashBinding>() {
 
-    /** 권한 요청 */
-    private val notificationActivityResultLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-
-        if (PermissionUtil.checkPermissionNotification(this)) {
-            init()
-        } else {
-            finish()
-        }
-    }
-
-    /** 권한 요청 */
-    private val locationActivityResultLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
-
-        if (PermissionUtil.checkPermissionLocation(this)) {
-            init()
-        } else {
-            finish()
-        }
-    }
-
-    /** 권한 요청 */
-    private val backgroundLocationActivityResultLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-
-        if (PermissionUtil.checkPermissionBackgroundLocation(this)) {
-            init()
-        } else {
-            finish()
-        }
-    }
-
-    /** 권한 요청 */
-    private val activityActivityResultLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-
-        if (PermissionUtil.checkPermissionActivity(this)) {
-            init()
-        } else {
-            finish()
-        }
-    }
-
-    /** 권한 거부 시 런처 */
-    private val permissionDeniedActivityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-
-        if (PermissionUtil.checkPermissions(this)) {
-            init()
-        } else {
-            finish()
-        }
-    }
-
-    /**
-     * Request Permission
-     */
-    private fun requestPermission() {
-
-        if (!PermissionUtil.checkPermissions(this)) {
-
-            // 알림 권한 요청
-            if (!PermissionUtil.checkPermissionNotification(this)) {
-                PermissionUtil.requestPermissionNotification(this, notificationActivityResultLauncher, permissionDeniedActivityResultLauncher)
-                return
-            }
-
-            // 활동 권한 요청
-            if (!PermissionUtil.checkPermissionActivity(this)) {
-                PermissionUtil.requestPermissionActivity(this, activityActivityResultLauncher, permissionDeniedActivityResultLauncher)
-                return
-            }
-
-            // 위치 권한 요청
-            if (!PermissionUtil.checkPermissionLocation(this)) {
-                PermissionUtil.requestPermissionLocation(this, locationActivityResultLauncher, permissionDeniedActivityResultLauncher)
-                return
-            }
-
-            // 백그라운드 위치 권한 요청
-            if (!PermissionUtil.checkPermissionBackgroundLocation(this)) {
-
-                // todo 항상 허용 요청 팝업
-                PermissionUtil.requestPermissionBackgroundLocation(this, backgroundLocationActivityResultLauncher, permissionDeniedActivityResultLauncher)
-                return
-            }
-        }
-    }
+    private var animatorSet: AnimatorSet? = null
 
     override fun getViewBinding() = ActSplashBinding.inflate(layoutInflater)
 
@@ -110,30 +32,78 @@ class ActSplash : BaseSplashActivity<ActSplashBinding>() {
 
     override fun initView() {
 
-        init()
+        initDisplay()
+        setClickListener()
+    }
+
+    override fun onDestroy() {
+        animatorSet?.cancel()
+        super.onDestroy()
     }
 
     /**
-     * Initialize
+     * Initialize Display
      */
-    private fun init() {
+    private fun initDisplay() {
 
-        if (PermissionUtil.checkPermissions(this)) {
+        loadingLottieControl(true)
 
-            loadingLottieControl(true)
+        // init
+        Handler(Looper.getMainLooper()).postDelayed({
 
-            // init
-            Handler(Looper.getMainLooper()).postDelayed({
+            loadingLottieControl(false)
+            initMainScreen()
 
-                loadingLottieControl(false)
-                moveToNext()
+        }, 1000)
+    }
 
-            }, 1000)
+    /**
+     * Set onClickListener
+     */
+    private fun setClickListener() {
 
-        } else {
+        with(mBinding) {
 
-            // permission 요청
-            requestPermission()
+            // 로그인 화면 이동
+            incLogin.tvButton.setOnClickListener { moveToMain() }
+
+            // 회원 가입 화면 이동
+            tvRegister.setOnClickListener { moveToMain() }
+        }
+    }
+
+    /**
+     * Initialize Splash Main Screen
+     */
+    private fun initMainScreen() {
+
+        with(mBinding) {
+
+            tvSubTitle.text = getString(R.string.splash_text_1)
+            incLogin.tvButton.text = getString(R.string.login_text_1)
+            tvRegister.text = getString(R.string.register_text_1)
+
+            animatorSet?.cancel()
+            animatorSet = AnimatorSet().apply {
+
+                doOnStart {
+
+                    tvSubTitle.alpha = 0f
+                    ctMainButton.alpha = 0f
+
+                    tvSubTitle.visibility = View.VISIBLE
+                    ctMainButton.visibility = View.VISIBLE
+                    lottieLoading.visibility = View.GONE
+                }
+                playTogether(
+                    ObjectAnimator.ofFloat(ctTitle, View.TRANSLATION_Y, 0f, -300f),
+                    ObjectAnimator.ofFloat(ctMainButton, View.TRANSLATION_Y, 100f, 0f),
+                    ObjectAnimator.ofFloat(ctMainButton, View.ALPHA, 0f, 1f),
+                    ObjectAnimator.ofFloat(tvSubTitle, View.ALPHA, 0f, 1f)
+                )
+                duration = 500
+            }
+            animatorSet?.start()
         }
     }
 
@@ -152,16 +122,40 @@ class ActSplash : BaseSplashActivity<ActSplashBinding>() {
     }
 
     /**
-     * Move to Next Screen
+     * Move to Main Screen
      */
-    private fun moveToNext() {
+    private fun moveToMain() {
 
-        // 메인 화면으로 이동
+        // 메인 화면 이동
         Intent(this@ActSplash, ActMain::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
             startActivity(this)
         }
 
         finish()
+    }
+
+    /**
+     * Move to Login Screen
+     */
+    private fun moveToLogin() {
+
+        // 로그인 화면 이동
+        Intent(this@ActSplash, ActLogin::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+            startActivity(this)
+        }
+    }
+
+    /**
+     * Move to Register Screen
+     */
+    private fun moveToRegister() {
+
+        // 회원 가입 화면 이동
+        Intent(this@ActSplash, ActRegister::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+            startActivity(this)
+        }
     }
 }

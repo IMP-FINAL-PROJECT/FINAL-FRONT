@@ -9,6 +9,23 @@
     <string name="navigation_chat">채팅</string>
     <string name="navigation_mypage">마이페이지</string>
 
+    <!-- Splash -->
+    <string name="splash_text_1">나에 대해 알아가는 시간,\n지금 FluffyMood를 시작해보세요!</string>
+
+    <!-- Login -->
+    <string name="login_text_1">로그인</string>
+    <string name="login_text_2"></string>
+    <string name="login_text_3"></string>
+    <string name="login_text_4"></string>
+    <string name="login_text_5"></string>
+
+    <!-- Register -->
+    <string name="register_text_1">회원가입</string>
+    <string name="register_text_2"></string>
+    <string name="register_text_3"></string>
+    <string name="register_text_4"></string>
+    <string name="register_text_5"></string>
+
     <!-- Main - Home -->
     <string name="home_text_1">오늘의 행복 점수는?</string>
     <string name="home_text_2">실시간 트래킹</string>

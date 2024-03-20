@@ -50,6 +50,22 @@
 
         </activity>
 
+        <!-- Login -->
+        <activity
+            android:name=".view.member.login.ActLogin"
+            android:configChanges="screenSize|screenLayout|orientation"
+            android:exported="true"
+            android:noHistory="false"
+            android:screenOrientation="portrait" />
+
+        <!-- Register -->
+        <activity
+            android:name=".view.member.register.activity.ActRegister"
+            android:configChanges="screenSize|screenLayout|orientation"
+            android:exported="true"
+            android:noHistory="false"
+            android:screenOrientation="portrait" />
+
         <!-- Main -->
         <activity
             android:name=".view.main.activity.ActMain"
