@@ -1,9 +1,11 @@
 package com.imp.data.repository
 
 import android.annotation.SuppressLint
+import com.imp.data.mapper.CommonMapper
 import com.imp.data.remote.api.ApiLogin
 import com.imp.data.util.ApiClient
 import com.imp.data.util.extension.isSuccess
+import com.imp.domain.model.ErrorCallbackModel
 import com.imp.domain.model.MemberModel
 import com.imp.domain.repository.MemberRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -16,7 +18,7 @@ import javax.inject.Inject
 class MemberRepositoryImpl @Inject constructor() : MemberRepository {
 
     @SuppressLint("CheckResult")
-    override suspend fun login(id: String, password: String, successCallback: (MemberModel) -> Unit, errorCallback: (String?) -> Unit) {
+    override suspend fun login(id: String, password: String, successCallback: (MemberModel) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit) {
 
         val params: MutableMap<String, Any> = HashMap()
 
@@ -31,12 +33,11 @@ class MemberRepositoryImpl @Inject constructor() : MemberRepository {
                 if (response.isSuccess()) {
                     response.data?.let { successCallback.invoke(it) }
                 } else {
-                    errorCallback.invoke(response.message)
+                    errorCallback.invoke(CommonMapper.mappingErrorCallbackData(response))
                 }
 
             }, { error ->
-
-                errorCallback.invoke(error.message)
+                errorCallback.invoke(CommonMapper.mappingErrorData(error))
             })
     }
 }

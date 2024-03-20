@@ -1,5 +1,6 @@
 package com.imp.domain.repository
 
+import com.imp.domain.model.ErrorCallbackModel
 import com.imp.domain.model.MemberModel
 
 /**
@@ -10,5 +11,5 @@ interface MemberRepository {
     /**
      * Login
      */
-    suspend fun login(id: String, password: String, successCallback: (MemberModel) -> Unit, errorCallback: (String?) -> Unit)
+    suspend fun login(id: String, password: String, successCallback: (MemberModel) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit)
 }

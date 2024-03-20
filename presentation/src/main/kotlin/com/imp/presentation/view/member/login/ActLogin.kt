@@ -75,9 +75,13 @@ class ActLogin : BaseContractActivity<ActMemberLoginBinding>() {
 
         /** Error Callback */
         viewModel.errorCallback.observe(this) { event ->
-            event.getContentIfNotHandled()?.let { errorMessage ->
+            event.getContentIfNotHandled()?.let { error ->
 
-                Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
+                when (error.status) {
+
+                    401 -> mBinding.ctNotice.visibility = View.VISIBLE
+                    else -> Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
@@ -232,6 +236,7 @@ class ActLogin : BaseContractActivity<ActMemberLoginBinding>() {
             val password = incPassword.etInput.text.toString()
 
             incLogin.tvButton.isEnabled = ValidateUtil.checkEmail(email) && ValidateUtil.checkPassword(password)
+            ctNotice.visibility = View.GONE
         }
     }
 
