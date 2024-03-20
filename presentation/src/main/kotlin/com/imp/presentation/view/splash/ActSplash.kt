@@ -6,6 +6,8 @@ import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.core.animation.doOnStart
 import com.imp.presentation.R
 import com.imp.presentation.base.BaseSplashActivity
@@ -13,7 +15,9 @@ import com.imp.presentation.databinding.ActSplashBinding
 import com.imp.presentation.view.main.activity.ActMain
 import com.imp.presentation.view.member.login.ActLogin
 import com.imp.presentation.view.member.register.activity.ActRegister
+import com.imp.presentation.viewmodel.MemberViewModel
 import com.imp.presentation.widget.extension.toVisibleOrGone
+import com.imp.presentation.widget.utils.PreferencesUtil
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -22,6 +26,10 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class ActSplash : BaseSplashActivity<ActSplashBinding>() {
 
+    /** Member ViewModel */
+    private val viewModel: MemberViewModel by viewModels()
+
+    // splash main animator
     private var animatorSet: AnimatorSet? = null
 
     override fun getViewBinding() = ActSplashBinding.inflate(layoutInflater)
@@ -32,13 +40,41 @@ class ActSplash : BaseSplashActivity<ActSplashBinding>() {
 
     override fun initView() {
 
+        initObserver()
         initDisplay()
-        setClickListener()
+        setOnClickListener()
     }
 
     override fun onDestroy() {
         animatorSet?.cancel()
         super.onDestroy()
+    }
+
+    /**
+     * Initialize Observer
+     */
+    private fun initObserver() {
+
+        /** Login Data */
+        viewModel.loginData.observe(this) { _ ->
+
+            // 메인 화면 이동
+            moveToMain()
+        }
+
+        /** Error Callback */
+        viewModel.errorCallback.observe(this) { event ->
+            event.getContentIfNotHandled()?.let { errorMessage ->
+
+                // splash main 화면 노출 전일 경우, 초기화
+                if (mBinding.ctMainButton.visibility == View.GONE) {
+
+                    initMainScreen()
+                }
+
+                Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     /**
@@ -52,7 +88,7 @@ class ActSplash : BaseSplashActivity<ActSplashBinding>() {
         Handler(Looper.getMainLooper()).postDelayed({
 
             loadingLottieControl(false)
-            initMainScreen()
+            checkAutoLogin()
 
         }, 1000)
     }
@@ -60,15 +96,35 @@ class ActSplash : BaseSplashActivity<ActSplashBinding>() {
     /**
      * Set onClickListener
      */
-    private fun setClickListener() {
+    private fun setOnClickListener() {
 
         with(mBinding) {
 
             // 로그인 화면 이동
-            incLogin.tvButton.setOnClickListener { moveToMain() }
+            incLogin.tvButton.setOnClickListener { moveToLogin() }
 
             // 회원 가입 화면 이동
-            tvRegister.setOnClickListener { moveToMain() }
+            tvRegister.setOnClickListener { moveToRegister() }
+        }
+    }
+
+    /**
+     * Check Auto Login
+     */
+    private fun checkAutoLogin() {
+
+        val userId = PreferencesUtil.getPreferencesString(this, PreferencesUtil.AUTO_LOGIN_ID_KEY)
+        val userPassword = PreferencesUtil.getPreferencesString(this, PreferencesUtil.AUTO_LOGIN_PASSWORD_KEY)
+
+        if (userId.isNotEmpty() && userPassword.isNotEmpty()) {
+
+            // login api 요청
+            viewModel.login(userId, userPassword)
+
+        } else {
+
+            // splash main 화면 초기화
+            initMainScreen()
         }
     }
 
