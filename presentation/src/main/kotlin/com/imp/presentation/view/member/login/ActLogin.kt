@@ -225,7 +225,10 @@ class ActLogin : BaseContractActivity<ActMemberLoginBinding>() {
 
         with(mBinding) {
 
+            val email = incEmail.etInput.text.toString()
+            val password = incPassword.etInput.text.toString()
 
+            incLogin.tvButton.isEnabled = ValidateUtil.checkEmail(email) && ValidateUtil.checkPassword(password)
         }
     }
 
