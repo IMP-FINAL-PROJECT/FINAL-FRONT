@@ -89,13 +89,13 @@ class ActMain : BaseContractActivity<ActMainBinding>() {
 
             // 활동 권한 요청
             if (!PermissionUtil.checkPermissionActivity(this)) {
-                PermissionUtil.requestPermissionActivity(this, activityActivityResultLauncher, permissionDeniedActivityResultLauncher)
+                PermissionUtil.requestPermissionActivity(this, activityActivityResultLauncher, permissionDeniedActivityResultLauncher, {})
                 return
             }
 
             // 위치 권한 요청
             if (!PermissionUtil.checkPermissionLocation(this)) {
-                PermissionUtil.requestPermissionLocation(this, locationActivityResultLauncher, permissionDeniedActivityResultLauncher)
+                PermissionUtil.requestPermissionLocation(this, locationActivityResultLauncher, permissionDeniedActivityResultLauncher, {})
                 return
             }
 

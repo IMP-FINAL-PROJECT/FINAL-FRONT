@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <!-- 타이틀 -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvPermissionTitle"
+        style="@style/aggroMedium.22"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="60dp"
+        android:includeFontPadding="false"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="앱 사용을 위해\n접근 권한을 허용해주세요." />
+
+    <!-- 설명 -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvSubTitle"
+        style="@style/suitSemiBold.14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="20dp"
+        android:includeFontPadding="false"
+        android:textColor="@color/color_999999"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvPermissionTitle"
+        tools:text="필수 및 선택 권한 허용" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/incStart"
+        app:layout_constraintTop_toBottomOf="@+id/tvSubTitle">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:orientation="vertical">
+
+            <!-- 위치 권한 (필수) -->
+            <include
+                android:id="@+id/incLocation"
+                layout="@layout/inc_permission"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!-- 활동 권한 (필수) -->
+            <include
+                android:id="@+id/incActivity"
+                layout="@layout/inc_permission"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp" />
+
+            <!-- 알림 권한 (선택) -->
+            <include
+                android:id="@+id/incNotification"
+                layout="@layout/inc_permission"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/color_cccccc" />
+
+            <!-- 권한 허용 설명 -->
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvPermissionDesc"
+                style="@style/suitRegular.12"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:includeFontPadding="false"
+                android:textColor="@color/color_999999"
+                tools:text="선택 권한의 경우 허용하지 않아도 서비스를 사용할 수 있으나\n일부 서비스 이용이 제한될 수 있습니다." />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- 시작 -->
+    <include
+        android:id="@+id/incStart"
+        layout="@layout/inc_common_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

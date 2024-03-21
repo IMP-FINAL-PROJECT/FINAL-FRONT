@@ -16,6 +16,7 @@ import com.imp.presentation.view.member.register.fragment.FrgProfile
 import com.imp.presentation.view.member.register.fragment.FrgTerms
 import com.imp.presentation.viewmodel.MemberViewModel
 import com.imp.presentation.widget.extension.hideKeyboard
+import com.imp.presentation.widget.utils.PermissionUtil
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -52,6 +53,16 @@ class ActRegister : BaseContractActivity<ActMemberRegisterBinding>() {
         initDisplay()
         initViewPager()
         setOnClickListener()
+
+        // 항상 허용으로 변경 요청
+        showCommonPopup(
+            titleText = getString(R.string.popup_text_2),
+            leftText = getString(R.string.permission_text_11),
+            rightText = getString(R.string.permission_text_11),
+            leftCallback = { },
+            rightCallback = { },
+            cancelable = false
+        )
     }
 
     /**

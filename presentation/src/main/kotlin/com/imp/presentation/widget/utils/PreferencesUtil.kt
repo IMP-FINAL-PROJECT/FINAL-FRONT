@@ -9,6 +9,9 @@ class PreferencesUtil {
 
         const val PREF_NAME = "com.imp.fluffymood"
 
+        // Permission Key
+        const val SHOW_PERMISSION_SCREEN = "SHOW_PERMISSION_SCREEN"
+
         // Member Key
         const val AUTO_LOGIN_ID_KEY = "AUTO_LOGIN_ID_KEY"
         const val AUTO_LOGIN_PASSWORD_KEY = "AUTO_LOGIN_PASSWORD_KEY"

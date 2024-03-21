@@ -88,8 +88,18 @@ class ActSplash : BaseSplashActivity<ActSplashBinding>() {
         Handler(Looper.getMainLooper()).postDelayed({
 
             loadingLottieControl(false)
-            checkAutoLogin()
 
+            val showPermission = PreferencesUtil.getPreferencesBoolean(this, PreferencesUtil.SHOW_PERMISSION_SCREEN)
+            if(!showPermission) {
+
+                // Permission 화면 이동
+                moveToPermission()
+
+            } else {
+
+                // 자동 로그인
+                checkAutoLogin()
+            }
         }, 1000)
     }
 
@@ -210,6 +220,18 @@ class ActSplash : BaseSplashActivity<ActSplashBinding>() {
 
         // 회원 가입 화면 이동
         Intent(this@ActSplash, ActRegister::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+            startActivity(this)
+        }
+    }
+
+    /**
+     * Move to Permission Screen
+     */
+    private fun moveToPermission() {
+
+        // Permission 화면 이동
+        Intent(this@ActSplash, ActPermission::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
             startActivity(this)
         }

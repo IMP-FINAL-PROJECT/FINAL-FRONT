@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.viewbinding.ViewBinding
 import com.imp.presentation.R
+import com.imp.presentation.view.dialog.CommonPopup
 import io.reactivex.disposables.CompositeDisposable
 
 /**
@@ -28,6 +29,9 @@ abstract class BaseActivity<B: ViewBinding> : AppCompatActivity() {
     var transparentStatusVar = false
 
     var backPressedCallback: OnBackPressedCallback? = null
+
+    /** Common Popup */
+    private var commonPopup: CommonPopup? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -171,5 +175,28 @@ abstract class BaseActivity<B: ViewBinding> : AppCompatActivity() {
         window.statusBarColor = ContextCompat.getColor(this@BaseActivity, color)
 
         WindowInsetsControllerCompat(window, mBinding.root).isAppearanceLightStatusBars = true
+    }
+
+    /**
+     * Show Common Popup
+     *
+     * @param titleText
+     * @param leftText
+     * @param rightText
+     * @param leftCallback
+     * @param rightCallback
+     * @param cancelable
+     */
+    fun showCommonPopup(
+        titleText: String,
+        leftText: String? = null,
+        rightText: String? = null,
+        leftCallback: () -> Unit = {},
+        rightCallback: () -> Unit = {},
+        cancelable: Boolean
+    ) {
+        commonPopup?.dismiss()
+        commonPopup = CommonPopup(this, titleText, leftText, rightText, leftCallback, rightCallback, cancelable)
+        commonPopup?.show()
     }
 }

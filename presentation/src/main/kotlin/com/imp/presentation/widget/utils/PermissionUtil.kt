@@ -21,11 +21,10 @@ object PermissionUtil {
      * 필요한 모든 권한 허용 여부 확인
      *
      * @param context
-     * @return 모든 권한 허용 여부 반환
+     * @return 모든 권한 허용 여부 반환 (필수 - 위치, 활동)
      */
     fun checkPermissions(context: Context): Boolean {
-        return checkPermissionNotification(context) && checkPermissionLocation(context)
-                && checkPermissionBackgroundLocation(context) && checkPermissionActivity(context)
+        return checkPermissionLocation(context) && checkPermissionBackgroundLocation(context) && checkPermissionActivity(context)
     }
 
     /**
@@ -122,9 +121,9 @@ object PermissionUtil {
         } else {
 
             // 권한을 거부한 경우, 설정으로 이동
-            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-            intent.data = Uri.parse(String.format("package:%s", activity.packageName))
-            deniedLauncher.launch(intent)
+//            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+//            intent.data = Uri.parse(String.format("package:%s", activity.packageName))
+//            deniedLauncher.launch(intent)
         }
     }
 
@@ -135,7 +134,7 @@ object PermissionUtil {
      * @param multipleLauncher 결과를 처리할 ActivityResultLauncher
      * @param deniedLauncher 권한이 거부된 경우를 처리할 ActivityResultLauncher
      */
-    fun requestPermissionLocation(activity: Activity, multipleLauncher: ActivityResultLauncher<Array<String>>, deniedLauncher: ActivityResultLauncher<Intent>) {
+    fun requestPermissionLocation(activity: Activity, multipleLauncher: ActivityResultLauncher<Array<String>>, deniedLauncher: ActivityResultLauncher<Intent>, callback: (() -> Unit) -> Unit) {
 
         // 권한이 허용된 경우 return
         if (checkPermissionLocation(activity)) return
@@ -151,13 +150,16 @@ object PermissionUtil {
 
         } else {
 
-            CommonUtil.log("ACCESS_FINE_LOCATION: ${activity.shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)}")
-            CommonUtil.log("ACCESS_COARSE_LOCATION: ${activity.shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION)}")
+            callback.invoke {
 
-            // 권한을 거부한 경우, 설정으로 이동
-            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-            intent.data = Uri.parse(String.format("package:%s", activity.packageName))
-            deniedLauncher.launch(intent)
+                CommonUtil.log("ACCESS_FINE_LOCATION: ${activity.shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)}")
+                CommonUtil.log("ACCESS_COARSE_LOCATION: ${activity.shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION)}")
+
+                // 권한을 거부한 경우, 설정으로 이동
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                intent.data = Uri.parse(String.format("package:%s", activity.packageName))
+                deniedLauncher.launch(intent)
+            }
         }
     }
 
@@ -193,7 +195,7 @@ object PermissionUtil {
      * @param launcher 결과를 처리할 ActivityResultLauncher
      * @param deniedLauncher 권한이 거부된 경우를 처리할 ActivityResultLauncher
      */
-    fun requestPermissionActivity(activity: Activity, launcher: ActivityResultLauncher<String>, deniedLauncher: ActivityResultLauncher<Intent>) {
+    fun requestPermissionActivity(activity: Activity, launcher: ActivityResultLauncher<String>, deniedLauncher: ActivityResultLauncher<Intent>, callback: (() -> Unit) -> Unit) {
 
         // 권한이 허용된 경우 return
         if (checkPermissionActivity(activity)) return
@@ -204,10 +206,13 @@ object PermissionUtil {
 
         } else {
 
-            // 권한을 거부한 경우, 설정으로 이동
-            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-            intent.data = Uri.parse(String.format("package:%s", activity.packageName))
-            deniedLauncher.launch(intent)
+            callback.invoke {
+
+                // 권한을 거부한 경우, 설정으로 이동
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                intent.data = Uri.parse(String.format("package:%s", activity.packageName))
+                deniedLauncher.launch(intent)
+            }
         }
     }
 
