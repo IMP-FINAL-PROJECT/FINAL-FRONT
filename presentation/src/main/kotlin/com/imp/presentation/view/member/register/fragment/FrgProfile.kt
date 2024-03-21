@@ -16,6 +16,7 @@ import com.imp.presentation.databinding.FrgRegisterProfileBinding
 import com.imp.presentation.view.member.register.activity.ActRegister
 import com.imp.presentation.viewmodel.MemberViewModel
 import com.imp.presentation.widget.extension.toVisibleOrGone
+import com.imp.presentation.widget.utils.DateUtil
 import com.imp.presentation.widget.utils.ValidateUtil
 
 
@@ -258,7 +259,7 @@ class FrgProfile: BaseFragment<FrgRegisterProfileBinding>() {
             if (nameValidate && birthValidate && genderValidate) {
 
                 viewModel.registerData.name = name
-                viewModel.registerData.brith = birth
+                viewModel.registerData.birth = DateUtil.stringToDate(birth)
                 viewModel.registerData.gender = gender
             }
 

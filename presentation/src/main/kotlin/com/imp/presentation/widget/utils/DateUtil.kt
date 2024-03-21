@@ -30,7 +30,7 @@ class DateUtil {
         }
 
         /**
-         * Get Current Date (yyyy년 MM월 dd일)
+         * Get Current Date
          */
         fun getCurrentDateWithText(pattern: String): String {
 
@@ -113,6 +113,20 @@ class DateUtil {
 
             val timestamp = if (timestamp == 0L) System.currentTimeMillis() else timestamp
             return SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date(timestamp))
+        }
+
+        /**
+         * String to (yyyy-MM-dd) String
+         */
+        @SuppressLint("SimpleDateFormat")
+        fun stringToDate(date: String): String {
+
+            return try {
+                SimpleDateFormat("yyyy-MM-dd").parse(date).toString()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                getCurrentDateWithText("yyyy-MM-dd")
+            }
         }
     }
 }

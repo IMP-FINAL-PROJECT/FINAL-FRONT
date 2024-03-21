@@ -54,7 +54,7 @@ class MemberRepositoryImpl @Inject constructor() : MemberRepository {
 
         params["id"] = data.id ?: ""
         params["password"] = data.password ?: ""
-        params["brith"] = data.brith ?: ""
+        params["birth"] = data.birth ?: ""
         params["name"] = data.name ?: ""
         params["gender"] = data.gender ?: "N"
 

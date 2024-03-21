@@ -11,8 +11,8 @@ data class MemberModel (
     // password
     var password: String? = null,
 
-    // brith (yyyy-MM-dd)
-    var brith: String? = null,
+    // birth (yyyy-MM-dd)
+    var birth: String? = null,
 
     // name
     var name: String? = null,
