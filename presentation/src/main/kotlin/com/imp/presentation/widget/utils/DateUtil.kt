@@ -65,11 +65,23 @@ class DateUtil {
         /**
          * Timestamp to Time (HH:mm:ss)
          */
-        fun timestampToTime(timestamp: Long): String {
+        fun timestampToTimeSeconds(timestamp: Long): String {
 
             val instant = Instant.ofEpochMilli(timestamp)
             val dateTime = LocalDateTime.ofInstant(instant, TimeZone.getDefault().toZoneId())
             val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
+
+            return formatter.format(dateTime)
+        }
+
+        /**
+         * Timestamp to Time (HH:mm:ss)
+         */
+        fun timestampToTimeMin(timestamp: Long): String {
+
+            val instant = Instant.ofEpochMilli(timestamp)
+            val dateTime = LocalDateTime.ofInstant(instant, TimeZone.getDefault().toZoneId())
+            val formatter = DateTimeFormatter.ofPattern("HH:mm")
 
             return formatter.format(dateTime)
         }

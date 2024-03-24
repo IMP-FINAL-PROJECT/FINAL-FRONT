@@ -9,7 +9,7 @@ import com.imp.presentation.R
 import com.imp.presentation.base.BaseContractActivity
 import com.imp.presentation.base.BaseFragment
 import com.imp.presentation.databinding.ActMemberRegisterBinding
-import com.imp.presentation.view.adatper.ViewPagerAdapter
+import com.imp.presentation.view.adapter.ViewPagerAdapter
 import com.imp.presentation.view.member.register.fragment.FrgEmail
 import com.imp.presentation.view.member.register.fragment.FrgPassword
 import com.imp.presentation.view.member.register.fragment.FrgProfile

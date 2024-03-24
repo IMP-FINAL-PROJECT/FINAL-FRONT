@@ -1,8 +1,10 @@
 package com.imp.fluffymood.di
 
+import com.imp.domain.repository.ChatRepository
 import com.imp.domain.repository.HomeRepository
 import com.imp.domain.repository.LogRepository
 import com.imp.domain.repository.MemberRepository
+import com.imp.domain.usecase.ChatUseCase
 import com.imp.domain.usecase.HomeUseCase
 import com.imp.domain.usecase.LogUseCase
 import com.imp.domain.usecase.MemberUseCase
@@ -27,4 +29,8 @@ class UseCaseModule {
     @Provides
     @Singleton
     fun provideLogUseCase(repository: LogRepository) = LogUseCase(repository)
+
+    @Provides
+    @Singleton
+    fun provideChatUseCase(repository: ChatRepository) = ChatUseCase(repository)
 }
