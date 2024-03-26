@@ -30,4 +30,11 @@ class MemberUseCase @Inject constructor(private val repository: MemberRepository
     suspend fun checkEmail(id: String, successCallback: (Boolean) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit) {
         repository.checkEmail(id, successCallback, errorCallback)
     }
+
+    /**
+     * Get Member Data
+     */
+    suspend fun getMemberData(successCallback: (MemberModel) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit) {
+        repository.getMemberData(successCallback, errorCallback)
+    }
 }

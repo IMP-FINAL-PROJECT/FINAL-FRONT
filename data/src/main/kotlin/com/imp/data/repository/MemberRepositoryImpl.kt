@@ -91,4 +91,16 @@ class MemberRepositoryImpl @Inject constructor() : MemberRepository {
                 errorCallback.invoke(CommonMapper.mappingErrorData(error))
             })
     }
+
+    /**
+     * Get Member Data
+     */
+    @SuppressLint("CheckResult")
+    override suspend fun getMemberData(successCallback: (MemberModel) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit) {
+
+        successCallback.invoke(MemberModel(
+            name = "고주원",
+            id = "rhwndnjs123@gmail.com"
+        ))
+    }
 }

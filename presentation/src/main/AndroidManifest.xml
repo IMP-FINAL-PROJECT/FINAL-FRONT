@@ -86,6 +86,30 @@
             android:noHistory="false"
             android:screenOrientation="portrait" />
 
+        <!-- Edit Profile -->
+        <activity
+            android:name=".view.mypage.ActEditProfile"
+            android:configChanges="screenSize|screenLayout|orientation"
+            android:exported="true"
+            android:noHistory="false"
+            android:screenOrientation="portrait" />
+
+        <!-- Manage Account -->
+        <activity
+            android:name=".view.mypage.ActManageAccount"
+            android:configChanges="screenSize|screenLayout|orientation"
+            android:exported="true"
+            android:noHistory="false"
+            android:screenOrientation="portrait" />
+
+        <!-- Terms -->
+        <activity
+            android:name=".view.mypage.ActTerms"
+            android:configChanges="screenSize|screenLayout|orientation"
+            android:exported="true"
+            android:noHistory="false"
+            android:screenOrientation="portrait" />
+
         <!-- Foreground Service -->
         <service
             android:name=".tracking.service.TrackingForegroundService"

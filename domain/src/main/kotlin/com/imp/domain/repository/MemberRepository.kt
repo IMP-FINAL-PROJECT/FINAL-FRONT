@@ -22,4 +22,9 @@ interface MemberRepository {
      * Check Email Validation
      */
     suspend fun checkEmail(id: String, successCallback: (Boolean) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit)
+
+    /**
+     * Get Member Data
+     */
+    suspend fun getMemberData(successCallback: (MemberModel) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit)
 }

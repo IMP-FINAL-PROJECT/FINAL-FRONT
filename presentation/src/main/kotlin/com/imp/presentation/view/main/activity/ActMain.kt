@@ -15,7 +15,11 @@ import com.imp.presentation.constants.BaseConstants
 import com.imp.presentation.databinding.ActMainBinding
 import com.imp.presentation.tracking.data.SensorDataStore
 import com.imp.presentation.tracking.service.TrackingForegroundService
+import com.imp.presentation.view.mypage.ActEditProfile
+import com.imp.presentation.view.mypage.ActManageAccount
+import com.imp.presentation.view.mypage.ActTerms
 import com.imp.presentation.widget.utils.PermissionUtil
+import com.imp.presentation.widget.utils.PreferencesUtil
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -196,12 +200,16 @@ class ActMain : BaseContractActivity<ActMainBinding>() {
      */
     fun registerUIBroadcast(receiver: BroadcastReceiver) {
 
-        IntentFilter().apply {
+        val isTracking = PreferencesUtil.getPreferencesBoolean(this, PreferencesUtil.TRACKING_SWITCH_KEY)
+        if (isTracking) {
 
-            addAction(BaseConstants.ACTION_TYPE_UPDATE_LOCATION)
-            addAction(BaseConstants.ACTION_TYPE_UPDATE_LIGHT_SENSOR)
-            addAction(BaseConstants.ACTION_TYPE_UPDATE_STEP_SENSOR)
-            registerReceiver(receiver, this, RECEIVER_EXPORTED)
+            IntentFilter().apply {
+
+                addAction(BaseConstants.ACTION_TYPE_UPDATE_LOCATION)
+                addAction(BaseConstants.ACTION_TYPE_UPDATE_LIGHT_SENSOR)
+                addAction(BaseConstants.ACTION_TYPE_UPDATE_STEP_SENSOR)
+                registerReceiver(receiver, this, RECEIVER_EXPORTED)
+            }
         }
     }
 
@@ -210,10 +218,47 @@ class ActMain : BaseContractActivity<ActMainBinding>() {
      */
     fun unregisterUIBroadcast(receiver: BroadcastReceiver) {
 
-        try {
-            unregisterReceiver(receiver)
-        } catch (e: Exception) {
-            e.printStackTrace()
+        val isTracking = PreferencesUtil.getPreferencesBoolean(this, PreferencesUtil.TRACKING_SWITCH_KEY)
+        if (isTracking) {
+
+            try {
+                unregisterReceiver(receiver)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    /**
+     * Move to Edit Profile
+     */
+    fun moveToEditProfile() {
+
+        Intent(this@ActMain, ActEditProfile::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+            startActivity(this)
+        }
+    }
+
+    /**
+     * Move to Manage Account
+     */
+    fun moveToManageAccount() {
+
+        Intent(this@ActMain, ActManageAccount::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+            startActivity(this)
+        }
+    }
+
+    /**
+     * Move to Terms
+     */
+    fun moveToTerms() {
+
+        Intent(this@ActMain, ActTerms::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+            startActivity(this)
         }
     }
 }

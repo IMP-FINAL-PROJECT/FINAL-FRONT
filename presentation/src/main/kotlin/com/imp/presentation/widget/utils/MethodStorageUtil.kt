@@ -2,6 +2,8 @@ package com.imp.presentation.widget.utils
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
@@ -224,6 +226,20 @@ class MethodStorageUtil {
          * 디바이스 국가 설정 가져오기
          */
         fun getSystemCountry(): String = Locale.getDefault().country
+
+        /**
+         * 앱 버전
+         */
+        fun getPackageVersion(context: Context): String? {
+
+            return try {
+                val pInfo: PackageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
+                pInfo.versionName
+            } catch (e: PackageManager.NameNotFoundException) {
+                e.printStackTrace()
+                null
+            }
+        }
 
         /**
          * 앱 설치 여부 확인

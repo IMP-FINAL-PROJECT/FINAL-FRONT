@@ -84,15 +84,15 @@
 
     <!-- Main - My Page -->
     <string name="my_page_text_1">실시간 트래킹</string>
-    <string name="my_page_text_2"></string>
-    <string name="my_page_text_3"></string>
-    <string name="my_page_text_4"></string>
-    <string name="my_page_text_5"></string>
-    <string name="my_page_text_6"></string>
-    <string name="my_page_text_7"></string>
-    <string name="my_page_text_8"></string>
-    <string name="my_page_text_9"></string>
-    <string name="my_page_text_10"></string>
+    <string name="my_page_text_2">일반</string>
+    <string name="my_page_text_3">프로필 편집</string>
+    <string name="my_page_text_4">계정 관리</string>
+    <string name="my_page_text_5">이용안내</string>
+    <string name="my_page_text_6">이용약관</string>
+    <string name="my_page_text_7">개인정보 처리방침</string>
+    <string name="my_page_text_8">오픈소스</string>
+    <string name="my_page_text_9">앱 사용 권한</string>
+    <string name="my_page_text_10">앱 버전</string>
 
     <!-- Popup Title -->
     <string name="popup_text_1">권한 거부 시 앱 사용에 제한이 있습니다. 설정에서 권한을 허용해주세요.</string>
