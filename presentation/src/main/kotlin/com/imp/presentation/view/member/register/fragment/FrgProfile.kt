@@ -74,6 +74,13 @@ class FrgProfile: BaseFragment<FrgRegisterProfileBinding>() {
                 ivCancel.visibility = View.GONE
             }
 
+            // Address
+            incAddress.apply {
+
+                tvTitle.text = getString(R.string.register_text_19)
+                ivCancel.visibility = View.GONE
+            }
+
             // Gender
             incGender.apply {
 
@@ -97,6 +104,9 @@ class FrgProfile: BaseFragment<FrgRegisterProfileBinding>() {
 
             // birth 전체 삭제
             incBirth.ivCancel.setOnClickListener { incBirth.etInput.text = null }
+
+            // address 전체 삭제
+            incAddress.ivCancel.setOnClickListener { incAddress.etInput.text = null }
 
             // 남성
             incGender.tvMale.setOnClickListener { setGenderSelected(BaseConstants.GENDER_TYPE_MALE) }
@@ -164,6 +174,29 @@ class FrgProfile: BaseFragment<FrgRegisterProfileBinding>() {
 
                         // 전체 삭제 버튼 노출 여부
                         incBirth.ivCancel.visibility = value.isNotEmpty().toVisibleOrGone()
+
+                        // check profile validate
+                        checkProfileValidate()
+                    }
+                })
+            }
+
+            // address 입력
+            incAddress.etInput.apply {
+
+                isSingleLine = true
+                hint = getString(R.string.register_text_20)
+                inputType = InputType.TYPE_TEXT_VARIATION_PERSON_NAME
+
+                addTextChangedListener(object : TextWatcher {
+                    override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+                    override fun afterTextChanged(p0: Editable?) {}
+                    override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                        val value = p0.toString()
+
+                        // 전체 삭제 버튼 노출 여부
+                        incAddress.ivCancel.visibility = value.isNotEmpty().toVisibleOrGone()
 
                         // check profile validate
                         checkProfileValidate()
@@ -242,6 +275,7 @@ class FrgProfile: BaseFragment<FrgRegisterProfileBinding>() {
 
             val name = incName.etInput.text.toString()
             val birth = incBirth.etInput.text.toString().replace(".", "")
+            val address = incAddress.etInput.text.toString()
             val gender = if (incGender.tvMale.isSelected) {
                 BaseConstants.GENDER_TYPE_MALE
             } else if (incGender.tvFemale.isSelected) {
@@ -252,17 +286,19 @@ class FrgProfile: BaseFragment<FrgRegisterProfileBinding>() {
 
             val nameValidate = name.isNotEmpty()
             val birthValidate = ValidateUtil.checkBirth(birth)
+            val addressValidate = address.isNotEmpty()
             val genderValidate = incGender.tvMale.isSelected || incGender.tvFemale.isSelected || incGender.tvNone.isSelected
 
-            if (nameValidate && birthValidate && genderValidate) {
+            if (nameValidate && birthValidate && genderValidate && addressValidate) {
 
                 viewModel.registerData.name = name
                 viewModel.registerData.birth = DateUtil.stringToDate(birth)
+                viewModel.registerData.address = address
                 viewModel.registerData.gender = gender
             }
 
             // 버튼 활성화 여부 설정
-            context?.let { if (it is ActRegister) it.controlButtonEnabled(nameValidate && birthValidate && genderValidate) }
+            context?.let { if (it is ActRegister) it.controlButtonEnabled(nameValidate && birthValidate && genderValidate && addressValidate) }
         }
     }
 }

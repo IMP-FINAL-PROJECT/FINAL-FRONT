@@ -58,6 +58,8 @@
     <string name="register_text_16">여성</string>
     <string name="register_text_17">선택하지 않음</string>
     <string name="register_text_18">1970.01.01</string>
+    <string name="register_text_19">주소</string>
+    <string name="register_text_20">주소 입력</string>
 
     <!-- Main - Home -->
     <string name="home_text_1">오늘의 행복 점수는?</string>

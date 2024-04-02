@@ -92,13 +92,14 @@ class MemberViewModel @Inject constructor(private val useCase: MemberUseCase) : 
     /**
      * Edit Profile
      */
-    fun editProfile(id: String, name: String, birth: String, gender: String) = viewModelScope.launch {
+    fun editProfile(id: String, name: String, birth: String, address: String, gender: String) = viewModelScope.launch {
 
         useCase.editProfile(
             data = MemberModel(
                 id = id,
                 name = name,
                 birth = birth,
+                address = address,
                 gender = gender,
             ),
             successCallback = { _loginData.value = it },

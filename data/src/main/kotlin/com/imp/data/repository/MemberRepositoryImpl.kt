@@ -54,8 +54,9 @@ class MemberRepositoryImpl @Inject constructor() : MemberRepository {
 
         params["id"] = data.id ?: ""
         params["password"] = data.password ?: ""
-        params["birth"] = data.birth ?: ""
         params["name"] = data.name ?: ""
+        params["birth"] = data.birth ?: ""
+        params["address"] = data.address ?: ""
         params["gender"] = data.gender ?: "N"
 
         ApiClient.getClient().create(ApiMember::class.java).register(params)
@@ -102,6 +103,7 @@ class MemberRepositoryImpl @Inject constructor() : MemberRepository {
             name = "고주원",
             id = "rhwndnjs123@gmail.com",
             birth = "1997-05-05",
+            address = "서울시 논현동 123-123",
             gender = "M"
         ))
     }
@@ -116,6 +118,7 @@ class MemberRepositoryImpl @Inject constructor() : MemberRepository {
 
         params["name"] = data.name ?: ""
         params["birth"] = data.birth ?: ""
+        params["address"] = data.address ?: ""
         params["gender"] = data.gender ?: "N"
 
         ApiClient.getClient().create(ApiMember::class.java).editProfile(data.id?: "", params)

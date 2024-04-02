@@ -6,7 +6,8 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="15dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -46,6 +47,17 @@
                 android:layout_marginEnd="24dp"
                 app:layout_constraintTop_toBottomOf="@+id/incName" />
 
+            <!-- Address -->
+            <include
+                android:id="@+id/incAddress"
+                layout="@layout/inc_common_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="24dp"
+                app:layout_constraintTop_toBottomOf="@+id/incBirth" />
+
             <include
                 android:id="@+id/incGender"
                 layout="@layout/inc_common_gender"
@@ -54,7 +66,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="24dp"
-                app:layout_constraintTop_toBottomOf="@+id/incBirth" />
+                app:layout_constraintTop_toBottomOf="@+id/incAddress" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -110,6 +110,13 @@ class ActEditProfile : BaseContractActivity<ActMypageEditProfileBinding>() {
                 ivCancel.visibility = View.GONE
             }
 
+            // Address
+            incAddress.apply {
+
+                tvTitle.text = getString(R.string.register_text_19)
+                ivCancel.visibility = View.GONE
+            }
+
             // Gender
             incGender.apply {
 
@@ -140,11 +147,13 @@ class ActEditProfile : BaseContractActivity<ActMypageEditProfileBinding>() {
             // Birth
             incBirth.etInput.setText(dao.birth?.replace("-", "."))
 
+            // Address
+            incAddress.etInput.setText(dao.address)
+
             // Gender
             incGender.apply {
 
-                val gender = dao.gender
-                when(gender) {
+                when(dao.gender) {
                     BaseConstants.GENDER_TYPE_MALE -> setGenderSelected(BaseConstants.GENDER_TYPE_MALE)
                     BaseConstants.GENDER_TYPE_FEMALE -> setGenderSelected(BaseConstants.GENDER_TYPE_FEMALE)
                     else -> setGenderSelected(BaseConstants.GENDER_TYPE_NONE)
@@ -169,6 +178,9 @@ class ActEditProfile : BaseContractActivity<ActMypageEditProfileBinding>() {
             // birth 전체 삭제
             incBirth.ivCancel.setOnClickListener { incBirth.etInput.text = null }
 
+            // address 전체 삭제
+            incAddress.ivCancel.setOnClickListener { incAddress.etInput.text = null }
+
             // 남성
             incGender.tvMale.setOnClickListener { setGenderSelected(BaseConstants.GENDER_TYPE_MALE) }
 
@@ -185,6 +197,7 @@ class ActEditProfile : BaseContractActivity<ActMypageEditProfileBinding>() {
                     id = PreferencesUtil.getPreferencesString(this@ActEditProfile, PreferencesUtil.AUTO_LOGIN_ID_KEY),
                     name = incName.etInput.text.toString(),
                     birth = incBirth.etInput.text.toString().replace(".", "-"),
+                    address = incAddress.etInput.text.toString(),
                     gender = getGender()
                 )
             }
@@ -252,6 +265,29 @@ class ActEditProfile : BaseContractActivity<ActMypageEditProfileBinding>() {
                     }
                 })
             }
+
+            // address 입력
+            incAddress.etInput.apply {
+
+                isSingleLine = true
+                hint = getString(R.string.register_text_20)
+                inputType = InputType.TYPE_TEXT_VARIATION_PERSON_NAME
+
+                addTextChangedListener(object : TextWatcher {
+                    override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+                    override fun afterTextChanged(p0: Editable?) {}
+                    override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                        val value = p0.toString()
+
+                        // 전체 삭제 버튼 노출 여부
+                        incAddress.ivCancel.visibility = value.isNotEmpty().toVisibleOrGone()
+
+                        // check profile validate
+                        checkProfileValidate()
+                    }
+                })
+            }
         }
     }
 
@@ -310,15 +346,17 @@ class ActEditProfile : BaseContractActivity<ActMypageEditProfileBinding>() {
 
             val name = incName.etInput.text.toString()
             val birth = incBirth.etInput.text.toString().replace(".", "")
+            val address = incAddress.etInput.text.toString()
             val gender = getGender()
 
             val nameValidate = name.isNotEmpty()
             val birthValidate = ValidateUtil.checkBirth(birth)
+            val addressValidate = address.isNotEmpty()
             val genderValidate = incGender.tvMale.isSelected || incGender.tvFemale.isSelected || incGender.tvNone.isSelected
 
-            val validation = nameValidate && birthValidate && genderValidate
+            val validation = nameValidate && birthValidate && genderValidate && addressValidate
             val enabled = viewModel.memberData.value?.let {
-                it.name != name || it.birth?.replace("-", "") != birth || it.gender != gender
+                it.name != name || it.birth?.replace("-", "") != birth || it.gender != gender || it.address != address
             } ?: false
 
             // 버튼 활성화 여부
