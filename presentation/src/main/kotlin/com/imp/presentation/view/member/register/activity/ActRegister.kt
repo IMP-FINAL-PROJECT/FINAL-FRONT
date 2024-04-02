@@ -62,7 +62,7 @@ class ActRegister : BaseContractActivity<ActMemberRegisterBinding>() {
         /** Register Response Data */
         viewModel.registerResData.observe(this) { _ ->
 
-            Toast.makeText(this, "회원가입이 완료되었습니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.popup_text_3), Toast.LENGTH_SHORT).show()
 
             // 뒤로 가기
             onBackPressedDispatcher.onBackPressed()

@@ -88,4 +88,21 @@ class MemberViewModel @Inject constructor(private val useCase: MemberUseCase) : 
             errorCallback = { _errorCallback.value = Event(it) }
         )
     }
+
+    /**
+     * Edit Profile
+     */
+    fun editProfile(id: String, name: String, birth: String, gender: String) = viewModelScope.launch {
+
+        useCase.editProfile(
+            data = MemberModel(
+                id = id,
+                name = name,
+                birth = birth,
+                gender = gender,
+            ),
+            successCallback = { _loginData.value = it },
+            errorCallback = { _errorCallback.value = Event(it) }
+        )
+    }
 }

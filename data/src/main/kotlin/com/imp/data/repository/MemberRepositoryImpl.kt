@@ -100,7 +100,37 @@ class MemberRepositoryImpl @Inject constructor() : MemberRepository {
 
         successCallback.invoke(MemberModel(
             name = "고주원",
-            id = "rhwndnjs123@gmail.com"
+            id = "rhwndnjs123@gmail.com",
+            birth = "1997-05-05",
+            gender = "M"
         ))
+    }
+
+    /**
+     * Edit Profile
+     */
+    @SuppressLint("CheckResult")
+    override suspend fun editProfile(data: MemberModel, successCallback: (MemberModel) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit) {
+
+        val params: MutableMap<String, Any> = HashMap()
+
+        params["name"] = data.name ?: ""
+        params["birth"] = data.birth ?: ""
+        params["gender"] = data.gender ?: "N"
+
+        ApiClient.getClient().create(ApiMember::class.java).editProfile(data.id?: "", params)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ response ->
+
+                if (response.isSuccess()) {
+                    response.data?.let { successCallback.invoke(it) }
+                } else {
+                    errorCallback.invoke(CommonMapper.mappingErrorCallbackData(response))
+                }
+
+            }, { error ->
+                errorCallback.invoke(CommonMapper.mappingErrorData(error))
+            })
     }
 }

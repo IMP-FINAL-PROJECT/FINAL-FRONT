@@ -13,6 +13,7 @@
     <string name="next">다음</string>
     <string name="yes">예</string>
     <string name="no">아니오</string>
+    <string name="complete">완료</string>
 
     <!-- Splash -->
     <string name="splash_text_1">나에 대해 알아가는 시간,\n지금 FluffyMood를 시작해보세요!</string>
@@ -97,8 +98,8 @@
     <!-- Popup Title -->
     <string name="popup_text_1">권한 거부 시 앱 사용에 제한이 있습니다. 설정에서 권한을 허용해주세요.</string>
     <string name="popup_text_2">위치 권한을 설정에서 항상 허용으로 변경해 주세요.</string>
-    <string name="popup_text_3"></string>
-    <string name="popup_text_4"></string>
+    <string name="popup_text_3">회원 가입이 완료되었습니다.</string>
+    <string name="popup_text_4">회원 정보 수정이 완료되었습니다.</string>
     <string name="popup_text_5"></string>
     <string name="popup_text_6"></string>
     <string name="popup_text_7"></string>

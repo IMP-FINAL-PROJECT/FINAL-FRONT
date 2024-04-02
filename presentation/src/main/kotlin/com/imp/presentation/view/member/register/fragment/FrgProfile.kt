@@ -48,7 +48,6 @@ class FrgProfile: BaseFragment<FrgRegisterProfileBinding>() {
 
     override fun initView() {
 
-
         initDisplay()
         setOnClickListener()
         initEditText()
@@ -192,7 +191,6 @@ class FrgProfile: BaseFragment<FrgRegisterProfileBinding>() {
 
         return stringBuilder.toString()
     }
-
 
     /**
      * Control Gender Selected

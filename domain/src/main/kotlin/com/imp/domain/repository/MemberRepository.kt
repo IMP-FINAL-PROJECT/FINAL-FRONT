@@ -27,4 +27,9 @@ interface MemberRepository {
      * Get Member Data
      */
     suspend fun getMemberData(successCallback: (MemberModel) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit)
+
+    /**
+     * Edit Profile
+     */
+    suspend fun editProfile(data: MemberModel, successCallback: (MemberModel) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit)
 }

@@ -37,4 +37,11 @@ class MemberUseCase @Inject constructor(private val repository: MemberRepository
     suspend fun getMemberData(successCallback: (MemberModel) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit) {
         repository.getMemberData(successCallback, errorCallback)
     }
+
+    /**
+     * Edit Profile
+     */
+    suspend fun editProfile(data: MemberModel, successCallback: (MemberModel) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit) {
+        repository.editProfile(data, successCallback, errorCallback)
+    }
 }

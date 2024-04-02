@@ -8,6 +8,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -40,4 +41,14 @@ interface ApiMember {
     fun checkEmail(
         @Query("id") id: String
     ): Observable<BaseResponse<Any>>
+
+    /**
+     * Edit Profile
+     */
+    @Headers("Content-Type: application/json")
+    @PUT(HttpConstants.API_CHANGE)
+    fun editProfile(
+        @Path("id", encoded = true) id: String,
+        @Body body: Map<String, Any>
+    ): Observable<BaseResponse<MemberModel>>
 }
