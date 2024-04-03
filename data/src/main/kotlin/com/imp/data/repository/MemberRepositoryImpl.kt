@@ -17,6 +17,9 @@ import javax.inject.Inject
  */
 class MemberRepositoryImpl @Inject constructor() : MemberRepository {
 
+    /** Member Data */
+    private var memberData: MemberModel? = null
+
     /**
      * Login
      */
@@ -34,7 +37,10 @@ class MemberRepositoryImpl @Inject constructor() : MemberRepository {
             .subscribe({ response ->
 
                 if (response.isSuccess()) {
-                    response.data?.let { successCallback.invoke(it) }
+                    response.data?.let {
+                        memberData = it
+                        successCallback.invoke(it)
+                    }
                 } else {
                     errorCallback.invoke(CommonMapper.mappingErrorCallbackData(response))
                 }
@@ -99,6 +105,11 @@ class MemberRepositoryImpl @Inject constructor() : MemberRepository {
     @SuppressLint("CheckResult")
     override suspend fun getMemberData(successCallback: (MemberModel) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit) {
 
+        if (memberData != null) {
+            successCallback.invoke(memberData!!)
+            return
+        }
+
         successCallback.invoke(MemberModel(
             name = "고주원",
             id = "rhwndnjs123@gmail.com",
@@ -127,7 +138,10 @@ class MemberRepositoryImpl @Inject constructor() : MemberRepository {
             .subscribe({ response ->
 
                 if (response.isSuccess()) {
-                    response.data?.let { successCallback.invoke(it) }
+                    response.data?.let {
+                        memberData = it
+                        successCallback.invoke(it)
+                    }
                 } else {
                     errorCallback.invoke(CommonMapper.mappingErrorCallbackData(response))
                 }
