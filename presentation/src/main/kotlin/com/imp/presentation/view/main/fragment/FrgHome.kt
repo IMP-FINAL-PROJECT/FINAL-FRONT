@@ -15,11 +15,14 @@ import com.imp.presentation.constants.BaseConstants
 import com.imp.presentation.databinding.FrgHomeBinding
 import com.imp.presentation.view.main.activity.ActMain
 import com.imp.presentation.viewmodel.HomeViewModel
-import com.imp.presentation.widget.component.CommonMapView
 import com.imp.presentation.widget.extension.toDp
 import com.imp.presentation.widget.utils.DateUtil
 import com.imp.presentation.widget.utils.MethodStorageUtil
 import com.imp.presentation.widget.utils.PreferencesUtil
+import com.kakao.vectormap.KakaoMap
+import com.kakao.vectormap.KakaoMapReadyCallback
+import com.kakao.vectormap.MapLifeCycleCallback
+import com.kakao.vectormap.MapReadyCallback
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -89,6 +92,7 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
 
         initObserver()
         initDisplay()
+        initMapView()
         initScoreBoard()
     }
 
@@ -104,7 +108,6 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
 
         // Unregister UI Update Receiver
         unregisterUIUpdateReceiver()
-        removeMapView()
 
         super.onPause()
     }
@@ -160,15 +163,32 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
                 tvLight.text = getString(R.string.unit_light, "", 0)
 
                 tvMapTitle.text = getString(R.string.log_text_5)
-
-                // 이동 경로 map
-                val mapView = CommonMapView(ctx).apply {
-
-                    // 현재 위치로 이동
-                    setCurrentLocation(true)
-                }
-                clMapContainer.addView(mapView)
             }
+        }
+    }
+
+    /**
+     * Initialize Map View
+     */
+    private fun initMapView() {
+
+        with(mBinding) {
+
+
+            // 이동 경로 map
+//            mapView.start(object : MapLifeCycleCallback() {
+//                override fun onMapDestroy() {
+//
+//                }
+//
+//                override fun onMapError(p0: Exception?) {
+//
+//                }
+//            }, object : KakaoMapReadyCallback() {
+//                override fun onMapReady(kakaoMap: KakaoMap) {
+//
+//                }
+//            })
         }
     }
 
@@ -238,13 +258,5 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
     private fun unregisterUIUpdateReceiver() {
 
         context?.let { if (it is ActMain) it.unregisterUIBroadcast(uiUpdateReceiver) }
-    }
-
-    /**
-     * Remove Map View
-     *   - 2개 이상의 Kakao MapView를 추가할 수 없음
-     */
-    private fun removeMapView() {
-        mBinding.clMapContainer.removeAllViews()
     }
 }

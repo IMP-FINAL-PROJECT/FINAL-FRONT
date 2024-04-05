@@ -6,6 +6,7 @@ import android.os.Build
 import android.util.Base64
 import android.util.Log
 import com.imp.fluffymood.BuildConfig
+import com.kakao.vectormap.KakaoMapSdk
 import dagger.hilt.android.HiltAndroidApp
 import java.security.MessageDigest
 
@@ -26,6 +27,9 @@ class AppModule: Application() {
         applicationContext?.let {
 
             //getDebugHashKey()
+
+            /** Initialize Kakao Map Api */
+            KakaoMapSdk.init(this, BuildConfig.KAKAO_API_KEY)
         }
     }
 

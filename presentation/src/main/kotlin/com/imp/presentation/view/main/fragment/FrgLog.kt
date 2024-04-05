@@ -3,6 +3,7 @@ package com.imp.presentation.view.main.fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.LineData
@@ -13,12 +14,23 @@ import com.imp.presentation.constants.BaseConstants
 import com.imp.presentation.databinding.FrgLogBinding
 import com.imp.presentation.view.main.activity.ActMain
 import com.imp.presentation.viewmodel.LogViewModel
-import com.imp.presentation.widget.component.CommonMapView
 import com.imp.presentation.widget.extension.toDp
 import com.imp.presentation.widget.utils.ChartUtil
 import com.imp.presentation.widget.utils.DateUtil
 import com.imp.presentation.widget.utils.MethodStorageUtil
-import net.daum.mf.map.api.MapPoint
+import com.kakao.vectormap.KakaoMap
+import com.kakao.vectormap.KakaoMapReadyCallback
+import com.kakao.vectormap.LatLng
+import com.kakao.vectormap.MapLifeCycleCallback
+import com.kakao.vectormap.camera.CameraAnimation
+import com.kakao.vectormap.camera.CameraUpdateFactory
+import com.kakao.vectormap.label.LabelOptions
+import com.kakao.vectormap.route.RouteLineOptions
+import com.kakao.vectormap.route.RouteLineSegment
+import com.kakao.vectormap.route.RouteLineStyle
+import com.kakao.vectormap.route.RouteLineStyles
+import com.kakao.vectormap.route.RouteLineStylesSet
+
 
 /**
  * Main - Log Fragment
@@ -41,13 +53,13 @@ class FrgLog: BaseFragment<FrgLogBinding>() {
 
         initObserver()
         initDisplay()
+        initMapView()
 
         viewModel.loadData()
     }
 
     override fun onPause() {
 
-        removeMapView()
         super.onPause()
     }
 
@@ -58,9 +70,6 @@ class FrgLog: BaseFragment<FrgLogBinding>() {
 
         /** Log Data */
         viewModel.logData.observe(viewLifecycleOwner) { setLogGraph(it) }
-
-        /** Location Map Point List */
-        viewModel.pointList.observe(viewLifecycleOwner) { addMapView(it) }
     }
 
     /**
@@ -127,6 +136,27 @@ class FrgLog: BaseFragment<FrgLogBinding>() {
 
                 tvDate.text = DateUtil.getCurrentMonthDay()
             }
+        }
+    }
+
+    /**
+     * Initialize Map View
+     */
+    private fun initMapView() {
+
+        with(mBinding.incMap) {
+
+            // 이동 경로 map
+            mapView.start(object : MapLifeCycleCallback() {
+                override fun onMapDestroy() {}
+                override fun onMapError(p0: Exception?) {}
+            }, object : KakaoMapReadyCallback() {
+                override fun onMapReady(map: KakaoMap) {
+
+                    // add points
+                    viewModel.pointList.value?.let { addPoints(map, it) }
+                }
+            })
         }
     }
 
@@ -215,36 +245,29 @@ class FrgLog: BaseFragment<FrgLogBinding>() {
     }
 
     /**
-     * Add Map View
+     * Add Points
+     *
+     * @param map
+     * @param list
      */
-    private fun addMapView(pointList: ArrayList<MapPoint>) {
+    private fun addPoints(map: KakaoMap, list: ArrayList<LatLng>) {
 
-        context?.let { ctx ->
-
-            with(mBinding.incMap) {
-
-                val mapView = CommonMapView(ctx).apply {
-
-                    // set center position
-                    setCurrentLocation(37.537906, 127.046245)
-
-                    // add polyLine
-                    addPolyline(pointList)
-
-                    // add marker
-                    addMarker(pointList)
-                }
-
-                clMapContainer.addView(mapView)
-            }
+        // label 추가
+        list.forEach { location ->
+            map.labelManager?.layer?.addLabel(LabelOptions.from(location).setStyles(R.drawable.icon_map_marker))
         }
-    }
 
-    /**
-     * Remove Map View
-     *   - 2개 이상의 Kakao MapView를 추가할 수 없음
-     */
-    private fun removeMapView() {
-        mBinding.incMap.clMapContainer.removeAllViews()
+        // 모든 좌표가 보이도록 카메라 위치 변경
+        map.moveCamera(
+            CameraUpdateFactory.fitMapPoints(list.toTypedArray(), 100),
+            CameraAnimation.from(500, true, true)
+        )
+
+        // line 추가
+        val stylesSet = RouteLineStylesSet.from("blueStyles", RouteLineStyles.from(RouteLineStyle.from(4f, ContextCompat.getColor(requireContext(), R.color.color_3377ff))))
+        val segment = RouteLineSegment.from(list).setStyles(stylesSet.getStyles(0))
+        val options = RouteLineOptions.from(segment).setStylesSet(stylesSet)
+
+        map.routeLineManager?.layer?.addRouteLine(options)
     }
 }

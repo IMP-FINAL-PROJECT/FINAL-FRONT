@@ -78,7 +78,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     /** Kakao Map */
-    implementation(files("../app/libs/libDaumMapAndroid.jar"))
+    implementation(libs.kakao.map)
 
     /** Hilt */
     implementation(libs.hilt.android)

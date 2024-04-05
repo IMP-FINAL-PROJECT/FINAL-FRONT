@@ -3,7 +3,6 @@ pluginManagement {
         google()
         mavenCentral()
         gradlePluginPortal()
-        jcenter()
     }
 }
 dependencyResolutionManagement {
@@ -12,7 +11,7 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven(uri("https://jitpack.io"))
-        jcenter()
+        maven(uri("https://devrepo.kakao.com/nexus/repository/kakaomap-releases/"))
     }
 }
 

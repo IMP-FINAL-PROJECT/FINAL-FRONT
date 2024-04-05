@@ -22,7 +22,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        manifestPlaceholders["KAKAO_API_KEY"] = properties["kakao_api_key"].toString()
+        buildConfigField("String", "KAKAO_API_KEY", properties["kakao_api_key"].toString())
 
         applicationVariants.all {
 
@@ -117,4 +117,7 @@ dependencies {
     /** Hilt */
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
+
+    /** Kakao Map */
+    implementation(libs.kakao.map)
 }
