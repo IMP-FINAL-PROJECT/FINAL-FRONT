@@ -2,7 +2,9 @@ package com.imp.presentation.widget.utils
 
 import android.annotation.SuppressLint
 import java.text.SimpleDateFormat
+import java.time.DayOfWeek
 import java.time.Instant
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -49,6 +51,23 @@ class DateUtil {
             val dateFormat = SimpleDateFormat("오늘, MM월 dd일", Locale.getDefault())
 
             return dateFormat.format(calendar.time)
+        }
+
+        /**
+         * Get Current Weekly (MM월 dd일 ~ MM월 dd일)
+         */
+        fun getCurrentWeekly(): String {
+
+            val today = LocalDate.now()
+            val startOfWeek = today.with(DayOfWeek.SUNDAY).minusDays(7)
+            val endOfWeek = startOfWeek.plusDays(6)
+
+            val formatter = DateTimeFormatter.ofPattern("MM월 dd일")
+
+            val formattedStartOfWeek = startOfWeek.format(formatter)
+            val formattedEndOfWeek = endOfWeek.format(formatter)
+
+            return "$formattedStartOfWeek ~ $formattedEndOfWeek"
         }
 
         /**

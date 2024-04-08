@@ -12,6 +12,7 @@ import com.github.mikephil.charting.animation.ChartAnimator
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
+import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.interfaces.dataprovider.BarDataProvider
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
@@ -20,11 +21,14 @@ import com.github.mikephil.charting.utils.Utils
 import com.github.mikephil.charting.utils.ViewPortHandler
 import com.imp.presentation.R
 import kotlin.math.ceil
+import kotlin.math.roundToInt
 
 /**
  * Rounded BarChart
  */
 class RoundedBarChart : BarChart {
+
+    private val weekList: ArrayList<String> = ArrayList()
 
     constructor(context: Context?) : super(context)
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
@@ -44,6 +48,7 @@ class RoundedBarChart : BarChart {
         }
 
         initDisplay()
+        initWeekList()
     }
 
     private fun initDisplay() {
@@ -92,8 +97,43 @@ class RoundedBarChart : BarChart {
         }
     }
 
+    fun setChartWeek(isDay: Boolean) {
+
+        xAxis.valueFormatter =  object : ValueFormatter() {
+            override fun getFormattedValue(value: Float): String {
+
+                return if (isDay) {
+                    value.toInt().toString()
+                } else {
+                    var pos = value.roundToInt()
+                    if (pos < 0) pos = 0
+                    if (pos >= weekList.size && weekList.isNotEmpty()) pos /= weekList.size
+                    weekList[pos]
+                }
+            }
+        }
+
+        val visibleXRange = if (isDay) 24f else 7f
+        setVisibleXRange(visibleXRange, visibleXRange)
+    }
+
     fun setRadius(radius: Int) {
         renderer = RoundedBarChartRenderer(this, animator, viewPortHandler, radius)
+    }
+
+    private fun initWeekList() {
+
+        context?.let { ctx ->
+
+            weekList.clear()
+            weekList.add(ctx.getString(R.string.sunday))
+            weekList.add(ctx.getString(R.string.monday))
+            weekList.add(ctx.getString(R.string.tuesday))
+            weekList.add(ctx.getString(R.string.wednesday))
+            weekList.add(ctx.getString(R.string.thursday))
+            weekList.add(ctx.getString(R.string.friday))
+            weekList.add(ctx.getString(R.string.saturday))
+        }
     }
 
     private class RoundedBarChartRenderer(

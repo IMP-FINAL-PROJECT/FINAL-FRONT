@@ -3,6 +3,7 @@ package com.imp.presentation.view.main.fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import com.github.mikephil.charting.data.BarData
@@ -55,11 +56,11 @@ class FrgLog: BaseFragment<FrgLogBinding>() {
         initDisplay()
         initMapView()
 
+        // log data api 호출
         viewModel.loadData()
     }
 
     override fun onPause() {
-
         super.onPause()
     }
 
@@ -97,10 +98,28 @@ class FrgLog: BaseFragment<FrgLogBinding>() {
                 /** 스크린 타임 */
                 incChartTime.tvDate.text = DateUtil.getCurrentMonthDay()
                 incChartTime.chart.animateY(300)
+                initWeekBtn(incChartTime.tvDay, incChartTime.tvWeek, {
+
+                    incChartTime.tvDate.text = DateUtil.getCurrentMonthDay()
+                    viewModel.logData.value?.let { setScreenTimeGraph(it, isDay = true) }
+                }, {
+
+                    incChartTime.tvDate.text = DateUtil.getCurrentWeekly()
+                    viewModel.logData.value?.let { setScreenTimeGraph(it, isDay = false) }
+                })
 
                 /** 화면 깨우기 */
                 incChartAwake.tvDate.text = DateUtil.getCurrentMonthDay()
                 incChartAwake.chart.animateY(300)
+                initWeekBtn(incChartAwake.tvDay, incChartAwake.tvWeek, {
+
+                    incChartAwake.tvDate.text = DateUtil.getCurrentMonthDay()
+                    viewModel.logData.value?.let { setScreenAwakeGraph(it, isDay = true) }
+                }, {
+
+                    incChartAwake.tvDate.text = DateUtil.getCurrentWeekly()
+                    viewModel.logData.value?.let { setScreenAwakeGraph(it, isDay = false) }
+                })
             }
 
             /**
@@ -112,6 +131,15 @@ class FrgLog: BaseFragment<FrgLogBinding>() {
 
                 incChartStep.tvDate.text = DateUtil.getCurrentMonthDay()
                 incChartStep.chart.animateY(300)
+                initWeekBtn(incChartStep.tvDay, incChartStep.tvWeek, {
+
+                    incChartStep.tvDate.text = DateUtil.getCurrentMonthDay()
+                    viewModel.logData.value?.let { setStepGraph(it, isDay = true) }
+                }, {
+
+                    incChartStep.tvDate.text = DateUtil.getCurrentWeekly()
+                    viewModel.logData.value?.let { setStepGraph(it, isDay = false) }
+                })
             }
 
             /**
@@ -125,6 +153,15 @@ class FrgLog: BaseFragment<FrgLogBinding>() {
                 tvSummary.visibility = View.GONE
 
                 chart.animateY(300)
+                initWeekBtn(tvDay, tvWeek, {
+
+                    tvDate.text = DateUtil.getCurrentMonthDay()
+                    viewModel.logData.value?.let { setLightGraph(it, isDay = true) }
+                }, {
+
+                    tvDate.text = DateUtil.getCurrentWeekly()
+                    viewModel.logData.value?.let { setLightGraph(it, isDay = false) }
+                })
             }
 
             /**
@@ -136,6 +173,44 @@ class FrgLog: BaseFragment<FrgLogBinding>() {
 
                 tvDate.text = DateUtil.getCurrentMonthDay()
             }
+        }
+    }
+
+    /**
+     * Initialize Day, Week Select Button
+     *
+     * @param dayView
+     * @param weekView
+     * @param dayClickEvent
+     * @param weekClickEvent
+     */
+    private fun initWeekBtn(dayView: TextView, weekView: TextView, dayClickEvent: () -> Unit, weekClickEvent: () -> Unit) {
+
+        dayView.text = getString(R.string.log_text_6)
+        weekView.text = getString(R.string.log_text_7)
+
+        // 1일 클릭 이벤트
+        dayView.isSelected = true
+        dayView.setOnClickListener {
+
+            if (it.isSelected) return@setOnClickListener
+
+            it.isSelected = !it.isSelected
+            weekView.isSelected = false
+
+            dayClickEvent.invoke()
+        }
+
+        // 1주일 클릭 이벤트
+        weekView.isSelected = false
+        weekView.setOnClickListener {
+
+            if (it.isSelected) return@setOnClickListener
+
+            it.isSelected = !it.isSelected
+            dayView.isSelected = false
+
+            weekClickEvent.invoke()
         }
     }
 
@@ -160,86 +235,113 @@ class FrgLog: BaseFragment<FrgLogBinding>() {
         }
     }
 
+    /**
+     * 로그 그래프
+     *
+     * @param data
+     */
     private fun setLogGraph(data: LogModel) {
+
+        setScreenTimeGraph(data, isDay = true)
+        setScreenAwakeGraph(data, isDay = true)
+        setStepGraph(data, isDay = true)
+        setLightGraph(data, isDay = true)
+    }
+
+    /**
+     * 스크린 타임 그래프
+     *
+     * @param data
+     * @param isDay
+     */
+    private fun setScreenTimeGraph(data: LogModel, isDay: Boolean) {
 
         context?.let { ctx ->
 
-            with(mBinding) {
+            mBinding.incScreenTime.incChartTime.apply {
 
-                /**
-                 * 스크린 타임 그래프
-                 */
-                incScreenTime.apply {
+                tvSummary.text = getString(R.string.unit_hour_minute, 3, 47)
+                tvSummary.textSize = 24f
 
-                    // 스크린 타임
-                    incChartTime.apply {
+                MethodStorageUtil.setSpannable(tvSummary, 1, 3, 11.toDp(ctx).toInt(), R.font.suit_medium)
+                MethodStorageUtil.setSpannable(tvSummary, tvSummary.length() - 1, tvSummary.length(), 11.toDp(ctx).toInt(), R.font.suit_medium)
 
-                        tvSummary.text = getString(R.string.unit_hour_minute, 3, 47)
-                        tvSummary.textSize = 24f
+                val barDataSet = ChartUtil.barChartDataSet(ctx, ChartUtil.mappingBarEntryData(data.screenTime.valueList))
+                chart.data = BarData(barDataSet).apply { barWidth = if (isDay) 0.7f else 0.2f }
+                chart.setAxisLeft(2, 0f, data.screenTime.max)
+                chart.setChartWeek(isDay)
+                chart.invalidate()
+            }
+        }
+    }
 
-                        MethodStorageUtil.setSpannable(tvSummary, 1, 3, 11.toDp(ctx).toInt(), R.font.suit_medium)
-                        MethodStorageUtil.setSpannable(tvSummary, tvSummary.length() - 1, tvSummary.length(), 11.toDp(ctx).toInt(), R.font.suit_medium)
+    /**
+     * 화면 깨우기 그래프
+     *
+     * @param data
+     * @param isDay
+     */
+    private fun setScreenAwakeGraph(data: LogModel, isDay: Boolean) {
 
-                        val barDataSet = ChartUtil.barChartDataSet(
-                            requireContext(),
-                            ChartUtil.mappingBarEntryData(data.screenTime.valueList)
-                        )
-                        chart.data = BarData(barDataSet)
-                        chart.setAxisLeft(2, 0f, data.screenTime.max)
-                        chart.invalidate()
-                    }
+        context?.let { ctx ->
 
-                    // 화면 깨우기
-                    incChartAwake.apply {
+            mBinding.incScreenTime.incChartAwake.apply {
 
-                        tvSummary.text = getString(R.string.unit_times, 61)
+                tvSummary.text = getString(R.string.unit_times, 61)
 
-                        MethodStorageUtil.setSpannable(tvSummary, tvSummary.length() - 1, tvSummary.length(), 11.toDp(ctx).toInt(), R.font.suit_medium)
+                MethodStorageUtil.setSpannable(tvSummary, tvSummary.length() - 1, tvSummary.length(), 11.toDp(ctx).toInt(), R.font.suit_medium)
 
-                        val barDataSet = ChartUtil.barChartDataSet(
-                            requireContext(),
-                            ChartUtil.mappingBarEntryData(data.screenAwake.valueList)
-                        )
-                        chart.data = BarData(barDataSet)
-                        chart.setAxisLeft(ChartUtil.getLabelCount(data.screenAwake.max), 0f, data.screenAwake.max)
-                        chart.invalidate()
-                    }
-                }
+                val barDataSet = ChartUtil.barChartDataSet(ctx, ChartUtil.mappingBarEntryData(data.screenAwake.valueList))
+                chart.data = BarData(barDataSet).apply { barWidth = if (isDay) 0.7f else 0.2f }
+                chart.setAxisLeft(ChartUtil.getLabelCount(data.screenAwake.max), 0f, data.screenAwake.max)
+                chart.setChartWeek(isDay)
+                chart.invalidate()
+            }
+        }
+    }
 
-                /**
-                 * 걸음 수 그래프
-                 */
-                incStep.apply {
+    /**
+     * 걸음 수 그래프
+     *
+     * @param data
+     * @param isDay
+     */
+    private fun setStepGraph(data: LogModel, isDay: Boolean) {
 
-                    incChartStep.apply {
+        context?.let { ctx ->
 
-                        tvSummary.text = getString(R.string.unit_steps, "4,901")
+            mBinding.incStep.incChartStep.apply {
 
-                        MethodStorageUtil.setSpannable(tvSummary, tvSummary.length() - 2, tvSummary.length(), 11.toDp(ctx).toInt(), R.font.suit_medium)
+                tvSummary.text = getString(R.string.unit_steps, "4,901")
 
-                        val barDataSet = ChartUtil.barChartDataSet(
-                            requireContext(),
-                            ChartUtil.mappingBarEntryData(data.step.valueList)
-                        )
-                        chart.data = BarData(barDataSet)
-                        chart.setAxisLeft(ChartUtil.getLabelCount(data.step.max), 0f, data.step.max)
-                        chart.invalidate()
-                    }
-                }
+                MethodStorageUtil.setSpannable(tvSummary, tvSummary.length() - 2, tvSummary.length(), 11.toDp(ctx).toInt(), R.font.suit_medium)
 
-                /**
-                 * 조도 센서 그래프
-                 */
-                incLight.apply {
+                val barDataSet = ChartUtil.barChartDataSet(ctx, ChartUtil.mappingBarEntryData(data.step.valueList))
+                chart.data = BarData(barDataSet).apply { barWidth = if (isDay) 0.7f else 0.2f }
+                chart.setAxisLeft(ChartUtil.getLabelCount(data.step.max), 0f, data.step.max)
+                chart.setChartWeek(isDay)
+                chart.invalidate()
+            }
+        }
+    }
 
-                    val lineDataset = ChartUtil.lineChartDataSet(
-                        requireContext(),
-                        ChartUtil.mappingEntryData(data.light.valueList)
-                    )
-                    chart.data = LineData(lineDataset)
-                    chart.setAxisLeft(ChartUtil.getLabelCount(data.light.max), 0f, data.light.max)
-                    chart.invalidate()
-                }
+    /**
+     * 조도 센서 그래프
+     *
+     * @param data
+     * @param isDay
+     */
+    private fun setLightGraph(data: LogModel, isDay: Boolean) {
+
+        context?.let { ctx ->
+
+            mBinding.incLight.apply {
+
+                val lineDataset = ChartUtil.lineChartDataSet(ctx, ChartUtil.mappingEntryData(data.light.valueList))
+                chart.data = LineData(lineDataset)
+                chart.setAxisLeft(ChartUtil.getLabelCount(data.light.max), 0f, data.light.max)
+                chart.setChartWeek(isDay)
+                chart.invalidate()
             }
         }
     }

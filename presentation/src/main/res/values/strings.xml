@@ -15,6 +15,15 @@
     <string name="no">아니오</string>
     <string name="complete">완료</string>
 
+    <!-- Day of Week -->
+    <string name="monday">월</string>
+    <string name="tuesday">화</string>
+    <string name="wednesday">수</string>
+    <string name="thursday">목</string>
+    <string name="friday">금</string>
+    <string name="saturday">토</string>
+    <string name="sunday">일</string>
+
     <!-- Splash -->
     <string name="splash_text_1">나에 대해 알아가는 시간,\n지금 FluffyMood를 시작해보세요!</string>
 
@@ -79,8 +88,8 @@
     <string name="log_text_3">걸음</string>
     <string name="log_text_4">조도</string>
     <string name="log_text_5">이동 경로</string>
-    <string name="log_text_6"></string>
-    <string name="log_text_7"></string>
+    <string name="log_text_6">1일</string>
+    <string name="log_text_7">1주일</string>
     <string name="log_text_8"></string>
     <string name="log_text_9"></string>
     <string name="log_text_10"></string>
