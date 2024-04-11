@@ -190,7 +190,7 @@ class ActLogin : BaseContractActivity<ActMemberLoginBinding>() {
                         incEmail.ivCancel.visibility = value.isNotEmpty().toVisibleOrGone()
 
                         // check login validate
-                        checkLoginEValidate()
+                        checkLoginValidate()
                     }
                 })
             }
@@ -215,7 +215,7 @@ class ActLogin : BaseContractActivity<ActMemberLoginBinding>() {
                         incPassword.ivVisibility.visibility = value.isNotEmpty().toVisibleOrGone()
 
                         // check login validate
-                        checkLoginEValidate()
+                        checkLoginValidate()
                     }
                 })
             }
@@ -228,7 +228,7 @@ class ActLogin : BaseContractActivity<ActMemberLoginBinding>() {
     /**
      * Check Login Button Validate
      */
-    private fun checkLoginEValidate() {
+    private fun checkLoginValidate() {
 
         with(mBinding) {
 
