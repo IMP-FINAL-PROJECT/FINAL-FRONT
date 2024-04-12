@@ -65,7 +65,7 @@ class ActLog : BaseContractActivity<ActLogBinding>() {
 
         // log data api 호출
         val id = PreferencesUtil.getPreferencesString(this@ActLog, PreferencesUtil.AUTO_LOGIN_ID_KEY)
-        viewModel.loadData("dongwook@naver.com")
+        viewModel.loadData(id)
     }
 
     /**
