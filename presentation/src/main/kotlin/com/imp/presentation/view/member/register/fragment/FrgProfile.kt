@@ -293,7 +293,7 @@ class FrgProfile: BaseFragment<FrgRegisterProfileBinding>() {
 
                 viewModel.registerData.name = name
                 viewModel.registerData.birth = DateUtil.stringToDate(birth)
-                viewModel.registerData.address = address
+                viewModel.registerData.address = arrayListOf()
                 viewModel.registerData.gender = gender
             }
 

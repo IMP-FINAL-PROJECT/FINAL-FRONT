@@ -148,7 +148,7 @@ class ActEditProfile : BaseContractActivity<ActMypageEditProfileBinding>() {
             incBirth.etInput.setText(dao.birth?.replace("-", "."))
 
             // Address
-            incAddress.etInput.setText(dao.address)
+            incAddress.etInput.setText(dao.address.toString())
 
             // Gender
             incGender.apply {
@@ -356,7 +356,7 @@ class ActEditProfile : BaseContractActivity<ActMypageEditProfileBinding>() {
 
             val validation = nameValidate && birthValidate && genderValidate && addressValidate
             val enabled = viewModel.memberData.value?.let {
-                it.name != name || it.birth?.replace("-", "") != birth || it.gender != gender || it.address != address
+                it.name != name || it.birth?.replace("-", "") != birth || it.gender != gender// || it.address != address
             } ?: false
 
             // 버튼 활성화 여부

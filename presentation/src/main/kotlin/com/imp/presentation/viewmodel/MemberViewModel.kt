@@ -99,7 +99,7 @@ class MemberViewModel @Inject constructor(private val useCase: MemberUseCase) : 
                 id = id,
                 name = name,
                 birth = birth,
-                address = address,
+                address = arrayListOf(),
                 gender = gender,
             ),
             successCallback = { _loginData.value = it },

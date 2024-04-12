@@ -1,9 +1,15 @@
 package com.imp.data.repository
 
-import com.imp.data.local.LogSampleData
-import com.imp.data.mapper.LogMapper
+import android.annotation.SuppressLint
+import com.imp.data.mapper.CommonMapper
+import com.imp.data.remote.api.ApiLog
+import com.imp.data.util.ApiClient
+import com.imp.data.util.extension.isSuccess
+import com.imp.domain.model.ErrorCallbackModel
 import com.imp.domain.model.LogModel
 import com.imp.domain.repository.LogRepository
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 /**
@@ -11,7 +17,25 @@ import javax.inject.Inject
  */
 class LogRepositoryImpl @Inject constructor() : LogRepository {
 
-    override suspend fun loadLogData(): LogModel {
-        return LogMapper.mappingLogData(LogSampleData.getLogData())
+    /**
+     * Load Log Data
+     */
+    @SuppressLint("CheckResult")
+    override suspend fun loadLogData(id: String, successCallback: (LogModel) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit) {
+
+        ApiClient.getClient().create(ApiLog::class.java).logData(id)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ response ->
+
+                if (response.isSuccess()) {
+                    response.data?.let { successCallback.invoke(it) }
+                } else {
+                    errorCallback.invoke(CommonMapper.mappingErrorCallbackData(response))
+                }
+
+            }, { error ->
+                errorCallback.invoke(CommonMapper.mappingErrorData(error))
+            })
     }
 }

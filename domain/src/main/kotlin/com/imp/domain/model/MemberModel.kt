@@ -18,7 +18,7 @@ data class MemberModel (
     var name: String? = null,
 
     // address
-    var address: String? = null,
+    var address: ArrayList<Double> = ArrayList(),
 
     // gender (남 : M, 여 : F, 선택 안 함 : N)
     var gender: String? = null

@@ -86,6 +86,14 @@
             android:noHistory="false"
             android:screenOrientation="portrait" />
 
+        <!-- Log -->
+        <activity
+            android:name=".view.main.activity.ActLog"
+            android:configChanges="screenSize|screenLayout|orientation"
+            android:exported="true"
+            android:noHistory="false"
+            android:screenOrientation="portrait" />
+
         <!-- Edit Profile -->
         <activity
             android:name=".view.mypage.ActEditProfile"

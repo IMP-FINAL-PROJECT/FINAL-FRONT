@@ -94,6 +94,7 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
         initDisplay()
         initMapView()
         initScoreBoard()
+        setOnClickListener()
     }
 
     override fun onResume() {
@@ -168,12 +169,22 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
     }
 
     /**
+     * Set OnClickListener
+     */
+    private fun setOnClickListener() {
+
+        with(mBinding) {
+
+            llTrackingTitle.setOnClickListener { context?.let { if (it is ActMain) it.moveToLog() } }
+        }
+    }
+
+    /**
      * Initialize Map View
      */
     private fun initMapView() {
 
         with(mBinding) {
-
 
             // 이동 경로 map
 //            mapView.start(object : MapLifeCycleCallback() {

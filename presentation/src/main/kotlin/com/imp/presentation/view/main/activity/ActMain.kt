@@ -230,6 +230,17 @@ class ActMain : BaseContractActivity<ActMainBinding>() {
     }
 
     /**
+     * Move to Log
+     */
+    fun moveToLog() {
+
+        Intent(this@ActMain, ActLog::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+            startActivity(this)
+        }
+    }
+
+    /**
      * Move to Edit Profile
      */
     fun moveToEditProfile() {

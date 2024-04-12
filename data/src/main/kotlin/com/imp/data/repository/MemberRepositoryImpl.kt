@@ -1,6 +1,7 @@
 package com.imp.data.repository
 
 import android.annotation.SuppressLint
+import android.util.Log
 import com.imp.data.mapper.CommonMapper
 import com.imp.data.remote.api.ApiMember
 import com.imp.data.util.ApiClient
@@ -62,7 +63,7 @@ class MemberRepositoryImpl @Inject constructor() : MemberRepository {
         params["password"] = data.password ?: ""
         params["name"] = data.name ?: ""
         params["birth"] = data.birth ?: ""
-        params["address"] = data.address ?: ""
+        params["address"] = data.address
         params["gender"] = data.gender ?: "N"
 
         ApiClient.getClient().create(ApiMember::class.java).register(params)
@@ -114,7 +115,7 @@ class MemberRepositoryImpl @Inject constructor() : MemberRepository {
             name = "고주원",
             id = "rhwndnjs123@gmail.com",
             birth = "1997-05-05",
-            address = "서울시 논현동 123-123",
+            address = arrayListOf(33.333333, 122.222222),
             gender = "M"
         ))
     }
@@ -129,7 +130,7 @@ class MemberRepositoryImpl @Inject constructor() : MemberRepository {
 
         params["name"] = data.name ?: ""
         params["birth"] = data.birth ?: ""
-        params["address"] = data.address ?: ""
+        params["address"] = data.address
         params["gender"] = data.gender ?: "N"
 
         ApiClient.getClient().create(ApiMember::class.java).editProfile(data.id?: "", params)
