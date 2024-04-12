@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.imp.domain.model.ErrorCallbackModel
+import com.imp.domain.model.HomeModel
 import com.imp.domain.model.SensorModel
 import com.imp.domain.usecase.HomeUseCase
 import com.imp.presentation.widget.utils.Event
@@ -17,9 +19,25 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(private val useCase: HomeUseCase) : ViewModel() {
 
+    /** home data */
+    private var _homeData: MutableLiveData<HomeModel> = MutableLiveData()
+    val homeData: LiveData<HomeModel> get() = _homeData
+
     /** Error Callback */
-    private val _errorCallback = MutableLiveData<Event<String?>>()
-    val errorCallback: LiveData<Event<String?>> get() = _errorCallback
+    private val _errorCallback = MutableLiveData<Event<ErrorCallbackModel?>>()
+    val errorCallback: LiveData<Event<ErrorCallbackModel?>> get() = _errorCallback
+
+    /**
+     * 홈 데이터
+     */
+    fun homeData(id: String) = viewModelScope.launch {
+
+        useCase.homeData(
+            id = id,
+            successCallback = { _homeData.value = it },
+            errorCallback = { _errorCallback.value = Event(it) }
+        )
+    }
 
     /**
      * Load Log Data

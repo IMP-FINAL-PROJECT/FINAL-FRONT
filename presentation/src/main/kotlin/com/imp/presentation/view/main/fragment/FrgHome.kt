@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import com.imp.domain.model.HomeModel
 import com.imp.presentation.R
 import com.imp.presentation.base.BaseFragment
 import com.imp.presentation.constants.BaseConstants
@@ -19,14 +20,9 @@ import com.imp.presentation.widget.extension.toDp
 import com.imp.presentation.widget.utils.DateUtil
 import com.imp.presentation.widget.utils.MethodStorageUtil
 import com.imp.presentation.widget.utils.PreferencesUtil
-import com.kakao.vectormap.KakaoMap
-import com.kakao.vectormap.KakaoMapReadyCallback
-import com.kakao.vectormap.MapLifeCycleCallback
-import com.kakao.vectormap.MapReadyCallback
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.Random
 
 /**
  * Main - Home Fragment
@@ -93,8 +89,14 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
         initObserver()
         initDisplay()
         initMapView()
-        initScoreBoard()
         setOnClickListener()
+
+        // log data api 호출
+        context?.let { ctx ->
+
+            val id = PreferencesUtil.getPreferencesString(ctx, PreferencesUtil.AUTO_LOGIN_ID_KEY)
+            viewModel.homeData(id)
+        }
     }
 
     override fun onResume() {
@@ -125,11 +127,14 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
      */
     private fun initObserver() {
 
+        /** Home Data */
+        viewModel.homeData.observe(this) { initScoreBoard(it) }
+
         /** Error Callback */
         viewModel.errorCallback.observe(viewLifecycleOwner) { event ->
-            event.getContentIfNotHandled()?.let { errorMessage ->
+            event.getContentIfNotHandled()?.let { error ->
 
-                context?.let { Toast.makeText(it, errorMessage, Toast.LENGTH_SHORT).show() }
+                context?.let { Toast.makeText(it, error.message, Toast.LENGTH_SHORT).show() }
             }
         }
     }
@@ -206,16 +211,14 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
     /**
      * Initialize Score Board
      */
-    private fun initScoreBoard() {
+    private fun initScoreBoard(data: HomeModel) {
 
         context?.let { ctx ->
 
             with(mBinding) {
 
-                val score = Random().nextInt(100)
-
                 /** Score */
-                tvScore.text = getString(R.string.unit_happy_score, score)
+                tvScore.text = getString(R.string.unit_happy_score, data.point)
                 tvScore.textSize = 12f
                 MethodStorageUtil.setSpannable(
                     textView = tvScore,
@@ -226,7 +229,7 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
 
                 /** Score Animation */
                 progressBarValueAnimator?.cancel()
-                progressBarValueAnimator = ValueAnimator.ofInt(0, score).apply {
+                progressBarValueAnimator = ValueAnimator.ofInt(0, data.point).apply {
                     addUpdateListener {
 
                         val value = it.animatedValue as Int

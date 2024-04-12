@@ -2,13 +2,25 @@ package com.imp.data.remote.api
 
 import com.imp.data.util.BaseResponse
 import com.imp.data.util.HttpConstants
+import com.imp.domain.model.HomeModel
 import io.reactivex.Observable
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 @JvmSuppressWildcards
 interface ApiHome {
+
+    /**
+     * 홈 데이터
+     */
+    @Headers("Content-Type: application/json")
+    @GET(HttpConstants.API_HOME)
+    fun homeData(
+        @Query("id") id: String
+    ): Observable<BaseResponse<HomeModel>>
 
     /**
      * 센싱 데이터 저장
