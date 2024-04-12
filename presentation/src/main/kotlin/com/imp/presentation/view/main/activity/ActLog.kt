@@ -2,6 +2,7 @@ package com.imp.presentation.view.main.activity
 
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import com.github.mikephil.charting.data.BarData
@@ -17,7 +18,6 @@ import com.imp.presentation.widget.extension.toDp
 import com.imp.presentation.widget.extension.toFloatArray
 import com.imp.presentation.widget.extension.toMinuteList
 import com.imp.presentation.widget.utils.ChartUtil
-import com.imp.presentation.widget.utils.CommonUtil
 import com.imp.presentation.widget.utils.DateUtil
 import com.imp.presentation.widget.utils.MethodStorageUtil
 import com.imp.presentation.widget.utils.PreferencesUtil
@@ -78,6 +78,14 @@ class ActLog : BaseContractActivity<ActLogBinding>() {
 
         /** Gps Point List */
         viewModel.pointList.observe(this) { if (kakaoMap != null) addPoints(kakaoMap!!, it) }
+
+        /** Error Callback */
+        viewModel.errorCallback.observe(this) { event ->
+            event.getContentIfNotHandled()?.let { error ->
+
+                Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     /**
