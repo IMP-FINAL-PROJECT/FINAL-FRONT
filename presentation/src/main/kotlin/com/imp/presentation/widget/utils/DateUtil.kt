@@ -106,6 +106,18 @@ class DateUtil {
         }
 
         /**
+         * Timestamp to Screen Time (hour, minute)
+         */
+        fun timestampToScreenTime(timestamp: Long): Pair<Int, Int> {
+
+            val timestampSeconds = timestamp / 1000
+            val hour = timestampSeconds / 3600
+            val minute = (timestampSeconds % 3600) / 60
+
+            return Pair(hour.toInt(), minute.toInt())
+        }
+
+        /**
          * Get Locale Date
          */
         fun getLocaleDate(timestamp: Long): LocalDateTime {

@@ -18,7 +18,7 @@ data class LogModel (
     var week: WeekData = WeekData(),
 
     // gps
-    var gps: ArrayList<GpsData> = ArrayList()
+    var gps: ArrayList<ArrayList<Double>> = ArrayList()
 
 ) {
 
@@ -46,16 +46,16 @@ data class LogModel (
         var screen_duration_list: ArrayList<Int> = ArrayList(),
 
         // 총 통화 빈도 수
-        var phone_frequency: Int = 0,
+        var call_frequency: Int = 0,
 
         // 통화 빈도 수 리스트
-        var phone_frequency_list: ArrayList<Int> = ArrayList(),
+        var call_frequency_list: ArrayList<Int> = ArrayList(),
 
         // 총 통화 시간
-        var phone_duration: Int = 0,
+        var call_duration: Int = 0,
 
         // 통화 시간 리스트
-        var phone_duration_list: ArrayList<Int> = ArrayList()
+        var call_duration_list: ArrayList<Int> = ArrayList()
     )
 
     data class WeekData (
@@ -73,21 +73,9 @@ data class LogModel (
         var screen_duration_list: ArrayList<Int> = ArrayList(),
 
         // 통화 빈도 수 리스트
-        var phone_frequency_list: ArrayList<Int> = ArrayList(),
+        var call_frequency_list: ArrayList<Int> = ArrayList(),
 
         // 통화 시간 리스트
-        var phone_duration_list: ArrayList<Int> = ArrayList()
-    )
-
-    data class GpsData (
-
-        // 위도
-        var latitude: Double = 0.0,
-
-        // 경도
-        var longitude: Double = 0.0,
-
-        // 머무른 시간 (millisecond)
-        var timestamp: Double = 0.0
+        var call_duration_list: ArrayList<Int> = ArrayList()
     )
 }

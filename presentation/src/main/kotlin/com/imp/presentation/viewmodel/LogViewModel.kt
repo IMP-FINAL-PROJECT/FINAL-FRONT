@@ -7,11 +7,13 @@ import androidx.lifecycle.viewModelScope
 import com.imp.domain.model.ErrorCallbackModel
 import com.imp.domain.model.LogModel
 import com.imp.domain.usecase.LogUseCase
+import com.imp.presentation.widget.utils.CommonUtil
 import com.imp.presentation.widget.utils.Event
 import com.kakao.vectormap.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.sign
 
 /**
  * Main - Log ViewModel
@@ -54,7 +56,9 @@ class LogViewModel @Inject constructor(private val useCase: LogUseCase) : ViewMo
         val list = ArrayList<LatLng>()
         _logData.value?.gps?.forEach { location ->
 
-            list.add(LatLng.from(location.latitude, location.longitude))
+            if (location.size > 2) {
+                list.add(LatLng.from(location[0], location[1]))
+            }
         }
 
         _pointList.value = list

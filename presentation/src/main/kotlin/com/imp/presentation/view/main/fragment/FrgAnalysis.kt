@@ -6,16 +6,16 @@ import android.view.ViewGroup
 import com.imp.presentation.R
 import com.imp.presentation.base.BaseFragment
 import com.imp.presentation.constants.BaseConstants
-import com.imp.presentation.databinding.FrgLogBinding
+import com.imp.presentation.databinding.FrgAnalysisBinding
 import com.imp.presentation.view.main.activity.ActMain
 
 
 /**
- * Main - Log Fragment
+ * Main - Analysis Fragment
  */
-class FrgLog: BaseFragment<FrgLogBinding>() {
+class FrgAnalysis: BaseFragment<FrgAnalysisBinding>() {
 
-    override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?) = FrgLogBinding.inflate(inflater, container, false)
+    override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?) = FrgAnalysisBinding.inflate(inflater, container, false)
 
     override fun initData() {
 
@@ -45,7 +45,7 @@ class FrgLog: BaseFragment<FrgLogBinding>() {
         with(mBinding) {
 
             // Header
-            incHeader.tvTitle.text = getString(R.string.navigation_log)
+            incHeader.tvTitle.text = getString(R.string.navigation_analysis)
             incHeader.ivAddChat.visibility = View.GONE
         }
     }

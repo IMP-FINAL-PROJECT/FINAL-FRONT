@@ -68,7 +68,7 @@
 
         <!-- 화면 깨우기 그래프 -->
         <include
-            android:id="@+id/incChartAwake"
+            android:id="@+id/incChartCount"
             layout="@layout/inc_chart_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

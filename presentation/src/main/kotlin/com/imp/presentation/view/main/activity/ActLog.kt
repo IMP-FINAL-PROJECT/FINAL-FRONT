@@ -11,8 +11,13 @@ import com.imp.presentation.R
 import com.imp.presentation.base.BaseContractActivity
 import com.imp.presentation.databinding.ActLogBinding
 import com.imp.presentation.viewmodel.LogViewModel
+import com.imp.presentation.widget.extension.setMaxSize
+import com.imp.presentation.widget.extension.thousandUnits
 import com.imp.presentation.widget.extension.toDp
+import com.imp.presentation.widget.extension.toFloatArray
+import com.imp.presentation.widget.extension.toMinuteList
 import com.imp.presentation.widget.utils.ChartUtil
+import com.imp.presentation.widget.utils.CommonUtil
 import com.imp.presentation.widget.utils.DateUtil
 import com.imp.presentation.widget.utils.MethodStorageUtil
 import com.imp.presentation.widget.utils.PreferencesUtil
@@ -39,6 +44,12 @@ class ActLog : BaseContractActivity<ActLogBinding>() {
     /** Log ViewModel */
     private val viewModel: LogViewModel by viewModels()
 
+    /** Kakao Map */
+    private var kakaoMap: KakaoMap? = null
+
+    /** Gps Point 추가 여부 */
+    private var addPoints: Boolean = false
+
     override fun getViewBinding() = ActLogBinding.inflate(layoutInflater)
 
     override fun initData() {
@@ -64,6 +75,9 @@ class ActLog : BaseContractActivity<ActLogBinding>() {
 
         /** Log Data */
         viewModel.logData.observe(this) { setLogGraph(it) }
+
+        /** Gps Point List */
+        viewModel.pointList.observe(this) { if (kakaoMap != null) addPoints(kakaoMap!!, it) }
     }
 
     /**
@@ -74,10 +88,7 @@ class ActLog : BaseContractActivity<ActLogBinding>() {
         with(mBinding) {
 
             // Header
-            incHeader.tvTitle.text = getString(R.string.navigation_log)
-
-            // Date
-            tvData.text = DateUtil.getCurrentDateWithText("yyyy년 MM월 dd일")
+            incHeader.tvTitle.text = getString(R.string.log_text_10)
 
             /**
              * 스크린 타임 그래프 초기화
@@ -101,15 +112,15 @@ class ActLog : BaseContractActivity<ActLogBinding>() {
                 })
 
                 /** 화면 깨우기 */
-                incChartAwake.tvDate.text = DateUtil.getCurrentMonthDay()
-                incChartAwake.chart.animateY(300)
-                initWeekBtn(incChartAwake.tvDay, incChartAwake.tvWeek, {
+                incChartCount.tvDate.text = DateUtil.getCurrentMonthDay()
+                incChartCount.chart.animateY(300)
+                initWeekBtn(incChartCount.tvDay, incChartCount.tvWeek, {
 
-                    incChartAwake.tvDate.text = DateUtil.getCurrentMonthDay()
+                    incChartCount.tvDate.text = DateUtil.getCurrentMonthDay()
                     viewModel.logData.value?.let { setScreenAwakeGraph(it, isDay = true) }
                 }, {
 
-                    incChartAwake.tvDate.text = DateUtil.getCurrentWeekly()
+                    incChartCount.tvDate.text = DateUtil.getCurrentWeekly()
                     viewModel.logData.value?.let { setScreenAwakeGraph(it, isDay = false) }
                 })
             }
@@ -131,6 +142,41 @@ class ActLog : BaseContractActivity<ActLogBinding>() {
 
                     incChartStep.tvDate.text = DateUtil.getCurrentWeekly()
                     viewModel.logData.value?.let { setStepGraph(it, isDay = false) }
+                })
+            }
+
+            /**
+             * 통화 시간 그래프 초기화
+             */
+            incCallTime.apply {
+
+                tvTitle.text = getString(R.string.log_text_8)
+                tvAwakeTitle.text = getString(R.string.log_text_9)
+
+                /** 통화 시간 */
+                incChartTime.tvDate.text = DateUtil.getCurrentMonthDay()
+                incChartTime.chart.animateY(300)
+                initWeekBtn(incChartTime.tvDay, incChartTime.tvWeek, {
+
+                    incChartTime.tvDate.text = DateUtil.getCurrentMonthDay()
+                    viewModel.logData.value?.let { setCallTimeGraph(it, isDay = true) }
+                }, {
+
+                    incChartTime.tvDate.text = DateUtil.getCurrentWeekly()
+                    viewModel.logData.value?.let { setCallTimeGraph(it, isDay = false) }
+                })
+
+                /** 통화 횟수 */
+                incChartCount.tvDate.text = DateUtil.getCurrentMonthDay()
+                incChartCount.chart.animateY(300)
+                initWeekBtn(incChartCount.tvDay, incChartCount.tvWeek, {
+
+                    incChartCount.tvDate.text = DateUtil.getCurrentMonthDay()
+                    viewModel.logData.value?.let { setCallCountGraph(it, isDay = true) }
+                }, {
+
+                    incChartCount.tvDate.text = DateUtil.getCurrentWeekly()
+                    viewModel.logData.value?.let { setCallCountGraph(it, isDay = false) }
                 })
             }
 
@@ -232,6 +278,8 @@ class ActLog : BaseContractActivity<ActLogBinding>() {
             }, object : KakaoMapReadyCallback() {
                 override fun onMapReady(map: KakaoMap) {
 
+                    kakaoMap = map
+
                     // add points
                     viewModel.pointList.value?.let { addPoints(map, it) }
                 }
@@ -249,6 +297,8 @@ class ActLog : BaseContractActivity<ActLogBinding>() {
         setScreenTimeGraph(data, isDay = true)
         setScreenAwakeGraph(data, isDay = true)
         setStepGraph(data, isDay = true)
+        setCallTimeGraph(data, isDay = true)
+        setCallCountGraph(data, isDay = true)
         setLightGraph(data, isDay = true)
     }
 
@@ -262,28 +312,23 @@ class ActLog : BaseContractActivity<ActLogBinding>() {
 
         mBinding.incScreenTime.incChartTime.apply {
 
-            tvSummary.text = getString(R.string.unit_hour_minute, 3, 47)
+            val summary = if (isDay) data.day.screen_duration else data.day.screen_duration
+            val screenTime = DateUtil.timestampToScreenTime(summary.toLong())
+
+            tvSummary.text = getString(R.string.unit_hour_minute, screenTime.first, screenTime.second)
             tvSummary.textSize = 24f
 
-            MethodStorageUtil.setSpannable(tvSummary, 1, 3, 11.toDp(this@ActLog).toInt(), R.font.suit_medium)
+            MethodStorageUtil.setSpannable(tvSummary, screenTime.first.toString().length, screenTime.first.toString().length + 2, 11.toDp(this@ActLog).toInt(), R.font.suit_medium)
             MethodStorageUtil.setSpannable(tvSummary, tvSummary.length() - 1, tvSummary.length(), 11.toDp(this@ActLog).toInt(), R.font.suit_medium)
 
-            val dataList = if (isDay) data.day.screen_duration_list else data.week.screen_duration_list
-            val barDataSet = ChartUtil.barChartDataSet(this@ActLog, ChartUtil.mappingBarEntryData(dataList.toFloatArray()))
+            val dataList = if (isDay) data.day.screen_duration_list.toMinuteList() else data.week.screen_duration_list.toMinuteList()
+            val barDataSet = ChartUtil.barChartDataSet(this@ActLog, ChartUtil.mappingBarEntryData(dataList.toFloatArray().setMaxSize(isDay)))
 
             chart.data = BarData(barDataSet).apply { barWidth = if (isDay) 0.7f else 0.2f }
-            chart.setAxisLeft(2, 0f, dataList.max().toFloat())
+            chart.setAxisLeft(2, 0f, 60f)
             chart.setChartWeek(isDay)
             chart.invalidate()
         }
-    }
-
-    private fun ArrayList<Int>.toFloatArray(): ArrayList<Float> {
-
-        val list = ArrayList<Float>()
-        this.forEach { list.add(it.toFloat()) }
-
-        return list
     }
 
     /**
@@ -294,17 +339,21 @@ class ActLog : BaseContractActivity<ActLogBinding>() {
      */
     private fun setScreenAwakeGraph(data: LogModel, isDay: Boolean) {
 
-        mBinding.incScreenTime.incChartAwake.apply {
+        mBinding.incScreenTime.incChartCount.apply {
 
-            tvSummary.text = getString(R.string.unit_times, 61)
+            val summary = if (isDay) data.day.screen_frequency else data.day.screen_frequency
+            tvSummary.text = getString(R.string.unit_times, summary)
 
             MethodStorageUtil.setSpannable(tvSummary, tvSummary.length() - 1, tvSummary.length(), 11.toDp(this@ActLog).toInt(), R.font.suit_medium)
 
             val dataList = if (isDay) data.day.screen_frequency_list else data.week.screen_frequency_list
-            val barDataSet = ChartUtil.barChartDataSet(this@ActLog, ChartUtil.mappingBarEntryData(dataList.toFloatArray()))
+            val barDataSet = ChartUtil.barChartDataSet(this@ActLog, ChartUtil.mappingBarEntryData(dataList.toFloatArray().setMaxSize(isDay)))
+
+            val max = dataList.max().toFloat()
+            val yMax = if (max == 1f) 2f else max
 
             chart.data = BarData(barDataSet).apply { barWidth = if (isDay) 0.7f else 0.2f }
-            chart.setAxisLeft(ChartUtil.getLabelCount(dataList.max().toFloat()), 0f, dataList.max().toFloat())
+            chart.setAxisLeft(ChartUtil.getLabelCount(dataList.max().toFloat()), 0f, yMax)
             chart.setChartWeek(isDay)
             chart.invalidate()
         }
@@ -320,15 +369,76 @@ class ActLog : BaseContractActivity<ActLogBinding>() {
 
         mBinding.incStep.incChartStep.apply {
 
-            tvSummary.text = getString(R.string.unit_steps, "4,901")
+            val summary = if (isDay) data.day.pedometer else data.day.pedometer
+            tvSummary.text = getString(R.string.unit_steps, summary.thousandUnits())
 
             MethodStorageUtil.setSpannable(tvSummary, tvSummary.length() - 2, tvSummary.length(), 11.toDp(this@ActLog).toInt(), R.font.suit_medium)
 
             val dataList = if (isDay) data.day.pedometer_list else data.week.pedometer_list
-            val barDataSet = ChartUtil.barChartDataSet(this@ActLog, ChartUtil.mappingBarEntryData(dataList.toFloatArray()))
+            val barDataSet = ChartUtil.barChartDataSet(this@ActLog, ChartUtil.mappingBarEntryData(dataList.toFloatArray().setMaxSize(isDay)))
+
+            val max = dataList.max().toFloat()
+            val yMax = if (max == 1f) 2f else max
 
             chart.data = BarData(barDataSet).apply { barWidth = if (isDay) 0.7f else 0.2f }
-            chart.setAxisLeft(ChartUtil.getLabelCount(dataList.max().toFloat()), 0f, dataList.max().toFloat())
+            chart.setAxisLeft(ChartUtil.getLabelCount(dataList.max().toFloat()), 0f, yMax)
+            chart.setChartWeek(isDay)
+            chart.invalidate()
+        }
+    }
+
+    /**
+     * 통화 시간 그래프
+     *
+     * @param data
+     * @param isDay
+     */
+    private fun setCallTimeGraph(data: LogModel, isDay: Boolean) {
+
+        mBinding.incCallTime.incChartTime.apply {
+
+            val summary = if (isDay) data.day.call_duration else data.day.call_duration
+            val screenTime = DateUtil.timestampToScreenTime(summary.toLong())
+
+            tvSummary.text = getString(R.string.unit_hour_minute, screenTime.first, screenTime.second)
+            tvSummary.textSize = 24f
+
+            MethodStorageUtil.setSpannable(tvSummary, screenTime.first.toString().length, screenTime.first.toString().length + 2, 11.toDp(this@ActLog).toInt(), R.font.suit_medium)
+            MethodStorageUtil.setSpannable(tvSummary, tvSummary.length() - 1, tvSummary.length(), 11.toDp(this@ActLog).toInt(), R.font.suit_medium)
+
+            val dataList = if (isDay) data.day.call_duration_list.toMinuteList() else data.week.call_duration_list.toMinuteList()
+            val barDataSet = ChartUtil.barChartDataSet(this@ActLog, ChartUtil.mappingBarEntryData(dataList.toFloatArray().setMaxSize(isDay)))
+
+            chart.data = BarData(barDataSet).apply { barWidth = if (isDay) 0.7f else 0.2f }
+            chart.setAxisLeft(2, 0f, 60f)
+            chart.setChartWeek(isDay)
+            chart.invalidate()
+        }
+    }
+
+    /**
+     * 통화 횟수 그래프
+     *
+     * @param data
+     * @param isDay
+     */
+    private fun setCallCountGraph(data: LogModel, isDay: Boolean) {
+
+        mBinding.incCallTime.incChartCount.apply {
+
+            val summary = if (isDay) data.day.call_frequency else data.day.call_frequency
+            tvSummary.text = getString(R.string.unit_times, summary)
+
+            MethodStorageUtil.setSpannable(tvSummary, tvSummary.length() - 1, tvSummary.length(), 11.toDp(this@ActLog).toInt(), R.font.suit_medium)
+
+            val dataList = if (isDay) data.day.call_frequency_list else data.week.call_frequency_list
+            val barDataSet = ChartUtil.barChartDataSet(this@ActLog, ChartUtil.mappingBarEntryData(dataList.toFloatArray().setMaxSize(isDay)))
+
+            val max = dataList.max().toFloat()
+            val yMax = if (max == 1f) 2f else max
+
+            chart.data = BarData(barDataSet).apply { barWidth = if (isDay) 0.7f else 0.2f }
+            chart.setAxisLeft(ChartUtil.getLabelCount(dataList.max().toFloat()), 0f, yMax)
             chart.setChartWeek(isDay)
             chart.invalidate()
         }
@@ -345,7 +455,7 @@ class ActLog : BaseContractActivity<ActLogBinding>() {
         mBinding.incLight.apply {
 
             val dataList = if (isDay) data.day.illuminance else data.week.illuminance
-            val lineDataset = ChartUtil.lineChartDataSet(this@ActLog, ChartUtil.mappingEntryData(dataList.toFloatArray()))
+            val lineDataset = ChartUtil.lineChartDataSet(this@ActLog, ChartUtil.mappingEntryData(dataList.toFloatArray().setMaxSize(isDay)))
 
             chart.data = LineData(lineDataset)
             chart.setAxisLeft(ChartUtil.getLabelCount(dataList.max().toFloat()), 0f, dataList.max().toFloat())
@@ -361,6 +471,10 @@ class ActLog : BaseContractActivity<ActLogBinding>() {
      * @param list
      */
     private fun addPoints(map: KakaoMap, list: ArrayList<LatLng>) {
+
+        // points add 여부
+        if (addPoints) return
+        addPoints = true
 
         // label 추가
         list.forEach { location ->

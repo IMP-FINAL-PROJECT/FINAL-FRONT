@@ -5,7 +5,7 @@
 
     <!-- Bottom Navigation Bar -->
     <string name="navigation_home">홈</string>
-    <string name="navigation_log">로그</string>
+    <string name="navigation_analysis">분석</string>
     <string name="navigation_chat">채팅</string>
     <string name="navigation_mypage">마이페이지</string>
 
@@ -90,9 +90,9 @@
     <string name="log_text_5">이동 경로</string>
     <string name="log_text_6">1일</string>
     <string name="log_text_7">1주일</string>
-    <string name="log_text_8"></string>
-    <string name="log_text_9"></string>
-    <string name="log_text_10"></string>
+    <string name="log_text_8">통화 시간</string>
+    <string name="log_text_9">통화 횟수</string>
+    <string name="log_text_10">로그</string>
 
     <!-- Main - My Page -->
     <string name="my_page_text_1">실시간 트래킹</string>

@@ -13,7 +13,7 @@
         android:id="@+id/log"
         android:enabled="true"
         android:icon="@drawable/icon_log"
-        android:title="@string/navigation_log" />
+        android:title="@string/navigation_analysis" />
 
     <!-- chat -->
     <item

@@ -28,21 +28,23 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvDay"
                 android:layout_width="0dp"
-                android:layout_height="24dp"
+                android:layout_height="26dp"
                 android:layout_weight="1"
                 android:background="@drawable/bg_log_button"
                 android:gravity="center"
+                android:includeFontPadding="false"
                 android:textColor="@color/color_log_button_text"
                 tools:text="1일" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvWeek"
                 android:layout_width="0dp"
-                android:layout_height="24dp"
+                android:layout_height="26dp"
                 android:layout_marginStart="4dp"
                 android:layout_weight="1"
                 android:background="@drawable/bg_log_button"
                 android:gravity="center"
+                android:includeFontPadding="false"
                 android:textColor="@color/color_log_button_text"
                 tools:text="1주일" />
 
