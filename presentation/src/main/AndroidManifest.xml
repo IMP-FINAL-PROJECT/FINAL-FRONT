@@ -110,9 +110,9 @@
             android:noHistory="false"
             android:screenOrientation="portrait" />
 
-        <!-- Terms -->
+        <!-- Common WebView -->
         <activity
-            android:name=".view.mypage.ActTerms"
+            android:name=".view.webview.ActCommonWebView"
             android:configChanges="screenSize|screenLayout|orientation"
             android:exported="true"
             android:noHistory="false"

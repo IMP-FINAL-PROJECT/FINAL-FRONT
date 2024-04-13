@@ -17,7 +17,7 @@ import com.imp.presentation.tracking.data.SensorDataStore
 import com.imp.presentation.tracking.service.TrackingForegroundService
 import com.imp.presentation.view.mypage.ActEditProfile
 import com.imp.presentation.view.mypage.ActManageAccount
-import com.imp.presentation.view.mypage.ActTerms
+import com.imp.presentation.view.webview.ActCommonWebView
 import com.imp.presentation.widget.utils.PermissionUtil
 import com.imp.presentation.widget.utils.PreferencesUtil
 import dagger.hilt.android.AndroidEntryPoint
@@ -265,10 +265,13 @@ class ActMain : BaseContractActivity<ActMainBinding>() {
     /**
      * Move to Terms
      */
-    fun moveToTerms() {
+    fun moveToTerms(title: String, url: String) {
 
-        Intent(this@ActMain, ActTerms::class.java).apply {
+        Intent(this@ActMain, ActCommonWebView::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+            putExtra("header", true)
+            putExtra("header_title", title)
+            putExtra("url", url)
             startActivity(this)
         }
     }
