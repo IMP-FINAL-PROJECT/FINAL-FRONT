@@ -96,6 +96,12 @@ class FrgChat: BaseFragment<FrgChatBinding>() {
 
                             override fun selectItem(position: Int, type: String) {
 
+                                if (list.size > position) {
+
+                                    if (ctx is ActMain) {
+                                        ctx.moveToChatting(list[position].name ?: "", "https://m.naver.com")
+                                    }
+                                }
                             }
                         }
                     }

@@ -241,6 +241,20 @@ class ActMain : BaseContractActivity<ActMainBinding>() {
     }
 
     /**
+     * Move to Chatting
+     */
+    fun moveToChatting(title: String, url: String) {
+
+        Intent(this@ActMain, ActCommonWebView::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+            putExtra("header", true)
+            putExtra("header_title", title)
+            putExtra("url", url)
+            startActivity(this)
+        }
+    }
+
+    /**
      * Move to Edit Profile
      */
     fun moveToEditProfile() {

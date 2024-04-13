@@ -62,6 +62,14 @@ class ChatListAdapter(var context: Context?, val list: ArrayList<ChatListModel>)
 
                     // 하단 라인 노출 여부
                     bottomLineView.visibility = (position == size - 1).toVisibleOrGone()
+
+                    // 채팅 클릭
+                    ctChat.tag = position
+                    ctChat.setOnClickListener {
+
+                        val pos = it.tag.toString().toInt()
+                        selectItem?.selectItem(pos, "chatting")
+                    }
                 }
             }
         }
