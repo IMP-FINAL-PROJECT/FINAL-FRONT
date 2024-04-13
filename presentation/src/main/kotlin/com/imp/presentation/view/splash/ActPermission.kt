@@ -5,6 +5,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import com.imp.presentation.R
 import com.imp.presentation.base.BaseContractActivity
 import com.imp.presentation.databinding.ActPermissionBinding
+import com.imp.presentation.widget.extension.toGoneOrVisible
+import com.imp.presentation.widget.extension.toVisibleOrGone
 import com.imp.presentation.widget.utils.PermissionUtil
 import com.imp.presentation.widget.utils.PreferencesUtil
 import dagger.hilt.android.AndroidEntryPoint
@@ -85,10 +87,14 @@ class ActPermission : BaseContractActivity<ActPermissionBinding>() {
         }
     }
 
+    /** Permission Request 여부 */
+    private var permissionRequest: Boolean = true
+
     override fun getViewBinding() = ActPermissionBinding.inflate(layoutInflater)
 
     override fun initData() {
 
+        permissionRequest = intent.getBooleanExtra("permission_request", true)
     }
 
     override fun initView() {
@@ -104,6 +110,13 @@ class ActPermission : BaseContractActivity<ActPermissionBinding>() {
 
         with(mBinding) {
 
+            // 노출 여부
+            incHeader.ctHeader.visibility = permissionRequest.toGoneOrVisible()
+            tvPermissionTitle.visibility = permissionRequest.toVisibleOrGone()
+            incStart.tvButton.visibility = permissionRequest.toVisibleOrGone()
+
+            // header
+            incHeader.tvTitle.text = getString(R.string.my_page_text_9)
             tvPermissionTitle.text = getString(R.string.permission_text_1)
             tvSubTitle.text = getString(R.string.permission_text_2)
 
@@ -134,6 +147,9 @@ class ActPermission : BaseContractActivity<ActPermissionBinding>() {
     private fun setOnClickListener() {
 
         with(mBinding) {
+
+            // 뒤로 가기
+            incHeader.ivBack.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
 
             // 시작하기
             incStart.tvButton.setOnClickListener {

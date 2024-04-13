@@ -78,47 +78,24 @@ class FrgMyPage: BaseFragment<FrgMypageBinding>() {
      */
     private fun initDisplay() {
 
-        context?.let { ctx ->
+        with(mBinding) {
 
-            with(mBinding) {
+            // Header
+            incHeader.tvTitle.text = getString(R.string.navigation_mypage)
+            incHeader.ivAddChat.visibility = View.GONE
 
-                // Header
-                incHeader.tvTitle.text = getString(R.string.navigation_mypage)
-                incHeader.ivAddChat.visibility = View.GONE
+            // 일반
+            tvGeneral.text = getString(R.string.my_page_text_2)
+            initSettingButton(incEditProfile, TYPE_SETTING_EDIT, getString(R.string.my_page_text_3))
+            initSettingButton(incAccount, TYPE_SETTING_ACCOUNT, getString(R.string.my_page_text_4))
 
-                // 일반
-                tvGeneral.text = getString(R.string.my_page_text_2)
-                initSettingButton(incEditProfile, TYPE_SETTING_EDIT, getString(R.string.my_page_text_3))
-                initSettingButton(incAccount, TYPE_SETTING_ACCOUNT, getString(R.string.my_page_text_4))
-
-                // 이용 안내
-                tvUsage.text = getString(R.string.my_page_text_5)
-                initSettingButton(incTerms, TYPE_SETTING_TERMS, getString(R.string.my_page_text_6))
-                initSettingButton(incPrivacy, TYPE_SETTING_PRIVACY, getString(R.string.my_page_text_7))
-                initSettingButton(incOpenSource, TYPE_SETTING_OPENSOURCE, getString(R.string.my_page_text_8))
-                initSettingButton(incPermission, TYPE_SETTING_PERMISSION, getString(R.string.my_page_text_9))
-                initSettingButton(incVersion, TYPE_SETTING_VERSION, getString(R.string.my_page_text_10))
-
-                // todo: 임시 트래킹 on/off 버튼
-                tvTrackingTitle.text = getString(R.string.my_page_text_1)
-                trackingSwitch.isChecked = PreferencesUtil.getPreferencesBoolean(ctx, PreferencesUtil.TRACKING_SWITCH_KEY)
-                trackingSwitch.setOnCheckedChangeListener { _, isChecked ->
-
-                    if (ctx is ActMain) {
-
-                        if (isChecked) {
-                            ctx.startTrackingService()
-                        } else {
-                            ctx.stopTrackingService()
-
-                            // todo: 임시
-                            PreferencesUtil.setPreferencesInt(ctx, PreferencesUtil.TRACKING_SCREEN_AWAKE_KEY, 0)
-                        }
-                    }
-
-                    PreferencesUtil.setPreferencesBoolean(ctx, PreferencesUtil.TRACKING_SWITCH_KEY, isChecked)
-                }
-            }
+            // 이용 안내
+            tvUsage.text = getString(R.string.my_page_text_5)
+            initSettingButton(incTerms, TYPE_SETTING_TERMS, getString(R.string.my_page_text_6))
+            initSettingButton(incPrivacy, TYPE_SETTING_PRIVACY, getString(R.string.my_page_text_7))
+            initSettingButton(incOpenSource, TYPE_SETTING_OPENSOURCE, getString(R.string.my_page_text_8))
+            initSettingButton(incPermission, TYPE_SETTING_PERMISSION, getString(R.string.my_page_text_9))
+            initSettingButton(incVersion, TYPE_SETTING_VERSION, getString(R.string.my_page_text_10))
         }
     }
 
@@ -185,6 +162,7 @@ class FrgMyPage: BaseFragment<FrgMypageBinding>() {
                 TYPE_SETTING_ACCOUNT -> actMain.moveToManageAccount()
                 TYPE_SETTING_TERMS -> actMain.moveToTerms(getString(R.string.my_page_text_6), "https://m.naver.com")
                 TYPE_SETTING_PRIVACY -> actMain.moveToTerms(getString(R.string.my_page_text_7), "https://m.naver.com")
+                TYPE_SETTING_PERMISSION -> actMain.moveToPermission()
                 else -> return
             }
         }

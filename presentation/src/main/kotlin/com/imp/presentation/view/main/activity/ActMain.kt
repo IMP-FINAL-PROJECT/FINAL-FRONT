@@ -15,7 +15,7 @@ import com.imp.presentation.databinding.ActMainBinding
 import com.imp.presentation.tracking.data.SensorDataStore
 import com.imp.presentation.view.mypage.ActEditProfile
 import com.imp.presentation.view.mypage.ActManageAccount
-import com.imp.presentation.view.mypage.ActPermissionTerms
+import com.imp.presentation.view.splash.ActPermission
 import com.imp.presentation.view.webview.ActCommonWebView
 import com.imp.presentation.widget.utils.PermissionUtil
 import com.imp.presentation.widget.utils.PreferencesUtil
@@ -265,6 +265,18 @@ class ActMain : BaseContractActivity<ActMainBinding>() {
             putExtra("header", true)
             putExtra("header_title", title)
             putExtra("url", url)
+            startActivity(this)
+        }
+    }
+
+    /**
+     * Move to Permission Terms
+     */
+    fun moveToPermission() {
+
+        Intent(this@ActMain, ActPermission::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+            putExtra("permission_request", false)
             startActivity(this)
         }
     }

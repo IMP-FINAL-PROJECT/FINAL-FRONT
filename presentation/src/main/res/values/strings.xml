@@ -105,6 +105,7 @@
     <string name="my_page_text_8">오픈소스</string>
     <string name="my_page_text_9">앱 사용 권한</string>
     <string name="my_page_text_10">앱 버전</string>
+    <string name="my_page_text_11">로그아웃</string>
 
     <!-- Popup Title -->
     <string name="popup_text_1">권한 거부 시 앱 사용에 제한이 있습니다. 설정에서 권한을 허용해주세요.</string>

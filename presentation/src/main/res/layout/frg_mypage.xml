@@ -205,34 +205,6 @@
                 android:layout_height="4dp"
                 android:background="@color/color_f7f7f7" />
 
-            <!-- todo - 실시간 트래킹 -->
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/llTracking"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:layout_marginStart="24dp"
-                android:layout_marginEnd="24dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvTrackingTitle"
-                    style="@style/suitMedium.14"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textColor="@color/black"
-                    tools:text="@string/my_page_text_1" />
-
-                <Switch
-                    android:id="@+id/trackingSwitch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:trackTint="@color/color_3377ff"
-                    tools:ignore="UseSwitchCompatOrMaterialXml" />
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.core.widget.NestedScrollView>
