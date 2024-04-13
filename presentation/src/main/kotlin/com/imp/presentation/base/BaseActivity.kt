@@ -1,5 +1,6 @@
 package com.imp.presentation.base
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -11,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.viewbinding.ViewBinding
 import com.imp.presentation.R
+import com.imp.presentation.tracking.service.TrackingForegroundService
 import com.imp.presentation.view.dialog.CommonPopup
 import io.reactivex.disposables.CompositeDisposable
 
@@ -198,5 +200,25 @@ abstract class BaseActivity<B: ViewBinding> : AppCompatActivity() {
         commonPopup?.dismiss()
         commonPopup = CommonPopup(this, titleText, leftText, rightText, leftCallback, rightCallback, cancelable)
         commonPopup?.show()
+    }
+
+    /**
+     * Start Tracking Service
+     */
+    fun startTrackingService() {
+
+        Intent(applicationContext, TrackingForegroundService::class.java).apply {
+            ContextCompat.startForegroundService(applicationContext, this)
+        }
+    }
+
+    /**
+     * Stop Tracking Service
+     */
+    fun stopTrackingService() {
+
+        Intent(applicationContext, TrackingForegroundService::class.java).apply {
+            stopService(this)
+        }
     }
 }

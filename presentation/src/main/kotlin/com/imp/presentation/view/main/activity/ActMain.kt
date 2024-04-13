@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver
 import android.content.Intent
 import android.content.IntentFilter
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -14,9 +13,9 @@ import com.imp.presentation.base.BaseContractActivity
 import com.imp.presentation.constants.BaseConstants
 import com.imp.presentation.databinding.ActMainBinding
 import com.imp.presentation.tracking.data.SensorDataStore
-import com.imp.presentation.tracking.service.TrackingForegroundService
 import com.imp.presentation.view.mypage.ActEditProfile
 import com.imp.presentation.view.mypage.ActManageAccount
+import com.imp.presentation.view.mypage.ActPermissionTerms
 import com.imp.presentation.view.webview.ActCommonWebView
 import com.imp.presentation.widget.utils.PermissionUtil
 import com.imp.presentation.widget.utils.PreferencesUtil
@@ -172,26 +171,6 @@ class ActMain : BaseContractActivity<ActMainBinding>() {
 
             BaseConstants.MAIN_NAV_LABEL_HOME -> setStatusBarColor(R.color.color_e3e6f0)
             else -> setStatusBarColor()
-        }
-    }
-
-    /**
-     * Start Tracking Service
-     */
-    fun startTrackingService() {
-
-        Intent(this@ActMain, TrackingForegroundService::class.java).apply {
-            ContextCompat.startForegroundService(this@ActMain, this)
-        }
-    }
-
-    /**
-     * Stop Tracking Service
-     */
-    fun stopTrackingService() {
-
-        Intent(this@ActMain, TrackingForegroundService::class.java).apply {
-            stopService(this)
         }
     }
 
