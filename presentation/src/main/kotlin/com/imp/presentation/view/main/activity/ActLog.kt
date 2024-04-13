@@ -357,11 +357,11 @@ class ActLog : BaseContractActivity<ActLogBinding>() {
             val dataList = if (isDay) data.day.screen_frequency_list else data.week.screen_frequency_list
             val barDataSet = ChartUtil.barChartDataSet(this@ActLog, ChartUtil.mappingBarEntryData(dataList.toFloatArray().setMaxSize(isDay)))
 
-            val max = dataList.max().toFloat()
+            val max = if (dataList.isEmpty()) 0f else dataList.max().toFloat()
             val yMax = if (max == 1f) 2f else max
 
             chart.data = BarData(barDataSet).apply { barWidth = if (isDay) 0.7f else 0.2f }
-            chart.setAxisLeft(ChartUtil.getLabelCount(dataList.max().toFloat()), 0f, yMax)
+            chart.setAxisLeft(ChartUtil.getLabelCount(max), 0f, yMax)
             chart.setChartWeek(isDay)
             chart.invalidate()
         }
@@ -385,11 +385,11 @@ class ActLog : BaseContractActivity<ActLogBinding>() {
             val dataList = if (isDay) data.day.pedometer_list else data.week.pedometer_list
             val barDataSet = ChartUtil.barChartDataSet(this@ActLog, ChartUtil.mappingBarEntryData(dataList.toFloatArray().setMaxSize(isDay)))
 
-            val max = dataList.max().toFloat()
+            val max = if (dataList.isEmpty()) 0f else dataList.max().toFloat()
             val yMax = if (max == 1f) 2f else max
 
             chart.data = BarData(barDataSet).apply { barWidth = if (isDay) 0.7f else 0.2f }
-            chart.setAxisLeft(ChartUtil.getLabelCount(dataList.max().toFloat()), 0f, yMax)
+            chart.setAxisLeft(ChartUtil.getLabelCount(max), 0f, yMax)
             chart.setChartWeek(isDay)
             chart.invalidate()
         }
@@ -442,11 +442,11 @@ class ActLog : BaseContractActivity<ActLogBinding>() {
             val dataList = if (isDay) data.day.call_frequency_list else data.week.call_frequency_list
             val barDataSet = ChartUtil.barChartDataSet(this@ActLog, ChartUtil.mappingBarEntryData(dataList.toFloatArray().setMaxSize(isDay)))
 
-            val max = dataList.max().toFloat()
+            val max = if (dataList.isEmpty()) 0f else dataList.max().toFloat()
             val yMax = if (max == 1f) 2f else max
 
             chart.data = BarData(barDataSet).apply { barWidth = if (isDay) 0.7f else 0.2f }
-            chart.setAxisLeft(ChartUtil.getLabelCount(dataList.max().toFloat()), 0f, yMax)
+            chart.setAxisLeft(ChartUtil.getLabelCount(max), 0f, yMax)
             chart.setChartWeek(isDay)
             chart.invalidate()
         }
@@ -465,8 +465,11 @@ class ActLog : BaseContractActivity<ActLogBinding>() {
             val dataList = if (isDay) data.day.illuminance else data.week.illuminance
             val lineDataset = ChartUtil.lineChartDataSet(this@ActLog, ChartUtil.mappingEntryData(dataList.toFloatArray().setMaxSize(isDay)))
 
+            val max = if (dataList.isEmpty()) 0f else dataList.max().toFloat()
+            val yMax = if (max == 1f) 2f else max
+
             chart.data = LineData(lineDataset)
-            chart.setAxisLeft(ChartUtil.getLabelCount(dataList.max().toFloat()), 0f, dataList.max().toFloat())
+            chart.setAxisLeft(ChartUtil.getLabelCount(max), 0f, yMax)
             chart.setChartWeek(isDay)
             chart.invalidate()
         }
