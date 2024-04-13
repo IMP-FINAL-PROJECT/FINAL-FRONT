@@ -71,16 +71,26 @@ class ActManageAccount : BaseContractActivity<ActMypageManageAccountBinding>() {
             // 로그아웃
             incLogout.llContents.setOnClickListener {
 
-                // 저장되어 있는 계정 정보 제거
-                PreferencesUtil.deletePreferences(this@ActManageAccount, PreferencesUtil.AUTO_LOGIN_ID_KEY)
-                PreferencesUtil.deletePreferences(this@ActManageAccount, PreferencesUtil.AUTO_LOGIN_PASSWORD_KEY)
+                // 로그아웃 팝업 노출
+                showCommonPopup(
+                    titleText = getString(R.string.popup_text_5),
+                    leftText = getString(R.string.no),
+                    rightText = getString(R.string.yes),
+                    leftCallback = {},
+                    rightCallback = {
 
-                // 시작 화면으로 이동
-                Intent(this@ActManageAccount, ActSplash::class.java).apply {
-                    flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
-                    startActivity(this)
-                    finishAffinity()
-                }
+                        // 저장되어 있는 계정 정보 제거
+                        PreferencesUtil.deletePreferences(this@ActManageAccount, PreferencesUtil.AUTO_LOGIN_ID_KEY)
+                        PreferencesUtil.deletePreferences(this@ActManageAccount, PreferencesUtil.AUTO_LOGIN_PASSWORD_KEY)
+
+                        // 시작 화면으로 이동
+                        Intent(this@ActManageAccount, ActSplash::class.java).apply {
+                            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+                            startActivity(this)
+                            finishAffinity()
+                        }
+                    },
+                    cancelable = true)
             }
         }
     }

@@ -112,7 +112,7 @@
     <string name="popup_text_2">위치 권한을 설정에서 항상 허용으로 변경해 주세요.</string>
     <string name="popup_text_3">회원 가입이 완료되었습니다.</string>
     <string name="popup_text_4">회원 정보 수정이 완료되었습니다.</string>
-    <string name="popup_text_5"></string>
+    <string name="popup_text_5">로그아웃 하시겠습니까?</string>
     <string name="popup_text_6"></string>
     <string name="popup_text_7"></string>
     <string name="popup_text_8"></string>
