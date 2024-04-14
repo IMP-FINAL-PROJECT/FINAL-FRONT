@@ -1,5 +1,6 @@
 package com.imp.domain.usecase
 
+import com.imp.domain.model.AddressModel
 import com.imp.domain.model.ErrorCallbackModel
 import com.imp.domain.model.MemberModel
 import com.imp.domain.repository.MemberRepository
@@ -29,6 +30,13 @@ class MemberUseCase @Inject constructor(private val repository: MemberRepository
      */
     suspend fun checkEmail(id: String, successCallback: (Boolean) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit) {
         repository.checkEmail(id, successCallback, errorCallback)
+    }
+
+    /**
+     * Search Address
+     */
+    suspend fun searchAddress(search: String, successCallback: (AddressModel) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit) {
+        repository.searchAddress(search, successCallback, errorCallback)
     }
 
     /**

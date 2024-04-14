@@ -79,6 +79,9 @@ class FrgProfile: BaseFragment<FrgRegisterProfileBinding>() {
 
                 tvTitle.text = getString(R.string.register_text_19)
                 ivCancel.visibility = View.GONE
+
+                // todo: 임시로 비노출
+                ctRoot.visibility = View.GONE
             }
 
             // Gender
@@ -289,16 +292,15 @@ class FrgProfile: BaseFragment<FrgRegisterProfileBinding>() {
             val addressValidate = address.isNotEmpty()
             val genderValidate = incGender.tvMale.isSelected || incGender.tvFemale.isSelected || incGender.tvNone.isSelected
 
-            if (nameValidate && birthValidate && genderValidate && addressValidate) {
+            if (nameValidate && birthValidate && genderValidate) {
 
                 viewModel.registerData.name = name
                 viewModel.registerData.birth = DateUtil.stringToDate(birth)
-                viewModel.registerData.address = arrayListOf()
                 viewModel.registerData.gender = gender
             }
 
             // 버튼 활성화 여부 설정
-            context?.let { if (it is ActRegister) it.controlButtonEnabled(nameValidate && birthValidate && genderValidate && addressValidate) }
+            context?.let { if (it is ActRegister) it.controlButtonEnabled(nameValidate && birthValidate && genderValidate) }
         }
     }
 }

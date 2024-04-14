@@ -1,5 +1,6 @@
 package com.imp.domain.repository
 
+import com.imp.domain.model.AddressModel
 import com.imp.domain.model.ErrorCallbackModel
 import com.imp.domain.model.MemberModel
 
@@ -22,6 +23,11 @@ interface MemberRepository {
      * Check Email Validation
      */
     suspend fun checkEmail(id: String, successCallback: (Boolean) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit)
+
+    /**
+     * Search Address
+     */
+    suspend fun searchAddress(search: String, successCallback: (AddressModel) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit)
 
     /**
      * Get Member Data

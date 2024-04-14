@@ -115,6 +115,9 @@ class ActEditProfile : BaseContractActivity<ActMypageEditProfileBinding>() {
 
                 tvTitle.text = getString(R.string.register_text_19)
                 ivCancel.visibility = View.GONE
+
+                // todo: 임시로 비노출
+                ctRoot.visibility = View.GONE
             }
 
             // Gender
@@ -197,7 +200,6 @@ class ActEditProfile : BaseContractActivity<ActMypageEditProfileBinding>() {
                     id = PreferencesUtil.getPreferencesString(this@ActEditProfile, PreferencesUtil.AUTO_LOGIN_ID_KEY),
                     name = incName.etInput.text.toString(),
                     birth = incBirth.etInput.text.toString().replace(".", "-"),
-                    address = incAddress.etInput.text.toString(),
                     gender = getGender()
                 )
             }
@@ -354,7 +356,7 @@ class ActEditProfile : BaseContractActivity<ActMypageEditProfileBinding>() {
             val addressValidate = address.isNotEmpty()
             val genderValidate = incGender.tvMale.isSelected || incGender.tvFemale.isSelected || incGender.tvNone.isSelected
 
-            val validation = nameValidate && birthValidate && genderValidate && addressValidate
+            val validation = nameValidate && birthValidate && genderValidate
             val enabled = viewModel.memberData.value?.let {
                 it.name != name || it.birth?.replace("-", "") != birth || it.gender != gender// || it.address != address
             } ?: false

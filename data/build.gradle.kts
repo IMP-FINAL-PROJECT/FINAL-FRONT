@@ -20,6 +20,7 @@ android {
         minSdk = 26
         consumerProguardFiles("consumer-rules.pro")
 
+        buildConfigField("String", "KAKAO_REST_API_KEY", properties["kakao_rest_api_key"].toString())
         buildConfigField("String", "SERVICE_SERVER_HOST", properties["service_server_host"].toString())
         buildConfigField("String","DEV_SERVER_HOST", properties["dev_server_host"].toString())
     }

@@ -40,5 +40,8 @@ class HttpConstants {
         const val API_ANALYSIS = "/api/analysis"                              // 로그 데이터
         const val API_SENSOR_INSERT = "/api/sensor/insert"                    // 센싱 데이터 저장
         const val API_CHANGE = "/api/change/{id}"                             // 회원 정보 변경
+
+        const val KAKAO_BASE_HOST = "https://dapi.kakao.com/"
+        const val API_KAKAO_ADDRESS_SEARCH = "v2/local/search/address.json"
     }
 }

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.imp.domain.model.AddressModel
 import com.imp.domain.model.ErrorCallbackModel
 import com.imp.domain.model.MemberModel
 import com.imp.domain.usecase.MemberUseCase
@@ -29,6 +30,10 @@ class MemberViewModel @Inject constructor(private val useCase: MemberUseCase) : 
     /** Email Validation Data */
     private val _emailValidationData = MutableLiveData<Boolean>()
     val emailValidationData: LiveData<Boolean> get() = _emailValidationData
+
+    /** Address Data */
+    private val _addressData = MutableLiveData<AddressModel>()
+    val addressData: LiveData<AddressModel> get() = _addressData
 
     /** Member Data */
     private val _memberData = MutableLiveData<MemberModel>()
@@ -79,6 +84,18 @@ class MemberViewModel @Inject constructor(private val useCase: MemberUseCase) : 
     }
 
     /**
+     * Search Address
+     */
+    fun searchAddress(search: String) = viewModelScope.launch {
+
+        useCase.searchAddress(
+            search = search,
+            successCallback = { _addressData.value = it },
+            errorCallback = { _errorCallback.value = Event(it) }
+        )
+    }
+
+    /**
      * Get Member Data
      */
     fun getMember() = viewModelScope.launch {
@@ -92,14 +109,13 @@ class MemberViewModel @Inject constructor(private val useCase: MemberUseCase) : 
     /**
      * Edit Profile
      */
-    fun editProfile(id: String, name: String, birth: String, address: String, gender: String) = viewModelScope.launch {
+    fun editProfile(id: String, name: String, birth: String, gender: String) = viewModelScope.launch {
 
         useCase.editProfile(
             data = MemberModel(
                 id = id,
                 name = name,
                 birth = birth,
-                address = arrayListOf(),
                 gender = gender,
             ),
             successCallback = { _loginData.value = it },

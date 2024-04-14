@@ -10,6 +10,7 @@ import com.imp.presentation.base.BaseContractActivity
 import com.imp.presentation.base.BaseFragment
 import com.imp.presentation.databinding.ActMemberRegisterBinding
 import com.imp.presentation.view.adapter.ViewPagerAdapter
+import com.imp.presentation.view.member.register.fragment.FrgAddress
 import com.imp.presentation.view.member.register.fragment.FrgEmail
 import com.imp.presentation.view.member.register.fragment.FrgPassword
 import com.imp.presentation.view.member.register.fragment.FrgProfile
@@ -107,6 +108,7 @@ class ActRegister : BaseContractActivity<ActMemberRegisterBinding>() {
             fragments.add(FrgTerms.newInstance())
             fragments.add(FrgEmail.newInstance())
             fragments.add(FrgPassword.newInstance())
+            fragments.add(FrgAddress.newInstance())
             fragments.add(FrgProfile.newInstance())
 
             viewPagerAdapter = ViewPagerAdapter(this@ActRegister, fragments)
@@ -159,7 +161,7 @@ class ActRegister : BaseContractActivity<ActMemberRegisterBinding>() {
 
                     // 다음 화면 이동
                     currentPosition++
-                    viewPager.setCurrentItem(currentPosition, false)
+                    viewPager.setCurrentItem(currentPosition, true)
 
                 } else {
 

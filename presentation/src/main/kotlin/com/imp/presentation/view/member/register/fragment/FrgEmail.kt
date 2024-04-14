@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import com.imp.presentation.R
 import com.imp.presentation.base.BaseFragment
@@ -64,6 +65,7 @@ class FrgEmail: BaseFragment<FrgRegisterEmailBinding>() {
         viewModel.errorCallback.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let { error ->
 
+                context?.let { Toast.makeText(it, error.message.toString(), Toast.LENGTH_SHORT).show() }
             }
         }
     }
