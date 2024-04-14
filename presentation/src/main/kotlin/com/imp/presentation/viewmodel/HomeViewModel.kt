@@ -40,6 +40,19 @@ class HomeViewModel @Inject constructor(private val useCase: HomeUseCase) : View
     }
 
     /**
+     * Save Mood
+     */
+    fun saveMood(id: String, mood: Int) = viewModelScope.launch {
+
+        useCase.saveMood(
+            id = id,
+            mood = mood,
+            successCallback = {  },
+            errorCallback = { _errorCallback.value = Event(it) }
+        )
+    }
+
+    /**
      * Load Log Data
      */
     fun saveSensorData(data: SensorModel) = viewModelScope.launch {

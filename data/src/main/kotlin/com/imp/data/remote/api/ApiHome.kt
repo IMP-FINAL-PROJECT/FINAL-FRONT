@@ -23,6 +23,15 @@ interface ApiHome {
     ): Observable<BaseResponse<HomeModel>>
 
     /**
+     * Save Mood
+     */
+    @Headers("Content-Type: application/json")
+    @POST(HttpConstants.API_MOOD_INSERT)
+    fun saveMood(
+        @Body body: Map<String, Any>
+    ): Observable<BaseResponse<Any>>
+
+    /**
      * 센싱 데이터 저장
      */
     @Headers("Content-Type: application/json")

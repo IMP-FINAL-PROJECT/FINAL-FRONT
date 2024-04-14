@@ -18,6 +18,12 @@ class HomeUseCase @Inject constructor(private val repository: HomeRepository) {
     suspend fun homeData(id: String, successCallback: (HomeModel) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit) {
         repository.homeData(id, successCallback, errorCallback)
     }
+    /**
+     * Save Mood
+     */
+    suspend fun saveMood(id: String, mood: Int, successCallback: (Boolean) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit) {
+        repository.saveMood(id, mood, successCallback, errorCallback)
+    }
 
     /**
      * 센싱 데이터 저장

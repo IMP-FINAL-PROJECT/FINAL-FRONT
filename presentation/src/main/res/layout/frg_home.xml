@@ -113,6 +113,73 @@
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
+                <!-- 오늘의 행복 점수 -->
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/llMood"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/bg_radius_8_ffffff"
+                    android:orientation="vertical"
+                    android:padding="20dp"
+                    app:layout_constraintTop_toBottomOf="@+id/llScoreBoard">
+
+                    <!-- 타이틀 -->
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvMood"
+                        style="@style/aggroLight.16"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:includeFontPadding="false"
+                        android:textColor="@color/black"
+                        tools:text="지금 이 순간, 기분이 어떠신가요?" />
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:orientation="horizontal">
+
+                        <com.warkiz.widget.IndicatorSeekBar
+                            android:id="@+id/indicatorSeekbar"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            app:isb_max="100"
+                            app:isb_track_progress_size="4dp"
+                            app:isb_track_background_size="4dp"
+                            app:isb_min="0"
+                            app:isb_indicator_color="@color/color_3377ff"
+                            app:isb_thumb_color="@color/color_3377ff"
+                            app:isb_track_progress_color="@color/color_3377ff"
+                            app:isb_track_background_color="@color/color_f7f7f7"
+                            app:isb_progress="50"
+                            app:isb_show_indicator="circular_bubble" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvSave"
+                            style="@style/suitSemiBold.16"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:layout_marginStart="8dp"
+                            android:background="@drawable/bg_common_button"
+                            android:enabled="true"
+                            android:gravity="center"
+                            android:includeFontPadding="false"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp"
+                            android:textColor="@color/color_common_button_text"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="저장" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -163,9 +230,39 @@
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
+                    <!-- 실시간 트래킹 기능 off -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/ctTrackingOff"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/bg_radius_8_f7f7f7"
+                        android:paddingStart="16dp"
+                        android:paddingTop="30dp"
+                        android:paddingEnd="16dp"
+                        android:paddingBottom="30dp"
+                        android:visibility="gone"
+                        app:layout_constraintTop_toBottomOf="@+id/llTrackingTitle">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvTrackingOff"
+                            style="@style/suitMedium.14"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:lineSpacingExtra="4dp"
+                            android:textColor="@color/black"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="실시간 트래킹 기능이 꺼져 있습니다.\n[마이페이지 > 계정 관리] 에서 기능을 활성화 해주세요." />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
                     <!-- 실시간 트래킹 카드 -->
                     <androidx.appcompat.widget.LinearLayoutCompat
-                        android:id="@+id/clTrackingCard"
+                        android:id="@+id/llTrackingCard"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"

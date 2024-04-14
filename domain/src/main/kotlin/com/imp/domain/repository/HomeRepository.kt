@@ -15,6 +15,11 @@ interface HomeRepository {
     suspend fun homeData(id: String, successCallback: (HomeModel) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit)
 
     /**
+     * Save Mood
+     */
+    suspend fun saveMood(id: String, mood: Int, successCallback: (Boolean) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit)
+
+    /**
      * 센싱 데이터 저장
      */
     suspend fun saveSensorData(data: SensorModel, successCallback: () -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit)

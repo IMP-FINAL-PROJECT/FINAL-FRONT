@@ -1,5 +1,6 @@
 package com.imp.data.util.interceptor
 
+import android.util.Log
 import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.Response
@@ -20,6 +21,8 @@ class DecryptionInterceptor : Interceptor {
             val newResponse = response.newBuilder()
             val contentType = "application/json;charset=UTF-8"
             newResponse.body(str.toResponseBody(contentType.toMediaTypeOrNull()))
+
+            Log.d("api", "Response Body: $str")
             return newResponse.build()
         }
 

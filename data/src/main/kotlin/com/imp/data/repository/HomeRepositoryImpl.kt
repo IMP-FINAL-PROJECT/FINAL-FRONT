@@ -41,6 +41,29 @@ class HomeRepositoryImpl @Inject constructor() : HomeRepository {
     }
 
     /**
+     * Save Mood
+     */
+    @SuppressLint("CheckResult")
+    override suspend fun saveMood(id: String, mood: Int, successCallback: (Boolean) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit) {
+
+        val params: MutableMap<String, Any> = HashMap()
+
+        params["id"] = id
+        params["score"] = mood
+
+        ApiClient.getClient().create(ApiHome::class.java).saveMood(params)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ response ->
+
+                successCallback.invoke(response.isSuccess())
+
+            }, { error ->
+                errorCallback.invoke(CommonMapper.mappingErrorData(error))
+            })
+    }
+
+    /**
      * 센싱 데이터 저장
      */
     @SuppressLint("CheckResult")

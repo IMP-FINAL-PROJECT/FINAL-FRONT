@@ -19,6 +19,7 @@ gson = "2.10.1"
 hilt-android = "2.48"
 hilt-compiler = "2.48"
 hilt-work = "1.0.0"
+indicatorseekbar = "2.1.2"
 jetbrainsKotlin = "1.6.0"
 jetbrainsKotlinJvm = "1.8.10"
 jetbrainsParcelize = "1.6.10"
@@ -82,6 +83,7 @@ hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt-
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt-android" }
 hilt-android-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt-android" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt-compiler" }
+indicatorseekbar = { module = "com.github.warkiz.widget:indicatorseekbar", version.ref = "indicatorseekbar" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 kakao-map = { module = "com.kakao.maps.open:android", version.ref = "kakao-map" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines-android" }

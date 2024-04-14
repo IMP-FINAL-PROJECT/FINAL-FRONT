@@ -11,6 +11,10 @@
         <item name="android:textSize">14dp</item>
     </style>
 
+    <style name="aggroLight.16">
+        <item name="android:textSize">16dp</item>
+    </style>
+
     <style name="aggroLight.18">
         <item name="android:textSize">18dp</item>
     </style>

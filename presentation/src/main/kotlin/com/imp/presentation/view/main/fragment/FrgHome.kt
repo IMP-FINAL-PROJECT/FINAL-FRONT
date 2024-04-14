@@ -17,9 +17,14 @@ import com.imp.presentation.databinding.FrgHomeBinding
 import com.imp.presentation.view.main.activity.ActMain
 import com.imp.presentation.viewmodel.HomeViewModel
 import com.imp.presentation.widget.extension.toDp
+import com.imp.presentation.widget.extension.toGoneOrVisible
+import com.imp.presentation.widget.extension.toVisibleOrGone
 import com.imp.presentation.widget.utils.DateUtil
 import com.imp.presentation.widget.utils.MethodStorageUtil
 import com.imp.presentation.widget.utils.PreferencesUtil
+import com.warkiz.widget.IndicatorSeekBar
+import com.warkiz.widget.OnSeekChangeListener
+import com.warkiz.widget.SeekParams
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -89,6 +94,7 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
         initObserver()
         initDisplay()
         initMapView()
+        initSeekbar()
         setOnClickListener()
 
         // log data api 호출
@@ -153,6 +159,10 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
                 tvScoreTitle.text = getString(R.string.home_text_1)
                 tvScore.text = getString(R.string.unit_happy_score)
 
+                /** Mood */
+                tvMood.text = getString(R.string.home_text_5)
+                tvSave.text = getString(R.string.save)
+
                 /** Tracking */
                 tvTrackingTitle.text = getString(R.string.home_text_2)
 
@@ -169,6 +179,8 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
                 tvLight.text = getString(R.string.unit_light, "", 0)
 
                 tvMapTitle.text = getString(R.string.log_text_5)
+
+                tvTrackingOff.text = getString(R.string.home_text_4)
             }
         }
     }
@@ -178,9 +190,20 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
      */
     private fun setOnClickListener() {
 
-        with(mBinding) {
+        context?.let { ctx ->
 
-            llTrackingTitle.setOnClickListener { context?.let { if (it is ActMain) it.moveToLog() } }
+            with(mBinding) {
+
+                // 트래킹 상세
+                llTrackingTitle.setOnClickListener { if (ctx is ActMain) ctx.moveToLog() }
+
+                // 기분 저장
+                tvSave.setOnClickListener {
+
+                    val id = PreferencesUtil.getPreferencesString(ctx, PreferencesUtil.AUTO_LOGIN_ID_KEY)
+                    viewModel.saveMood(id, indicatorSeekbar.progress)
+                }
+            }
         }
     }
 
@@ -243,6 +266,48 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
     }
 
     /**
+     * Initialize SeekBar
+     */
+    private fun initSeekbar() {
+
+        with(mBinding.indicatorSeekbar) {
+
+            onSeekChangeListener = object : OnSeekChangeListener {
+                override fun onSeeking(seekParams: SeekParams) {
+
+                    val mood = when(progress) {
+                        in 0 until 20 -> String(Character.toChars(0x1F62D))
+                        in 20 until 40 -> String(Character.toChars(0x1F622))
+                        in 40 until 60 -> String(Character.toChars(0x1F610))
+                        in 60 until 80 -> String(Character.toChars(0x1F60A))
+                        else -> String(Character.toChars(0x1F606))
+                    }
+                    setIndicatorTextFormat("$mood \${PROGRESS}")
+                }
+
+                override fun onStartTrackingTouch(seekBar: IndicatorSeekBar) {}
+                override fun onStopTrackingTouch(seekBar: IndicatorSeekBar) {}
+            }
+        }
+    }
+
+    /**
+     * 실시간 트래킹 화면 노출 여부
+     */
+    private fun controlTrackingUI() {
+
+        context?.let { ctx ->
+
+            with(mBinding) {
+
+                val isTracking = PreferencesUtil.getPreferencesBoolean(ctx, PreferencesUtil.TRACKING_SWITCH_KEY)
+                ctTrackingOff.visibility = isTracking.toGoneOrVisible()
+                llTrackingCard.visibility = isTracking.toVisibleOrGone()
+            }
+        }
+    }
+
+    /**
      * Update UI
      */
     private fun updateUI() {
@@ -264,6 +329,8 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
     private fun registerUIUpdateReceiver() {
 
         context?.let { if (it is ActMain) it.registerUIBroadcast(uiUpdateReceiver) }
+
+        controlTrackingUI()
     }
 
     /**
@@ -272,5 +339,7 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
     private fun unregisterUIUpdateReceiver() {
 
         context?.let { if (it is ActMain) it.unregisterUIBroadcast(uiUpdateReceiver) }
+
+        controlTrackingUI()
     }
 }
