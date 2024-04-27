@@ -1,29 +1,83 @@
 package com.imp.data.repository
 
 import android.annotation.SuppressLint
+import com.imp.data.mapper.CommonMapper
+import com.imp.data.remote.api.ApiChat
+import com.imp.data.util.ApiClient
+import com.imp.data.util.extension.isSuccess
 import com.imp.domain.model.ChatListModel
+import com.imp.domain.model.ErrorCallbackModel
 import com.imp.domain.repository.ChatRepository
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 /**
  * Main - Chat Repository Implementation
  */
+@SuppressLint("CheckResult")
 class ChatRepositoryImpl @Inject constructor() : ChatRepository {
 
-    @SuppressLint("CheckResult")
-    override suspend fun chatList(successCallback: (ArrayList<ChatListModel>) -> Unit, errorCallback: (String?) -> Unit) {
+    override suspend fun chatList(id: String, successCallback: (ArrayList<ChatListModel.Chat>) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit) {
 
-        val dummyList = ArrayList<ChatListModel>()
+        ApiClient.getChatClient().create(ApiChat::class.java).chatList(id)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ response ->
 
-        for(i in 0 until 10) {
-            dummyList.add(ChatListModel(
-                name = "착하지만 바보같은 동욱봇 $i",
-                chat = "ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ",
-                time = System.currentTimeMillis(),
-                isRead = i % 2 == 0
-            ))
-        }
+                if (response.isSuccess()) {
+                    response.data?.let { successCallback.invoke(it.chatList) }
+                } else {
+                    errorCallback.invoke(CommonMapper.mappingErrorCallbackData(response))
+                }
 
-        successCallback.invoke(dummyList)
+            }, { error ->
+                errorCallback.invoke(CommonMapper.mappingErrorData(error))
+            })
+    }
+
+    override suspend fun createChat(id: String, successCallback: (String) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit) {
+
+        val params: MutableMap<String, Any> = HashMap()
+
+        params["id"] = id
+
+        ApiClient.getChatClient().create(ApiChat::class.java).createChat(params)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ response ->
+
+                if (response.isSuccess()) {
+                    response.data?.let { successCallback.invoke(it.create_number ?: "") }
+                } else {
+                    errorCallback.invoke(CommonMapper.mappingErrorCallbackData(response))
+                }
+
+            }, { error ->
+                errorCallback.invoke(CommonMapper.mappingErrorData(error))
+            })
+    }
+
+    override suspend fun deleteChat(id: String, number: String, successCallback: () -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit) {
+
+        val params: MutableMap<String, Any> = HashMap()
+
+        params["id"] = id
+        params["number"] = number
+
+        ApiClient.getChatClient().create(ApiChat::class.java).deleteChat(params)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ response ->
+
+                if (response.isSuccess()) {
+                    successCallback.invoke()
+                } else {
+                    errorCallback.invoke(CommonMapper.mappingErrorCallbackData(response))
+                }
+
+            }, { error ->
+                errorCallback.invoke(CommonMapper.mappingErrorData(error))
+            })
     }
 }

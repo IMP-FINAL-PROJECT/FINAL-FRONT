@@ -3,13 +3,17 @@ package com.imp.domain.model
 /**
  * Chat List Model
  */
-data class ChatListModel (
+data class ChatListModel(
 
-    var name: String? = null,
+    var chatList: ArrayList<Chat> = ArrayList()
+) {
 
-    var chat: String? = null,
+    data class Chat(
 
-    var time: Long = 0L,
+        var number: String? = null,
 
-    var isRead: Boolean = false
-)
+        var create_number: String? = null,
+
+        var update_at: String? = null
+    )
+}

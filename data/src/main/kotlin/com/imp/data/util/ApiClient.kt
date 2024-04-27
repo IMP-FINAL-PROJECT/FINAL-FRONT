@@ -19,6 +19,8 @@ class ApiClient {
         // Retrofit client
         @JvmStatic
         fun getClient(): Retrofit = retrofit
+        @JvmStatic
+        fun getChatClient(): Retrofit = chatRetrofit
 
         private val retrofit: Retrofit by lazy {
 
@@ -28,6 +30,19 @@ class ApiClient {
             Retrofit.Builder()
                 .client(clientBuilder.build())
                 .baseUrl(HttpConstants.getHost())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(gsonFactory())
+                .build()
+        }
+
+        private val chatRetrofit: Retrofit by lazy {
+
+            val clientBuilder = NetworkUtil.getUnsafeOkHttpClient()
+            setOkHttpClient(clientBuilder)
+
+            Retrofit.Builder()
+                .client(clientBuilder.build())
+                .baseUrl(HttpConstants.getChatHost())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(gsonFactory())
                 .build()

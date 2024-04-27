@@ -2,20 +2,19 @@ package com.imp.presentation.view.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.imp.domain.model.ChatListModel
 import com.imp.presentation.R
 import com.imp.presentation.databinding.ItemChattingListBinding
-import com.imp.presentation.widget.extension.toGoneOrVisible
 import com.imp.presentation.widget.extension.toVisibleOrGone
-import com.imp.presentation.widget.utils.DateUtil
 
 /**
  * Main - Chat List Adapter
  */
-class ChatListAdapter(var context: Context?, val list: ArrayList<ChatListModel>) : RecyclerView.Adapter<ChatListAdapter.CustomViewHolder>() {
+class ChatListAdapter(var context: Context?, val list: ArrayList<ChatListModel.Chat>) : RecyclerView.Adapter<ChatListAdapter.CustomViewHolder>() {
 
     interface SelectItem { fun selectItem(position: Int, type: String) }
     var selectItem: SelectItem? = null
@@ -39,7 +38,7 @@ class ChatListAdapter(var context: Context?, val list: ArrayList<ChatListModel>)
 
     class CustomViewHolder(private val binding: ItemChattingListBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bindView(context: Context?, position: Int, dao: ChatListModel, selectItem: SelectItem?, size: Int) {
+        fun bindView(context: Context?, position: Int, dao: ChatListModel.Chat, selectItem: SelectItem?, size: Int) {
 
             context?.let { ctx ->
 
@@ -49,16 +48,16 @@ class ChatListAdapter(var context: Context?, val list: ArrayList<ChatListModel>)
                     ivProfile.setBackgroundColor(ContextCompat.getColor(ctx, R.color.color_3377ff))
 
                     // 이름
-                    tvName.text = dao.name
+                    tvName.text = "이름 $position"
 
                     // 채팅
-                    tvChat.text = dao.chat
+                    tvChat.text = "내용 $position"
 
                     // 시간
-                    tvTime.text = DateUtil.timestampToTimeMin(dao.time)
+                    tvTime.text = dao.update_at
 
                     // 읽지 않은 알림 여부
-                    cvNotification.visibility = dao.isRead.toGoneOrVisible()
+                    cvNotification.visibility = View.GONE
 
                     // 하단 라인 노출 여부
                     bottomLineView.visibility = (position == size - 1).toVisibleOrGone()

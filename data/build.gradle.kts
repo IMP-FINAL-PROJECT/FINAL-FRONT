@@ -23,6 +23,7 @@ android {
         buildConfigField("String", "KAKAO_REST_API_KEY", properties["kakao_rest_api_key"].toString())
         buildConfigField("String", "SERVICE_SERVER_HOST", properties["service_server_host"].toString())
         buildConfigField("String","DEV_SERVER_HOST", properties["dev_server_host"].toString())
+        buildConfigField("String","CHAT_SERVER_HOST", properties["chat_server_host"].toString())
     }
 
     buildTypes {
