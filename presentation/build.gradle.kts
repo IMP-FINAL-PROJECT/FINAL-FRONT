@@ -72,6 +72,7 @@ dependencies {
 
     /** Multi Module */
     implementation(project(":domain"))
+    implementation(project(":data"))
 
     /** Android */
     implementation(libs.androidx.core.ktx)
@@ -122,10 +123,6 @@ dependencies {
 
     /** WorkManager */
     implementation(libs.androidx.work.runtime)
-
-    /** DataStore */
-    implementation(libs.androidx.datastore.preferences)
-    implementation(libs.datastore.preferences.core)
 
     /** Indicator SeekBar */
     implementation(libs.indicatorseekbar)

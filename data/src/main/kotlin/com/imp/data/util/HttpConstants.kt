@@ -42,8 +42,8 @@ class HttpConstants {
         const val API_REGISTER_VALIDATION = "/api/register/validation"        // 이메일 중복 검사
         const val API_HOME = "/api/home"                                      // 홈 데이터
         const val API_MOOD_INSERT = "/api/mood/insert"                        // 기분 데이터 저장
-        const val API_ANALYSIS = "/api/analysis"                              // 로그 데이터
         const val API_SENSOR_INSERT = "/api/sensor/insert"                    // 센싱 데이터 저장
+        const val API_ANALYSIS = "/api/analysis"                              // 로그 데이터
         const val API_CHANGE = "/api/change/{id}"                             // 회원 정보 변경
         const val API_CHAT_LIST = "/chat/list"                                // 채팅 목록
         const val API_CHAT_CREATE = "/chat/create"                            // 채팅 생성

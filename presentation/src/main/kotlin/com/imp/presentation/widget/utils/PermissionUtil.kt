@@ -21,10 +21,10 @@ object PermissionUtil {
      * 필요한 모든 권한 허용 여부 확인
      *
      * @param context
-     * @return 모든 권한 허용 여부 반환 (필수 - 위치, 활동)
+     * @return 모든 권한 허용 여부 반환 (필수 - 위치, 활동, 전화)
      */
     fun checkPermissions(context: Context): Boolean {
-        return checkPermissionLocation(context) && checkPermissionBackgroundLocation(context) && checkPermissionActivity(context)
+        return checkPermissionLocation(context) && checkPermissionBackgroundLocation(context) && checkPermissionActivity(context) && checkPermissionCall(context)
     }
 
     /**
@@ -106,7 +106,7 @@ object PermissionUtil {
      * @param launcher 결과를 처리할 ActivityResultLauncher
      * @param deniedLauncher 권한이 거부된 경우를 처리할 ActivityResultLauncher
      */
-    fun requestPermissionNotification(activity: Activity, launcher: ActivityResultLauncher<String>, deniedLauncher: ActivityResultLauncher<Intent>) {
+    fun requestPermissionNotification(activity: Activity, launcher: ActivityResultLauncher<String>, deniedLauncher: ActivityResultLauncher<Intent>, callback: () -> Unit = {}) {
 
         // OS 13 이전일 경우, 알림 권한 없음
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return
@@ -119,6 +119,8 @@ object PermissionUtil {
             launcher.launch(Manifest.permission.POST_NOTIFICATIONS)
 
         } else {
+
+            callback.invoke()
 
             // 권한을 거부한 경우, 설정으로 이동
 //            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
@@ -223,7 +225,7 @@ object PermissionUtil {
      * @param launcher 결과를 처리할 ActivityResultLauncher
      * @param deniedLauncher 권한이 거부된 경우를 처리할 ActivityResultLauncher
      */
-    fun requestPermissionCall(activity: Activity, launcher: ActivityResultLauncher<String>, deniedLauncher: ActivityResultLauncher<Intent>) {
+    fun requestPermissionCall(activity: Activity, launcher: ActivityResultLauncher<String>, deniedLauncher: ActivityResultLauncher<Intent>, callback: (() -> Unit) -> Unit) {
 
         // 권한이 허용된 경우 return
         if (checkPermissionCall(activity)) return
@@ -234,10 +236,13 @@ object PermissionUtil {
 
         } else {
 
-            // 권한을 거부한 경우, 설정으로 이동
-            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-            intent.data = Uri.parse(String.format("package:%s", activity.packageName))
-            deniedLauncher.launch(intent)
+            callback.invoke {
+
+                // 권한을 거부한 경우, 설정으로 이동
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                intent.data = Uri.parse(String.format("package:%s", activity.packageName))
+                deniedLauncher.launch(intent)
+            }
         }
     }
 

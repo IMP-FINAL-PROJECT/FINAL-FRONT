@@ -1,25 +1,25 @@
-package com.imp.presentation.tracking.service
+package com.imp.data.tracking.service
 
 import android.Manifest
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.content.pm.ServiceInfo
 import android.graphics.Color
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.location.Location
-import android.location.LocationListener
-import android.location.LocationManager
 import android.os.Build
 import android.os.IBinder
-import android.telecom.InCallService
+import android.os.Looper
 import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.work.Constraints
@@ -27,12 +27,17 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
-import com.imp.presentation.R
-import com.imp.presentation.constants.BaseConstants
-import com.imp.presentation.tracking.data.SensorDataStore
-import com.imp.presentation.tracking.receiver.ScreenStateReceiver
-import com.imp.presentation.tracking.work.TrackingWorkManager
-import com.imp.presentation.widget.utils.CommonUtil
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.LocationServices
+import com.imp.data.tracking.constants.BaseConstants
+import com.imp.data.tracking.data.SensorDataStore
+import com.imp.data.tracking.receiver.PhoneCallReceiver
+import com.imp.data.tracking.receiver.ScreenStateReceiver
+import com.imp.data.tracking.util.resetCalendarTime
+import com.imp.data.tracking.work.TrackingWorkManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
@@ -43,11 +48,12 @@ import java.util.concurrent.TimeUnit
 /**
  * Tracking Foreground Service
  */
-class TrackingForegroundService : InCallService() {
+class TrackingForegroundService : Service() {
 
     companion object {
 
         private const val TIME_DELAY = 20000L
+        private const val TIME_INTERVAL = 5000L
     }
 
     /** Coroutine Scope */
@@ -58,9 +64,12 @@ class TrackingForegroundService : InCallService() {
     /** Screen State Broadcast Receiver */
     private val screenStateReceiver: ScreenStateReceiver = ScreenStateReceiver()
 
+    /** Phone Call Broadcast Receiver */
+    private val phoneCallReceiver: PhoneCallReceiver = PhoneCallReceiver()
+
     /** Location Manager */
-    private lateinit var locationManager: LocationManager
-    private val locationListener: CurrentLocationListener = CurrentLocationListener()
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    private val locationCallback: CurrentLocationCallback = CurrentLocationCallback()
 
     /** Sensor Manager */
     private lateinit var sensorManager: SensorManager
@@ -94,7 +103,7 @@ class TrackingForegroundService : InCallService() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        return super.onStartCommand(intent, flags, startId)
+        return START_STICKY
     }
 
     override fun onBind(intent: Intent): IBinder? {
@@ -102,6 +111,8 @@ class TrackingForegroundService : InCallService() {
     }
 
     override fun onDestroy() {
+
+        stopForeground(STOP_FOREGROUND_REMOVE)
 
         locationCoroutine.cancel()
         lightCoroutine.cancel()
@@ -116,6 +127,9 @@ class TrackingForegroundService : InCallService() {
         // Stop Sensor Update
         stopSensorUpdate()
 
+        // Cancel Save Data Work
+        cancelSaveDataWork()
+
         super.onDestroy()
     }
 
@@ -124,29 +138,47 @@ class TrackingForegroundService : InCallService() {
      */
     private fun initNotification() {
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        val notificationIntent = Intent()
+        val pendingIntent = PendingIntent.getBroadcast(
+            applicationContext,
+            0,
+            notificationIntent,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
 
-            val notificationIntent = Intent()
-            val pendingIntent = PendingIntent.getBroadcast(
-                applicationContext,
-                0,
-                notificationIntent,
-                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-            )
+        val channelId = createNotificationChannel(BaseConstants.CHANNEL_ID, BaseConstants.CHANNEL_ID_2)
+        val builder: Notification.Builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            Notification.Builder(this, channelId)
+        } else {
+            Notification.Builder(this).setPriority(Notification.PRIORITY_DEFAULT)
+        }
 
-            val channelId = createNotificationChannel(BaseConstants.CHANNEL_ID, BaseConstants.CHANNEL_ID_2)
-            val builder: Notification.Builder = Notification.Builder(this, channelId).apply {
 
-                setContentTitle(getString(R.string.app_name))
-                setSmallIcon(R.drawable.icon_mood_good)
-                setContentIntent(pendingIntent)
-                setNumber(0)
-                setFlag(Notification.FLAG_NO_CLEAR, false)
+        builder.apply {
+
+            setContentTitle("Phone Tracking")
+//            setSmallIcon(R.drawable.ic_launcher_foreground)
+            setContentIntent(pendingIntent)
+            setNumber(0)
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+
+                setFlag(Notification.FLAG_NO_CLEAR, true)
                 setFlag(Notification.FLAG_ONGOING_EVENT, true)
                 setFlag(Notification.FLAG_FOREGROUND_SERVICE, true)
             }
+        }
 
-            val foregroundNotification = builder.build()
+        val foregroundNotification = builder.build()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+
+            startForeground(
+                BaseConstants.NOTIFICATION_ID,
+                foregroundNotification,
+                ServiceInfo.FOREGROUND_SERVICE_TYPE_LOCATION
+            )
+        } else {
+
             startForeground(BaseConstants.NOTIFICATION_ID, foregroundNotification)
         }
     }
@@ -180,17 +212,18 @@ class TrackingForegroundService : InCallService() {
 
         val nextHour = now.clone() as Calendar
         nextHour.add(Calendar.HOUR_OF_DAY, 1)
-        nextHour.set(Calendar.MINUTE, 0)
-        nextHour.set(Calendar.SECOND, 0)
-        nextHour.set(Calendar.MILLISECOND, 0)
+        nextHour.resetCalendarTime()
 
         val millisecondsNextHour = nextHour.timeInMillis - now.timeInMillis
 
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
+            .setRequiresDeviceIdle(false)
+            .setRequiresBatteryNotLow(false)
+            .setRequiresCharging(false)
             .build()
 
-        val workRequest = PeriodicWorkRequest.Builder(TrackingWorkManager::class.java, 15, TimeUnit.MINUTES)
+        val workRequest = PeriodicWorkRequest.Builder(TrackingWorkManager::class.java, 1, TimeUnit.HOURS)
             .setInitialDelay(millisecondsNextHour, TimeUnit.MILLISECONDS)
             .setConstraints(constraints)
             .build()
@@ -217,6 +250,7 @@ class TrackingForegroundService : InCallService() {
     private fun registerReceiver() {
 
         registerScreenReceiver()
+        registerPhoneCallReceiver()
     }
 
     /**
@@ -225,6 +259,7 @@ class TrackingForegroundService : InCallService() {
     private fun unregisterReceiver() {
 
         unregisterScreenReceiver()
+        unregisterPhoneCallReceiver()
     }
 
     /**
@@ -240,6 +275,18 @@ class TrackingForegroundService : InCallService() {
     }
 
     /**
+     * Register Phone Call Broadcast Receiver
+     */
+    private fun registerPhoneCallReceiver() {
+
+        IntentFilter().apply {
+            addAction("android.intent.action.NEW_OUTGOING_CALL")
+            addAction("android.intent.action.PHONE_STATE")
+            registerReceiver(phoneCallReceiver, this, RECEIVER_EXPORTED)
+        }
+    }
+
+    /**
      * Unregister Screen State Broadcast Receiver
      */
     private fun unregisterScreenReceiver() {
@@ -247,7 +294,19 @@ class TrackingForegroundService : InCallService() {
         try {
             unregisterReceiver(screenStateReceiver)
         } catch (e: IllegalArgumentException) {
-            CommonUtil.log("unregisterScreenReceiver >>> $e")
+            Log.d("tracking", "unregisterScreenReceiver >>> $e")
+        }
+    }
+
+    /**
+     * Unregister Phone Call Broadcast Receiver
+     */
+    private fun unregisterPhoneCallReceiver() {
+
+        try {
+            unregisterReceiver(phoneCallReceiver)
+        } catch (e: IllegalArgumentException) {
+            Log.d("tracking", "unregisterScreenReceiver >>> $e")
         }
     }
 
@@ -256,32 +315,26 @@ class TrackingForegroundService : InCallService() {
      */
     private fun setLocationListener() {
 
-        if (::locationManager.isInitialized.not()) {
-            locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        if (::fusedLocationProviderClient.isInitialized.not()) {
+            fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         }
-
-        val minTime: Long = TIME_DELAY  // 업데이트 시간
-        val minDistance = 20f           // 업데이트 거리 (m)
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
             ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) return
 
-        locationManager.requestLocationUpdates(
-            LocationManager.GPS_PROVIDER,
-            minTime, minDistance, locationListener
-        )
+        val locationRequest = LocationRequest()
+            .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+            .setInterval(TIME_INTERVAL)
+            .setFastestInterval(TIME_INTERVAL)
 
-        locationManager.requestLocationUpdates(
-            LocationManager.NETWORK_PROVIDER,
-            minTime, minDistance, locationListener
-        )
+        fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
     }
 
     /**
      * Stop Location Update
      */
     private fun stopLocationUpdate() {
-        locationManager.removeUpdates(locationListener)
+        fusedLocationProviderClient.removeLocationUpdates(locationCallback)
     }
 
     /**
@@ -371,24 +424,50 @@ class TrackingForegroundService : InCallService() {
     }
 
     /**
-     * Current Location Listener
+     * Update Call State
+     *
+     * @param state
      */
-    inner class CurrentLocationListener: LocationListener {
+    private fun updateCallState(state: String) {
 
-        override fun onLocationChanged(location: Location) {
+        Intent(BaseConstants.ACTION_TYPE_UPDATE_CALL_STATE).apply {
 
-            locationCoroutine.cancel()
-            locationCoroutine = CoroutineScope(Dispatchers.IO)
-            locationCoroutine.launch {
+            putExtra(BaseConstants.INTENT_KEY_CALL_STATE, state)
+            sendBroadcast(this)
+        }
+    }
 
-                Log.d("location", "latitude: ${location.latitude}, longitude: ${location.longitude}, ${System.currentTimeMillis()}")
+    /**
+     * Current Location Callback
+     */
+    private var lastLocation: Location? = null
+    inner class CurrentLocationCallback: LocationCallback() {
 
-                // Save Location Data into Preference DataStore
-                SensorDataStore.saveLocationData(location.latitude, location.longitude, System.currentTimeMillis())
+        override fun onLocationResult(locationResult: LocationResult) {
+            super.onLocationResult(locationResult)
+
+            val location = locationResult.lastLocation
+            if (location != null) {
+
+                if (location.latitude == 0.0 || location.longitude == 0.0) return
+
+                CoroutineScope(Dispatchers.IO).launch {
+
+                    val distance = lastLocation?.distanceTo(location) ?: 0f
+                    if (lastLocation == null || distance >= 20f) {
+
+                        Log.d("location", "latitude: ${location.latitude}, longitude: ${location.longitude}, ${System.currentTimeMillis()}")
+
+                        lastLocation = location
+
+                        // Save Location Data into Preference DataStore
+                        SensorDataStore.saveLocationData(this@TrackingForegroundService, location.latitude, location.longitude, System.currentTimeMillis())
+
+                        // Update Location Data
+                        updateLocation(location)
+                    }
+                }
             }
-
-            // Update Location Data
-            updateLocation(location)
         }
     }
 
@@ -416,10 +495,8 @@ class TrackingForegroundService : InCallService() {
 
                             currentTime = System.currentTimeMillis()
 
-                            Log.d("light", "light: $light, ${System.currentTimeMillis()}")
-
                             // Save Light Data into Preference DataStore
-                            SensorDataStore.saveLightData(light, System.currentTimeMillis())
+                            SensorDataStore.saveLightData(this@TrackingForegroundService, light, System.currentTimeMillis())
                         }
                     }
 
@@ -435,10 +512,8 @@ class TrackingForegroundService : InCallService() {
                     stepCoroutine = CoroutineScope(Dispatchers.IO)
                     stepCoroutine.launch {
 
-                        Log.d("step", "${System.currentTimeMillis()}")
-
                         // Save Step Data into Preference DataStore
-                        SensorDataStore.saveStepData(1, System.currentTimeMillis())
+                        SensorDataStore.saveStepData(this@TrackingForegroundService, 1, System.currentTimeMillis())
                     }
 
                     // Update Step Sensor Data

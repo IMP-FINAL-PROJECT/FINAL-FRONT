@@ -40,6 +40,8 @@
     <string name="permission_text_9">선택 권한의 경우 허용하지 않아도 서비스를 사용할 수 있으나\n일부 서비스 이용이 제한될 수 있습니다.</string>
     <string name="permission_text_10">시작하기</string>
     <string name="permission_text_11">권한 허용</string>
+    <string name="permission_text_12">전화 권한 (필수)</string>
+    <string name="permission_text_13">사용자의 전화 시간 및 횟수 측정</string>
 
     <!-- Login -->
     <string name="login_text_1">로그인</string>

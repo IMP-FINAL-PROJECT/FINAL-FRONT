@@ -79,6 +79,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp" />
 
+            <!-- 전화 권한 (필수) -->
+            <include
+                android:id="@+id/incCall"
+                layout="@layout/inc_permission"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp" />
+
             <!-- 알림 권한 (선택) -->
             <include
                 android:id="@+id/incNotification"

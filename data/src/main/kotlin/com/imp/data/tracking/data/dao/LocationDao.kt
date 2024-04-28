@@ -1,4 +1,4 @@
-package com.imp.presentation.tracking.data.dao
+package com.imp.data.tracking.data.dao
 
 /**
  * Location Dao

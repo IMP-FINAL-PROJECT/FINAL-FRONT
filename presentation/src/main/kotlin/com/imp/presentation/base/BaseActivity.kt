@@ -11,10 +11,23 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.viewbinding.ViewBinding
+import androidx.work.Constraints
+import androidx.work.ExistingWorkPolicy
+import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
+import com.imp.data.tracking.constants.BaseConstants
+import com.imp.data.tracking.data.SensorDataStore
+import com.imp.data.tracking.service.TrackingForegroundService
+import com.imp.data.tracking.work.TrackingWorkManager
 import com.imp.presentation.R
-import com.imp.presentation.tracking.service.TrackingForegroundService
 import com.imp.presentation.view.dialog.CommonPopup
+import com.imp.presentation.widget.utils.PreferencesUtil
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 /**
  * Base Activity
@@ -207,8 +220,17 @@ abstract class BaseActivity<B: ViewBinding> : AppCompatActivity() {
      */
     fun startTrackingService() {
 
-        Intent(applicationContext, TrackingForegroundService::class.java).apply {
-            ContextCompat.startForegroundService(applicationContext, this)
+        CoroutineScope(Dispatchers.Main).launch {
+
+            val saveTime = async { SensorDataStore.saveTrackingStartTime(applicationContext, System.currentTimeMillis()) }.await()
+            if (saveTime) {
+
+                Intent(applicationContext, TrackingForegroundService::class.java).apply {
+                    ContextCompat.startForegroundService(applicationContext, this)
+                }
+
+                PreferencesUtil.setPreferencesBoolean(applicationContext, PreferencesUtil.TRACKING_SWITCH_KEY, true)
+            }
         }
     }
 
@@ -220,5 +242,31 @@ abstract class BaseActivity<B: ViewBinding> : AppCompatActivity() {
         Intent(applicationContext, TrackingForegroundService::class.java).apply {
             stopService(this)
         }
+
+        PreferencesUtil.setPreferencesBoolean(applicationContext, PreferencesUtil.TRACKING_SWITCH_KEY, false)
+
+        // 현재까지 수집한 데이터 저장
+        scheduleSaveDataWork()
+    }
+
+    /**
+     * Schedule Save Data Work
+     */
+    private fun scheduleSaveDataWork() {
+
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
+
+        val workRequest = OneTimeWorkRequest.Builder(TrackingWorkManager::class.java)
+            .setConstraints(constraints)
+            .build()
+
+        WorkManager.getInstance(this)
+            .enqueueUniqueWork(
+                BaseConstants.SAVE_STOP_DATA_WORK,
+                ExistingWorkPolicy.REPLACE,
+                workRequest
+            )
     }
 }

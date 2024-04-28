@@ -66,6 +66,12 @@ class ActPermission : BaseContractActivity<ActPermissionBinding>() {
                 return
             }
 
+            // 전화 권한 요청
+            if (!PermissionUtil.checkPermissionCall(this)) {
+                PermissionUtil.requestPermissionCall(this, permissionActivityResultLauncher, permissionDeniedActivityResultLauncher, permissionDeniedPopup)
+                return
+            }
+
             // 위치 권한 요청
             if (!PermissionUtil.checkPermissionLocation(this)) {
                 PermissionUtil.requestPermissionLocation(this, multiPermissionActivityResultLauncher, permissionDeniedActivityResultLauncher, permissionDeniedPopup)
@@ -127,6 +133,10 @@ class ActPermission : BaseContractActivity<ActPermissionBinding>() {
             // 활동 권한
             incActivity.tvTitle.text = getString(R.string.permission_text_5)
             incActivity.tvDescription.text = getString(R.string.permission_text_6)
+
+            // 전화 권한
+            incCall.tvTitle.text = getString(R.string.permission_text_12)
+            incCall.tvDescription.text = getString(R.string.permission_text_13)
 
             // 알림 권한
             incNotification.tvTitle.text = getString(R.string.permission_text_7)

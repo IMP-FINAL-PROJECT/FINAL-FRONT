@@ -49,8 +49,6 @@ class ActManageAccount : BaseContractActivity<ActMypageManageAccountBinding>() {
                     // todo: 임시
                     PreferencesUtil.setPreferencesInt(this@ActManageAccount, PreferencesUtil.TRACKING_SCREEN_AWAKE_KEY, 0)
                 }
-
-                PreferencesUtil.setPreferencesBoolean(this@ActManageAccount, PreferencesUtil.TRACKING_SWITCH_KEY, isChecked)
             }
 
             // 로그아웃

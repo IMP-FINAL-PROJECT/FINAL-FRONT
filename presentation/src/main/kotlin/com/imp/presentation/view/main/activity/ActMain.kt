@@ -12,11 +12,11 @@ import com.imp.presentation.R
 import com.imp.presentation.base.BaseContractActivity
 import com.imp.presentation.constants.BaseConstants
 import com.imp.presentation.databinding.ActMainBinding
-import com.imp.presentation.tracking.data.SensorDataStore
 import com.imp.presentation.view.mypage.ActEditProfile
 import com.imp.presentation.view.mypage.ActManageAccount
 import com.imp.presentation.view.splash.ActPermission
 import com.imp.presentation.view.webview.ActCommonWebView
+import com.imp.presentation.widget.utils.CommonUtil
 import com.imp.presentation.widget.utils.PermissionUtil
 import com.imp.presentation.widget.utils.PreferencesUtil
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,52 +28,44 @@ import dagger.hilt.android.AndroidEntryPoint
 class ActMain : BaseContractActivity<ActMainBinding>() {
 
     /** 권한 요청 */
-    private val notificationActivityResultLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+    private val permissionActivityResultLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { init() }
 
-        if (PermissionUtil.checkPermissionNotification(this)) {
-            init()
-        } else {
-            finish()
-        }
-    }
-
-    /** 권한 요청 */
-    private val locationActivityResultLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
-
-        if (PermissionUtil.checkPermissionLocation(this)) {
-            init()
-        } else {
-            finish()
-        }
-    }
-
-    /** 권한 요청 */
-    private val backgroundLocationActivityResultLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-
-        if (PermissionUtil.checkPermissionBackgroundLocation(this)) {
-            init()
-        } else {
-            finish()
-        }
-    }
-
-    /** 권한 요청 */
-    private val activityActivityResultLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-
-        if (PermissionUtil.checkPermissionActivity(this)) {
-            init()
-        } else {
-            finish()
-        }
-    }
+    /** multi 권한 요청 */
+    private val multiPermissionActivityResultLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { init() }
 
     /** 권한 거부 시 런처 */
-    private val permissionDeniedActivityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+    private val permissionDeniedActivityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { init() }
 
-        if (PermissionUtil.checkPermissions(this)) {
-            init()
+    /**
+     * Show Permission Denied Popup
+     */
+    private val permissionDeniedPopup: (() -> Unit) -> Unit = { deniedCallback ->
+
+        showCommonPopup(
+            titleText = getString(R.string.popup_text_1),
+            rightText = getString(R.string.permission_text_11),
+            rightCallback = { deniedCallback.invoke() },
+            cancelable = false
+        )
+    }
+
+    /**
+     * Request Selection Permission
+     */
+    private var checkSelectionPermission = false
+    private fun selectionPermission() {
+
+        // 알림 권한 요청
+        if (!PermissionUtil.checkPermissionNotification(this) && !checkSelectionPermission) {
+            checkSelectionPermission = true
+            PermissionUtil.requestPermissionNotification(this, permissionActivityResultLauncher, permissionDeniedActivityResultLauncher) { init() }
+            return
+
         } else {
-            finish()
+
+            // 필수 권한 요청
+            requestPermission()
+            return
         }
     }
 
@@ -84,29 +76,34 @@ class ActMain : BaseContractActivity<ActMainBinding>() {
 
         if (!PermissionUtil.checkPermissions(this)) {
 
-            // 알림 권한 요청
-            if (!PermissionUtil.checkPermissionNotification(this)) {
-                PermissionUtil.requestPermissionNotification(this, notificationActivityResultLauncher, permissionDeniedActivityResultLauncher)
+            // 활동 권한 요청
+            if (!PermissionUtil.checkPermissionActivity(this)) {
+                PermissionUtil.requestPermissionActivity(this, permissionActivityResultLauncher, permissionDeniedActivityResultLauncher, permissionDeniedPopup)
                 return
             }
 
-            // 활동 권한 요청
-            if (!PermissionUtil.checkPermissionActivity(this)) {
-                PermissionUtil.requestPermissionActivity(this, activityActivityResultLauncher, permissionDeniedActivityResultLauncher, {})
+            // 전화 권한 요청
+            if (!PermissionUtil.checkPermissionCall(this)) {
+                PermissionUtil.requestPermissionCall(this, permissionActivityResultLauncher, permissionDeniedActivityResultLauncher, permissionDeniedPopup)
                 return
             }
 
             // 위치 권한 요청
             if (!PermissionUtil.checkPermissionLocation(this)) {
-                PermissionUtil.requestPermissionLocation(this, locationActivityResultLauncher, permissionDeniedActivityResultLauncher, {})
+                PermissionUtil.requestPermissionLocation(this, multiPermissionActivityResultLauncher, permissionDeniedActivityResultLauncher, permissionDeniedPopup)
                 return
             }
 
-            // 백그라운드 위치 권한 요청
+            // background 위치 권한 요청
             if (!PermissionUtil.checkPermissionBackgroundLocation(this)) {
 
-                // todo 항상 허용 요청 팝업
-                PermissionUtil.requestPermissionBackgroundLocation(this, backgroundLocationActivityResultLauncher, permissionDeniedActivityResultLauncher)
+                // 항상 허용으로 변경 요청
+                showCommonPopup(
+                    titleText = getString(R.string.popup_text_2),
+                    rightText = getString(R.string.permission_text_11),
+                    rightCallback = { PermissionUtil.requestPermissionBackgroundLocation(this, permissionActivityResultLauncher, permissionDeniedActivityResultLauncher) },
+                    cancelable = false
+                )
                 return
             }
         }
@@ -119,13 +116,12 @@ class ActMain : BaseContractActivity<ActMainBinding>() {
 
     override fun initData() {
 
-        // todo: 임시
-        SensorDataStore.context = this
     }
 
     override fun initView() {
 
         init()
+        initNavigationBar()
     }
 
     /**
@@ -133,15 +129,10 @@ class ActMain : BaseContractActivity<ActMainBinding>() {
      */
     private fun init() {
 
-        if (PermissionUtil.checkPermissions(this)) {
+        if (!PermissionUtil.checkPermissions(this)) {
 
-            // init
-            initNavigationBar()
-
-        } else {
-
-            // permission 요청
-            requestPermission()
+            // selection permission 요청
+            selectionPermission()
         }
     }
 

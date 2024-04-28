@@ -1,7 +1,6 @@
 package com.imp.data.repository
 
 import android.annotation.SuppressLint
-import android.util.Log
 import com.imp.data.BuildConfig
 import com.imp.data.mapper.CommonMapper
 import com.imp.data.remote.api.ApiMember
@@ -24,6 +23,7 @@ import javax.inject.Inject
 /**
  * Member Repository Implementation
  */
+@SuppressLint("CheckResult")
 class MemberRepositoryImpl @Inject constructor() : MemberRepository {
 
     /** Member Data */
@@ -32,7 +32,6 @@ class MemberRepositoryImpl @Inject constructor() : MemberRepository {
     /**
      * Login
      */
-    @SuppressLint("CheckResult")
     override suspend fun login(id: String, password: String, successCallback: (MemberModel) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit) {
 
         val params: MutableMap<String, Any> = HashMap()
@@ -62,7 +61,6 @@ class MemberRepositoryImpl @Inject constructor() : MemberRepository {
     /**
      * Register
      */
-    @SuppressLint("CheckResult")
     override suspend fun register(data: MemberModel, successCallback: (MemberModel) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit) {
 
         val params: MutableMap<String, Any> = HashMap()
@@ -93,7 +91,6 @@ class MemberRepositoryImpl @Inject constructor() : MemberRepository {
     /**
      * Check Email Validation
      */
-    @SuppressLint("CheckResult")
     override suspend fun checkEmail(id: String, successCallback: (Boolean) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit) {
 
         ApiClient.getClient().create(ApiMember::class.java).checkEmail(id)
@@ -111,7 +108,6 @@ class MemberRepositoryImpl @Inject constructor() : MemberRepository {
     /**
      * Search Address
      */
-    @SuppressLint("CheckResult")
     override suspend fun searchAddress(search: String, successCallback: (AddressModel) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit) {
 
         Retrofit.Builder()
@@ -122,8 +118,6 @@ class MemberRepositoryImpl @Inject constructor() : MemberRepository {
             .search(key = BuildConfig.KAKAO_REST_API_KEY, query = search)
             .enqueue(object: Callback<AddressModel> {
                 override fun onResponse(call: Call<AddressModel>, response: Response<AddressModel>) {
-
-                    Log.d("api", "body: ${response.body()}")
 
                     response.body()?.let { successCallback.invoke(it) }
                 }
@@ -137,7 +131,6 @@ class MemberRepositoryImpl @Inject constructor() : MemberRepository {
     /**
      * Get Member Data
      */
-    @SuppressLint("CheckResult")
     override suspend fun getMemberData(successCallback: (MemberModel) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit) {
 
         if (memberData != null) {
@@ -157,7 +150,6 @@ class MemberRepositoryImpl @Inject constructor() : MemberRepository {
     /**
      * Edit Profile
      */
-    @SuppressLint("CheckResult")
     override suspend fun editProfile(data: MemberModel, successCallback: (MemberModel) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit) {
 
         val params: MutableMap<String, Any> = HashMap()

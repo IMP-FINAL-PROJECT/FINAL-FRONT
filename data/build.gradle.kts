@@ -108,4 +108,14 @@ dependencies {
 
     /** Gson */
     implementation(libs.gson)
+
+    /** WorkManager */
+    implementation(libs.androidx.work.runtime)
+
+    /** DataStore */
+    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.datastore.preferences.core)
+
+    /** GPS */
+    implementation(libs.play.services.location)
 }

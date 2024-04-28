@@ -27,24 +27,6 @@ class BaseConstants {
         const val INTENT_KEY_STEP_SENSOR = "STEP_SENSOR"
 
         /**
-         * Screen State
-         */
-        const val SCREEN_STATE_ON = "ON"
-        const val SCREEN_STATE_OFF = "OFF"
-
-        /**
-         * Work
-         */
-        const val SAVE_DATA_WORK = "SAVE_DATA_WORK"
-
-        /**
-         * Notification
-         */
-        const val CHANNEL_ID = "TrackingServiceChannel"
-        const val CHANNEL_ID_2 = "TrackingServiceChannel2"
-        const val NOTIFICATION_ID = 1
-
-        /**
          * Gender Type
          */
         const val GENDER_TYPE_MALE = "M"
