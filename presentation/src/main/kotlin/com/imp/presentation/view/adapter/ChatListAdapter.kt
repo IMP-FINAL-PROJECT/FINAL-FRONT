@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.imp.domain.model.ChatListModel
 import com.imp.presentation.R
+import com.imp.presentation.constants.BaseConstants
 import com.imp.presentation.databinding.ItemChattingListBinding
 import com.imp.presentation.widget.extension.toVisibleOrGone
 
@@ -44,6 +45,9 @@ class ChatListAdapter(var context: Context?, val list: ArrayList<ChatListModel.C
 
                 with(binding) {
 
+                    // x 위치 초기화
+                    ctChat.translationX = 0f
+
                     // 프로필 이미지
                     ivProfile.setBackgroundColor(ContextCompat.getColor(ctx, R.color.color_3377ff))
 
@@ -62,12 +66,23 @@ class ChatListAdapter(var context: Context?, val list: ArrayList<ChatListModel.C
                     // 하단 라인 노출 여부
                     bottomLineView.visibility = (position == size - 1).toVisibleOrGone()
 
+                    // 삭제
+                    tvDelete.text = ctx.getString(R.string.delete)
+
                     // 채팅 클릭
                     ctChat.tag = position
                     ctChat.setOnClickListener {
 
                         val pos = it.tag.toString().toInt()
-                        selectItem?.selectItem(pos, "chatting")
+                        selectItem?.selectItem(pos, BaseConstants.CHAT_CLICK_TYPE_CHATTING)
+                    }
+
+                    // 채팅 삭제 클릭
+                    clExit.tag = position
+                    clExit.setOnClickListener {
+
+                        val pos = it.tag.toString().toInt()
+                        selectItem?.selectItem(pos, BaseConstants.CHAT_CLICK_TYPE_EXIT)
                     }
                 }
             }

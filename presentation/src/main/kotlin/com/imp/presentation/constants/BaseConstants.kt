@@ -32,5 +32,11 @@ class BaseConstants {
         const val GENDER_TYPE_MALE = "M"
         const val GENDER_TYPE_FEMALE = "F"
         const val GENDER_TYPE_NONE = "N"
+
+        /**
+         * Chat Click Type
+         */
+        const val CHAT_CLICK_TYPE_CHATTING = "CHATTING"
+        const val CHAT_CLICK_TYPE_EXIT = "EXIT"
     }
 }

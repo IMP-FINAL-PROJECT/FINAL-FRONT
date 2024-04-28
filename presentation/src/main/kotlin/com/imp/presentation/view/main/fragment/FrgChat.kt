@@ -1,10 +1,12 @@
 package com.imp.presentation.view.main.fragment
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.imp.presentation.BuildConfig
 import com.imp.presentation.R
@@ -14,6 +16,8 @@ import com.imp.presentation.databinding.FrgChatBinding
 import com.imp.presentation.view.adapter.ChatListAdapter
 import com.imp.presentation.view.main.activity.ActMain
 import com.imp.presentation.viewmodel.ChatViewModel
+import com.imp.presentation.widget.component.ItemTouchHelperCallback
+import com.imp.presentation.widget.extension.toDp
 import com.imp.presentation.widget.utils.PreferencesUtil
 
 /**
@@ -99,6 +103,7 @@ class FrgChat: BaseFragment<FrgChatBinding>() {
     /**
      * Initialize RecyclerView
      */
+    @SuppressLint("ClickableViewAccessibility")
     private fun initRecyclerView() {
 
         context?.let { ctx ->
@@ -106,6 +111,13 @@ class FrgChat: BaseFragment<FrgChatBinding>() {
             with(mBinding) {
 
                 rvChat.apply {
+
+                    // itemTouchHelper 등록 (swipe 삭제)
+                    val itemTouchHelperCallback = ItemTouchHelperCallback()
+                    itemTouchHelperCallback.setClamp(56.toDp(ctx))
+
+                    val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+                    itemTouchHelper.attachToRecyclerView(this)
 
                     chattingAdapter = ChatListAdapter(ctx, ArrayList())
                     layoutManager = LinearLayoutManager(ctx, LinearLayoutManager.VERTICAL, false)
@@ -118,10 +130,27 @@ class FrgChat: BaseFragment<FrgChatBinding>() {
 
                                 if (list.size > position) {
 
-                                    loadChatting(list[position].number)
+                                    when(type) {
+
+                                        // 채팅방 열기
+                                        BaseConstants.CHAT_CLICK_TYPE_CHATTING -> loadChatting(list[position].number)
+
+                                        // 채팅방 삭제
+                                        BaseConstants.CHAT_CLICK_TYPE_EXIT -> {
+
+                                            val id = PreferencesUtil.getPreferencesString(ctx, PreferencesUtil.AUTO_LOGIN_ID_KEY)
+                                            list[position].number?.let {
+                                                viewModel.deleteChat(id, it)
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
+                    }
+                    setOnTouchListener { v, event ->
+                        itemTouchHelperCallback.removePreviousClamp(this)
+                        false
                     }
                 }
             }
