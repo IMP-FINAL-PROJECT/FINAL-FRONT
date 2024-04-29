@@ -342,6 +342,9 @@ class TrackingForegroundService : Service() {
      */
     private fun setLightSensorListener() {
 
+        // initialize timestamp
+        currentTime = System.currentTimeMillis()
+
         if (::sensorManager.isInitialized.not()) {
             sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         }
@@ -401,8 +404,6 @@ class TrackingForegroundService : Service() {
      * @param light
      */
     private fun updateLightSensor(light: Float) {
-
-        currentTime = System.currentTimeMillis()
 
         Intent(BaseConstants.ACTION_TYPE_UPDATE_LIGHT_SENSOR).apply {
 
