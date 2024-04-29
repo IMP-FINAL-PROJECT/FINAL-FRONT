@@ -25,6 +25,7 @@ import com.kakao.vectormap.LatLng
 import com.kakao.vectormap.MapLifeCycleCallback
 import com.kakao.vectormap.camera.CameraAnimation
 import com.kakao.vectormap.camera.CameraUpdateFactory
+import com.kakao.vectormap.label.Label
 import com.kakao.vectormap.label.LabelOptions
 
 
@@ -50,6 +51,7 @@ class FrgAddress: BaseFragment<FrgRegisterAddressBinding>() {
 
     /** 지도 관련 변수 */
     private var kakaoMap: KakaoMap? = null
+    private var centerLabel: Label? = null
     private var init = true
 
     override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?) = FrgRegisterAddressBinding.inflate(inflater, container, false)
@@ -226,14 +228,21 @@ class FrgAddress: BaseFragment<FrgRegisterAddressBinding>() {
      */
     private fun addPoint(map: KakaoMap, point: LatLng) {
 
-        map.labelManager?.layer?.let { layer ->
+        if (centerLabel == null) {
 
-            layer.removeAll()
-            layer.addLabel(LabelOptions.from("centerLabel", point).setStyles(R.drawable.icon_map_marker))
+            map.labelManager?.layer?.let { layer ->
 
-            // check address validate
-            checkAddressValidate(point)
+                layer.removeAll()
+                centerLabel = layer.addLabel(LabelOptions.from("centerLabel", point).setStyles(R.drawable.icon_map_marker))
+            }
+
+        } else {
+
+            centerLabel?.moveTo(point)
         }
+
+        // check address validate
+        checkAddressValidate(point)
     }
 
     /**

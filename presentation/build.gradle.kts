@@ -126,4 +126,7 @@ dependencies {
 
     /** Indicator SeekBar */
     implementation(libs.indicatorseekbar)
+
+    /** Indicator */
+    implementation(libs.dotsindicator)
 }

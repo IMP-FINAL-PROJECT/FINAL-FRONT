@@ -157,6 +157,9 @@ class ActRegister : BaseContractActivity<ActMemberRegisterBinding>() {
             // 다음 / 회원 가입 버튼
             incNextAndRegister.tvButton.setOnClickListener {
 
+                // 키보드 내리기
+                hideKeyboard(this@ActRegister, currentFocus)
+
                 if (currentPosition < fragments.size - 1) {
 
                     // 다음 화면 이동
@@ -168,9 +171,6 @@ class ActRegister : BaseContractActivity<ActMemberRegisterBinding>() {
                     // 회원 가입 api 호출
                     viewModel.register()
                 }
-
-                // 키보드 내리기
-                hideKeyboard(this@ActRegister, currentFocus)
             }
         }
     }

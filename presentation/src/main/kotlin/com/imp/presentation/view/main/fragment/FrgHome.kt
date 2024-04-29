@@ -22,6 +22,13 @@ import com.imp.presentation.widget.extension.toVisibleOrGone
 import com.imp.presentation.widget.utils.DateUtil
 import com.imp.presentation.widget.utils.MethodStorageUtil
 import com.imp.presentation.widget.utils.PreferencesUtil
+import com.kakao.vectormap.KakaoMap
+import com.kakao.vectormap.KakaoMapReadyCallback
+import com.kakao.vectormap.LatLng
+import com.kakao.vectormap.MapLifeCycleCallback
+import com.kakao.vectormap.label.Label
+import com.kakao.vectormap.label.LabelOptions
+import com.kakao.vectormap.label.TrackingManager
 import com.warkiz.widget.IndicatorSeekBar
 import com.warkiz.widget.OnSeekChangeListener
 import com.warkiz.widget.SeekParams
@@ -59,6 +66,10 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
                         BaseConstants.ACTION_TYPE_UPDATE_LOCATION -> {
 
                             val location = intent.getParcelableExtra<Location>(BaseConstants.INTENT_KEY_LOCATION)
+                            if (location != null) {
+
+                                addPoint(LatLng.from(location.latitude, location.longitude))
+                            }
                         }
 
                         BaseConstants.ACTION_TYPE_UPDATE_LIGHT_SENSOR -> {
@@ -79,6 +90,11 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
             }
         }
     }
+
+    /** 지도 관련 변수 */
+    private var kakaoMap: KakaoMap? = null
+    private var centerLabel: Label? = null
+    private var tackingManager: TrackingManager? = null
 
     override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?) = FrgHomeBinding.inflate(inflater, container, false)
 
@@ -124,6 +140,7 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
     override fun onDestroy() {
 
         progressBarValueAnimator?.cancel()
+        resetMapView()
 
         super.onDestroy()
     }
@@ -215,19 +232,15 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
         with(mBinding) {
 
             // 이동 경로 map
-//            mapView.start(object : MapLifeCycleCallback() {
-//                override fun onMapDestroy() {
-//
-//                }
-//
-//                override fun onMapError(p0: Exception?) {
-//
-//                }
-//            }, object : KakaoMapReadyCallback() {
-//                override fun onMapReady(kakaoMap: KakaoMap) {
-//
-//                }
-//            })
+            mapView.start(object : MapLifeCycleCallback() {
+                override fun onMapDestroy() {}
+                override fun onMapError(p0: Exception?) {}
+            }, object : KakaoMapReadyCallback() {
+                override fun onMapReady(map: KakaoMap) {
+
+                    kakaoMap = map
+                }
+            })
         }
     }
 
@@ -321,6 +334,47 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
                 tvScreenAwake.text = getString(R.string.unit_count, awakeCount)
             }
         }
+    }
+
+    /**
+     * Add Center Label
+     *
+     * @param point
+     */
+    private fun addPoint(point: LatLng) {
+
+        if (centerLabel == null) {
+
+            kakaoMap?.labelManager?.layer?.let { layer ->
+
+                layer.removeAll()
+                centerLabel = layer.addLabel(LabelOptions.from("centerLabel", point).setStyles(R.drawable.icon_map_marker))
+            }
+
+        } else {
+
+            centerLabel?.moveTo(point)
+        }
+
+        if (tackingManager == null) {
+
+            tackingManager = kakaoMap?.trackingManager
+            tackingManager?.startTracking(centerLabel)
+            tackingManager?.setTrackingRotation(false)
+        }
+    }
+
+    /**
+     * Reset MapView
+     */
+    private fun resetMapView() {
+
+        kakaoMap?.labelManager?.clearAll()
+        centerLabel?.remove()
+
+        kakaoMap = null
+        centerLabel = null
+        tackingManager = null
     }
 
     /**
