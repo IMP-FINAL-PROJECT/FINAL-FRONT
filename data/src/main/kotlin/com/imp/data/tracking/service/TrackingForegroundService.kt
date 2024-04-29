@@ -52,7 +52,7 @@ class TrackingForegroundService : Service() {
 
     companion object {
 
-        private const val TIME_DELAY = 20000L
+        private const val TIME_DELAY = 5000L
         private const val TIME_INTERVAL = 5000L
     }
 
@@ -402,6 +402,8 @@ class TrackingForegroundService : Service() {
      */
     private fun updateLightSensor(light: Float) {
 
+        currentTime = System.currentTimeMillis()
+
         Intent(BaseConstants.ACTION_TYPE_UPDATE_LIGHT_SENSOR).apply {
 
             putExtra(BaseConstants.INTENT_KEY_LIGHT_SENSOR, light)
@@ -498,6 +500,7 @@ class TrackingForegroundService : Service() {
                             // Save Light Data into Preference DataStore
                             SensorDataStore.saveLightData(this@TrackingForegroundService, light, System.currentTimeMillis())
                         }
+                        lightCoroutine.cancel()
                     }
 
                     // Update Light Sensor Data
