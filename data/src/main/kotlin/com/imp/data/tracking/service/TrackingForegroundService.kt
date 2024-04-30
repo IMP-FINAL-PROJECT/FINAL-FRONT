@@ -153,7 +153,6 @@ class TrackingForegroundService : Service() {
             Notification.Builder(this).setPriority(Notification.PRIORITY_DEFAULT)
         }
 
-
         builder.apply {
 
             setContentTitle("Phone Tracking")

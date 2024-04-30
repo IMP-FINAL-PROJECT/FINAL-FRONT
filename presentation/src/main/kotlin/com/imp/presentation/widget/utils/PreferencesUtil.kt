@@ -9,6 +9,9 @@ class PreferencesUtil {
 
         const val PREF_NAME = "com.imp.fluffymood"
 
+        // Firebase Token Key
+        const val PUSH_TOKEN = "PUSH_TOKEN"
+
         // Permission Key
         const val SHOW_PERMISSION_SCREEN = "SHOW_PERMISSION_SCREEN"
 

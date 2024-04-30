@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.googleDevtoolsKsp)
+    alias(libs.plugins.googleService)
     id(libs.plugins.daggerHiltAndroidPlugin.get().pluginId)
 }
 
@@ -105,6 +106,10 @@ dependencies {
     /** Coroutine Core */
     implementation(libs.bundles.coroutine)
 
+    /** Firebase */
+    implementation(libs.firebase.messaging)
+    implementation(libs.firebase.analytics)
+
     /** Glide */
     implementation(libs.glide)
     implementation(libs.glide.transformations)
@@ -130,6 +135,6 @@ dependencies {
     /** Indicator */
     implementation(libs.dotsindicator)
 
-    /* Number Picker */
+    /** Number Picker */
     implementation(libs.number.picker)
 }
