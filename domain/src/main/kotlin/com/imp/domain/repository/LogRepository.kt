@@ -11,5 +11,5 @@ interface LogRepository {
     /**
      * Load Log Data
      */
-    suspend fun loadLogData(id: String, successCallback: (LogModel) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit)
+    suspend fun loadLogData(id: String, date: String, successCallback: (LogModel) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit)
 }

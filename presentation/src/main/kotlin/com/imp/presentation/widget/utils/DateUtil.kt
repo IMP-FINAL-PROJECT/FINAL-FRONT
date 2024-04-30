@@ -1,6 +1,7 @@
 package com.imp.presentation.widget.utils
 
 import android.annotation.SuppressLint
+import com.imp.presentation.widget.extension.resetCalendarTime
 import java.text.SimpleDateFormat
 import java.time.DayOfWeek
 import java.time.Instant
@@ -43,6 +44,15 @@ class DateUtil {
         }
 
         /**
+         * Get Date with Year, Month, Day Text (yyyy년 MM월 dd일)
+         */
+        fun getDateWithYearMonthDay(calendar: Calendar): String {
+
+            val dateFormat = SimpleDateFormat("yyyy년 MM월 dd일", Locale.getDefault())
+            return dateFormat.format(calendar.time)
+        }
+
+        /**
          * Get Current Date (오늘, MM월 dd일)
          */
         fun getCurrentMonthDay(): String {
@@ -54,6 +64,25 @@ class DateUtil {
         }
 
         /**
+         * Get Date (MM월 dd일)
+         */
+        fun getMonthDay(calendar: Calendar): String {
+
+            val todayCalendar = Calendar.getInstance()
+
+            todayCalendar.resetCalendarTime()
+            calendar.resetCalendarTime()
+
+            // 오늘 날짜인 경우
+            if (calendar == todayCalendar) {
+                return getCurrentMonthDay()
+            }
+
+            val dateFormat = SimpleDateFormat("MM월 dd일", Locale.getDefault())
+            return dateFormat.format(calendar.time)
+        }
+
+        /**
          * Get Current Weekly (MM월 dd일 ~ MM월 dd일)
          */
         fun getCurrentWeekly(): String {
@@ -61,6 +90,22 @@ class DateUtil {
             val today = LocalDate.now()
             val startOfWeek = today.with(DayOfWeek.SUNDAY).minusDays(7)
             val endOfWeek = startOfWeek.plusDays(6)
+
+            val formatter = DateTimeFormatter.ofPattern("MM월 dd일")
+
+            val formattedStartOfWeek = startOfWeek.format(formatter)
+            val formattedEndOfWeek = endOfWeek.format(formatter)
+
+            return "$formattedStartOfWeek ~ $formattedEndOfWeek"
+        }
+
+        /**
+         * Get Current Weekly (MM월 dd일 ~ MM월 dd일)
+         */
+        fun getWeeklyWithLast(calendar: Calendar): String {
+
+            val endOfWeek = LocalDate.of(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH))
+            val startOfWeek = endOfWeek.minusDays(6)
 
             val formatter = DateTimeFormatter.ofPattern("MM월 dd일")
 
@@ -170,6 +215,15 @@ class DateUtil {
                 e.printStackTrace()
                 getCurrentDateWithText("yyyy-MM-dd")
             }
+        }
+
+        /**
+         * Calendar to (yyyy-MM-dd) String
+         */
+        fun calendarToServerFormat(calendar: Calendar): String {
+
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            return dateFormat.format(calendar.time)
         }
     }
 }

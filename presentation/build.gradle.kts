@@ -129,4 +129,7 @@ dependencies {
 
     /** Indicator */
     implementation(libs.dotsindicator)
+
+    /* Number Picker */
+    implementation(libs.number.picker)
 }

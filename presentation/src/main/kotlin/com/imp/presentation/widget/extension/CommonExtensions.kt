@@ -18,6 +18,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.Serializable
+import java.util.Calendar
 
 /**
  * Intent
@@ -161,4 +162,15 @@ fun hideKeyboard(context: Context?, view: View?, vararg editText: AppCompatEditT
 
     val inputMethodManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
+}
+
+/**
+ * Calendar
+ */
+fun Calendar.resetCalendarTime() {
+
+    set(Calendar.HOUR, 0)
+    set(Calendar.MINUTE, 0)
+    set(Calendar.SECOND, 0)
+    set(Calendar.MILLISECOND, 0)
 }

@@ -15,8 +15,9 @@ interface ApiLog {
      * Log Data
      */
     @Headers("Content-Type: application/json")
-    @GET(HttpConstants.API_ANALYSIS)
+    @GET(HttpConstants.API_LOG)
     fun logData(
-        @Query("id") id: String
+        @Query("id") id: String,
+        @Query("date") date: String
     ): Observable<BaseResponse<LogModel>>
 }

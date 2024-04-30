@@ -21,9 +21,9 @@ class LogRepositoryImpl @Inject constructor() : LogRepository {
      * Load Log Data
      */
     @SuppressLint("CheckResult")
-    override suspend fun loadLogData(id: String, successCallback: (LogModel) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit) {
+    override suspend fun loadLogData(id: String, date: String, successCallback: (LogModel) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit) {
 
-        ApiClient.getClient().create(ApiLog::class.java).logData(id)
+        ApiClient.getClient().create(ApiLog::class.java).logData(id, date)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ response ->

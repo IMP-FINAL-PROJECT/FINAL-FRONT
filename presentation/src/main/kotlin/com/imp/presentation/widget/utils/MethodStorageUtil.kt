@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
@@ -15,13 +16,14 @@ import android.os.Vibrator
 import android.text.Spannable
 import android.text.Spanned
 import android.text.style.AbsoluteSizeSpan
-import android.text.style.StyleSpan
+import android.text.style.TypefaceSpan
 import android.view.HapticFeedbackConstants
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.content.res.ResourcesCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.DataSource
@@ -34,6 +36,7 @@ import com.bumptech.glide.request.target.CustomViewTarget
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
+import com.imp.presentation.widget.component.CustomTypefaceSpan
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.ObservableEmitter
@@ -341,8 +344,14 @@ class MethodStorageUtil {
         fun setSpannable(textView: TextView, start: Int, end: Int, size: Int, font: Int) {
 
             val spannable = textView.text as Spannable
-            spannable.setSpan(StyleSpan(font), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
             spannable.setSpan(AbsoluteSizeSpan(size), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+            val font = Typeface.create(ResourcesCompat.getFont(textView.context, font), Typeface.NORMAL)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                spannable.setSpan(TypefaceSpan(font), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            } else {
+                spannable.setSpan(CustomTypefaceSpan(font), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            }
         }
     }
 }

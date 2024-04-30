@@ -36,10 +36,11 @@ class LogViewModel @Inject constructor(private val useCase: LogUseCase) : ViewMo
     /**
      * Load Log Data
      */
-    fun loadData(id: String) = viewModelScope.launch {
+    fun loadData(id: String, date: String) = viewModelScope.launch {
 
         useCase.loadLogData(
             id = id,
+            date = date,
             successCallback = {
                 _logData.value = it
                 setPointList()

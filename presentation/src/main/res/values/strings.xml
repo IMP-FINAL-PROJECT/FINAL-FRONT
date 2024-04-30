@@ -16,6 +16,7 @@
     <string name="complete">완료</string>
     <string name="save">저장</string>
     <string name="delete">삭제</string>
+    <string name="select">선택</string>
 
     <!-- Day of Week -->
     <string name="monday">월</string>
@@ -98,6 +99,7 @@
     <string name="log_text_8">통화 시간</string>
     <string name="log_text_9">통화 횟수</string>
     <string name="log_text_10">로그</string>
+    <string name="log_text_11">날짜를 선택해주세요.</string>
 
     <!-- Main - Chat -->
     <string name="chat_text_1">새로운 채팅을 생성하시겠습니까?</string>

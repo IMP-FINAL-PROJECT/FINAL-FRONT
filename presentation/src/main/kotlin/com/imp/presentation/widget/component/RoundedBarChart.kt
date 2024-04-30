@@ -20,6 +20,9 @@ import com.github.mikephil.charting.renderer.BarChartRenderer
 import com.github.mikephil.charting.utils.Utils
 import com.github.mikephil.charting.utils.ViewPortHandler
 import com.imp.presentation.R
+import java.time.DayOfWeek
+import java.time.LocalDate
+import java.util.Calendar
 import kotlin.math.ceil
 import kotlin.math.roundToInt
 
@@ -48,7 +51,6 @@ class RoundedBarChart : BarChart {
         }
 
         initDisplay()
-        initWeekList()
     }
 
     private fun initDisplay() {
@@ -97,9 +99,11 @@ class RoundedBarChart : BarChart {
         }
     }
 
-    fun setChartWeek(isDay: Boolean) {
+    fun setChartWeek(isDay: Boolean, calendar: Calendar) {
 
-        xAxis.valueFormatter =  object : ValueFormatter() {
+        initWeekList(calendar)
+
+        xAxis.valueFormatter = object : ValueFormatter() {
             override fun getFormattedValue(value: Float): String {
 
                 return if (isDay) {
@@ -121,18 +125,38 @@ class RoundedBarChart : BarChart {
         renderer = RoundedBarChartRenderer(this, animator, viewPortHandler, radius)
     }
 
-    private fun initWeekList() {
+    private fun initWeekList(calendar: Calendar) {
 
-        context?.let { ctx ->
+        val date = LocalDate.of(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH))
 
-            weekList.clear()
-            weekList.add(ctx.getString(R.string.sunday))
-            weekList.add(ctx.getString(R.string.monday))
-            weekList.add(ctx.getString(R.string.tuesday))
-            weekList.add(ctx.getString(R.string.wednesday))
-            weekList.add(ctx.getString(R.string.thursday))
-            weekList.add(ctx.getString(R.string.friday))
-            weekList.add(ctx.getString(R.string.saturday))
+        weekList.clear()
+        weekList.add(getDayOfWeek(date, 6))
+        weekList.add(getDayOfWeek(date, 5))
+        weekList.add(getDayOfWeek(date, 4))
+        weekList.add(getDayOfWeek(date, 3))
+        weekList.add(getDayOfWeek(date, 2))
+        weekList.add(getDayOfWeek(date, 1))
+        weekList.add(getDayOfWeek(date, 0))
+    }
+
+    private fun getDayOfWeek(date: LocalDate, minusDay: Long): String {
+        return dayOfWeekMapper(date.minusDays(minusDay).dayOfWeek)
+    }
+
+    private fun dayOfWeekMapper(dayOfWeek: DayOfWeek): String {
+
+        if (context == null) return ""
+
+        return when(dayOfWeek) {
+
+            DayOfWeek.MONDAY -> context.getString(R.string.monday)
+            DayOfWeek.TUESDAY -> context.getString(R.string.tuesday)
+            DayOfWeek.WEDNESDAY -> context.getString(R.string.wednesday)
+            DayOfWeek.THURSDAY -> context.getString(R.string.thursday)
+            DayOfWeek.FRIDAY -> context.getString(R.string.friday)
+            DayOfWeek.SATURDAY -> context.getString(R.string.saturday)
+            DayOfWeek.SUNDAY -> context.getString(R.string.sunday)
+            else -> ""
         }
     }
 
