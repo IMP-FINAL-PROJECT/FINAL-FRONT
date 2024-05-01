@@ -45,7 +45,7 @@ class ScreenStateReceiver: BroadcastReceiver() {
             // Save Screen On/Off Data into Preference DataStore
             SensorDataStore.saveScreenData(context, state, System.currentTimeMillis())
 
-            if (isOn) {
+            if (!isOn) {
 
                 // 날짜 확인
                 checkDate(context)
@@ -53,6 +53,11 @@ class ScreenStateReceiver: BroadcastReceiver() {
                 // screen time, awake count 갱신
                 updateScreenTime(context)
                 updateScreenAwakeCount(context)
+
+            } else {
+
+                // 초기화
+                PreferencesUtil.deletePreferences(context, PreferencesUtil.TRACKING_SCREEN_RECENT_TIMESTAMP_KEY)
             }
         }
     }
@@ -65,7 +70,10 @@ class ScreenStateReceiver: BroadcastReceiver() {
     private fun updateScreenTime(context: Context) {
 
         val currentTimestamp = System.currentTimeMillis()
-        val recentTimestamp = PreferencesUtil.getPreferencesLong(context, PreferencesUtil.TRACKING_SCREEN_RECENT_TIMESTAMP_KEY)
+        var recentTimestamp = PreferencesUtil.getPreferencesLong(context, PreferencesUtil.TRACKING_SCREEN_RECENT_TIMESTAMP_KEY)
+        if (recentTimestamp == 0L) {
+            recentTimestamp = currentTimestamp
+        }
 
         var screenTime = PreferencesUtil.getPreferencesLong(context, PreferencesUtil.TRACKING_SCREEN_TIME_KEY)
         screenTime += currentTimestamp - recentTimestamp

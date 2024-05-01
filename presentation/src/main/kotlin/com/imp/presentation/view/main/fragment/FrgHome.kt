@@ -359,7 +359,10 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
     private fun updateScreenTime(context: Context) {
 
         val currentTimestamp = System.currentTimeMillis()
-        val recentTimestamp = PreferencesUtil.getPreferencesLong(context, PreferencesUtil.TRACKING_SCREEN_RECENT_TIMESTAMP_KEY)
+        var recentTimestamp = PreferencesUtil.getPreferencesLong(context, PreferencesUtil.TRACKING_SCREEN_RECENT_TIMESTAMP_KEY)
+        if (recentTimestamp == 0L) {
+            recentTimestamp = currentTimestamp
+        }
 
         var screenTime = PreferencesUtil.getPreferencesLong(context, PreferencesUtil.TRACKING_SCREEN_TIME_KEY)
         screenTime += currentTimestamp - recentTimestamp
