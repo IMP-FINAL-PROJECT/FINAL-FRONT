@@ -35,6 +35,7 @@ import com.warkiz.widget.SeekParams
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 /**
  * Main - Home Fragment
@@ -140,7 +141,7 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
     override fun onDestroy() {
 
         progressBarValueAnimator?.cancel()
-        resetMapView()
+//        resetMapView()
 
         super.onDestroy()
     }
@@ -313,7 +314,7 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
 
             with(mBinding) {
 
-                val isTracking = PreferencesUtil.getPreferencesBoolean(ctx, PreferencesUtil.TRACKING_SWITCH_KEY)
+                val isTracking = MethodStorageUtil.isServiceRunning(ctx)
                 ctTrackingOff.visibility = isTracking.toGoneOrVisible()
                 llTrackingCard.visibility = isTracking.toVisibleOrGone()
             }
@@ -329,11 +330,87 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
 
             with(mBinding) {
 
+                if (!MethodStorageUtil.isServiceRunning(ctx)) return
+
+                checkDate(ctx)
+                updateScreenTime(ctx)
+
+                // 스크린 타임
+                val screenTimestamp = PreferencesUtil.getPreferencesLong(ctx, PreferencesUtil.TRACKING_SCREEN_TIME_KEY)
+                val screenTime = DateUtil.timestampToScreenTime(screenTimestamp)
+                tvScreenTime.text = getString(R.string.unit_hour_minute, screenTime.first, screenTime.second)
+
                 // 화면 깨우기
                 val awakeCount = PreferencesUtil.getPreferencesInt(ctx, PreferencesUtil.TRACKING_SCREEN_AWAKE_KEY)
                 tvScreenAwake.text = getString(R.string.unit_count, awakeCount)
+
+                // 걸음
+                val stepCount = PreferencesUtil.getPreferencesInt(ctx, PreferencesUtil.TRACKING_STEP_KEY)
+                tvStep.text = getString(R.string.unit_steps, stepCount.toString())
             }
         }
+    }
+
+    /**
+     * Update Screen Time
+     *
+     * @param context
+     */
+    private fun updateScreenTime(context: Context) {
+
+        val currentTimestamp = System.currentTimeMillis()
+        val recentTimestamp = PreferencesUtil.getPreferencesLong(context, PreferencesUtil.TRACKING_SCREEN_RECENT_TIMESTAMP_KEY)
+
+        var screenTime = PreferencesUtil.getPreferencesLong(context, PreferencesUtil.TRACKING_SCREEN_TIME_KEY)
+        screenTime += currentTimestamp - recentTimestamp
+
+        // screen time 저장
+        PreferencesUtil.setPreferencesLong(context, PreferencesUtil.TRACKING_SCREEN_TIME_KEY, screenTime)
+
+        // recent timestamp 저장
+        PreferencesUtil.setPreferencesLong(context, PreferencesUtil.TRACKING_SCREEN_RECENT_TIMESTAMP_KEY, currentTimestamp)
+    }
+
+    /**
+     * Check Date
+     *
+     * @param context
+     */
+    private fun checkDate(context: Context) {
+
+        val savedDateString = PreferencesUtil.getPreferencesString(context, PreferencesUtil.TRACKING_DATE_KEY)
+        if (savedDateString.isEmpty()) {
+
+            // 비어 있는 경우, 현재 날짜 저장 후 리턴
+            PreferencesUtil.setPreferencesString(context, PreferencesUtil.TRACKING_DATE_KEY, LocalDate.now().toString())
+            clearTrackingData(context)
+            return
+        }
+
+        val savedDate = DateUtil.stringToLocalDate(savedDateString)
+        val currentDate = LocalDate.now()
+
+        if (currentDate.isAfter(savedDate)) {
+
+            // 날짜 갱신
+            PreferencesUtil.setPreferencesString(context, PreferencesUtil.TRACKING_DATE_KEY, currentDate.toString())
+
+            // 초기화
+            clearTrackingData(context)
+        }
+    }
+
+    /**
+     * Clear Tracking Data
+     *
+     * @param context
+     */
+    private fun clearTrackingData(context: Context) {
+
+        PreferencesUtil.deletePreferences(context, PreferencesUtil.TRACKING_SCREEN_AWAKE_KEY)
+        PreferencesUtil.deletePreferences(context, PreferencesUtil.TRACKING_SCREEN_TIME_KEY)
+        PreferencesUtil.setPreferencesLong(context, PreferencesUtil.TRACKING_SCREEN_RECENT_TIMESTAMP_KEY, System.currentTimeMillis())
+        PreferencesUtil.deletePreferences(context, PreferencesUtil.TRACKING_STEP_KEY)
     }
 
     /**

@@ -127,6 +127,15 @@ class DateUtil {
         }
 
         /**
+         * String (yyyy-MM-dd) to LocalDate
+         */
+        fun stringToLocalDate(string: String): LocalDate {
+
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+            return LocalDate.parse(string, formatter)
+        }
+
+        /**
          * Timestamp to Time (HH:mm:ss)
          */
         fun timestampToTimeSeconds(timestamp: Long): String {

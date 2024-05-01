@@ -16,9 +16,8 @@ import com.imp.presentation.view.mypage.ActEditProfile
 import com.imp.presentation.view.mypage.ActManageAccount
 import com.imp.presentation.view.splash.ActPermission
 import com.imp.presentation.view.webview.ActCommonWebView
-import com.imp.presentation.widget.utils.CommonUtil
+import com.imp.presentation.widget.utils.MethodStorageUtil
 import com.imp.presentation.widget.utils.PermissionUtil
-import com.imp.presentation.widget.utils.PreferencesUtil
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -170,8 +169,7 @@ class ActMain : BaseContractActivity<ActMainBinding>() {
      */
     fun registerUIBroadcast(receiver: BroadcastReceiver) {
 
-        val isTracking = PreferencesUtil.getPreferencesBoolean(this, PreferencesUtil.TRACKING_SWITCH_KEY)
-        if (isTracking) {
+        if (MethodStorageUtil.isServiceRunning(this)) {
 
             IntentFilter().apply {
 
@@ -188,8 +186,7 @@ class ActMain : BaseContractActivity<ActMainBinding>() {
      */
     fun unregisterUIBroadcast(receiver: BroadcastReceiver) {
 
-        val isTracking = PreferencesUtil.getPreferencesBoolean(this, PreferencesUtil.TRACKING_SWITCH_KEY)
-        if (isTracking) {
+        if (MethodStorageUtil.isServiceRunning(this)) {
 
             try {
                 unregisterReceiver(receiver)

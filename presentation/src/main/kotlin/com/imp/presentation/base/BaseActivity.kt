@@ -22,6 +22,7 @@ import com.imp.data.tracking.service.TrackingForegroundService
 import com.imp.data.tracking.work.TrackingWorkManager
 import com.imp.presentation.R
 import com.imp.presentation.view.dialog.CommonPopup
+import com.imp.presentation.widget.utils.MethodStorageUtil
 import com.imp.presentation.widget.utils.PreferencesUtil
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.CoroutineScope
@@ -61,6 +62,9 @@ abstract class BaseActivity<B: ViewBinding> : AppCompatActivity() {
 
         // Slide 애니메이션 여부
         activityOpenAnimation()
+
+        // tracking service 실행 여부
+        checkTrackingServiceIsRunning()
 
         // 뒤로가기 콜백
         if (backPressedCallback != null) onBackPressedDispatcher.addCallback(this, backPressedCallback!!)
@@ -190,6 +194,15 @@ abstract class BaseActivity<B: ViewBinding> : AppCompatActivity() {
         window.statusBarColor = ContextCompat.getColor(this@BaseActivity, color)
 
         WindowInsetsControllerCompat(window, mBinding.root).isAppearanceLightStatusBars = true
+    }
+
+    /**
+     * Check Tracking Service is Running
+     */
+    private fun checkTrackingServiceIsRunning() {
+
+        val isTracking = MethodStorageUtil.isServiceRunning(this)
+        PreferencesUtil.setPreferencesBoolean(this, PreferencesUtil.TRACKING_SWITCH_KEY, isTracking)
     }
 
     /**

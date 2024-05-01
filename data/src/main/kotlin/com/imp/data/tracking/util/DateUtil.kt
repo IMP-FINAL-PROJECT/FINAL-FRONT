@@ -3,6 +3,7 @@ package com.imp.data.tracking.util
 import android.annotation.SuppressLint
 import java.text.SimpleDateFormat
 import java.time.Instant
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -50,6 +51,15 @@ class DateUtil {
             val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
 
             return formatter.format(dateTime)
+        }
+
+        /**
+         * String (yyyy-MM-dd) to LocalDate
+         */
+        fun stringToLocalDate(string: String): LocalDate {
+
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+            return LocalDate.parse(string, formatter)
         }
 
         /**

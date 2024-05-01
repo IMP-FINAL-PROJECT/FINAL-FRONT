@@ -1,4 +1,4 @@
-package com.imp.presentation.widget.utils
+package com.imp.data.util
 
 import android.content.Context
 
@@ -9,15 +9,7 @@ class PreferencesUtil {
 
         const val PREF_NAME = "com.imp.fluffymood"
 
-        // Permission Key
-        const val SHOW_PERMISSION_SCREEN = "SHOW_PERMISSION_SCREEN"
-
-        // Member Key
-        const val AUTO_LOGIN_ID_KEY = "AUTO_LOGIN_ID_KEY"
-        const val AUTO_LOGIN_PASSWORD_KEY = "AUTO_LOGIN_PASSWORD_KEY"
-
         // Tracking Key
-        const val TRACKING_SWITCH_KEY = "TRACKING_SWITCH_KEY"
         const val TRACKING_DATE_KEY = "TRACKING_REAL_TIME_DATE_KEY"
         const val TRACKING_SCREEN_AWAKE_KEY = "TRACKING_SCREEN_AWAKE_KEY"
         const val TRACKING_SCREEN_TIME_KEY = "TRACKING_SCREEN_TIME_KEY"

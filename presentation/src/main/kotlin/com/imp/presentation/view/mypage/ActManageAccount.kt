@@ -45,9 +45,6 @@ class ActManageAccount : BaseContractActivity<ActMypageManageAccountBinding>() {
                     startTrackingService()
                 } else {
                     stopTrackingService()
-
-                    // todo: 임시
-                    PreferencesUtil.setPreferencesInt(this@ActManageAccount, PreferencesUtil.TRACKING_SCREEN_AWAKE_KEY, 0)
                 }
             }
 

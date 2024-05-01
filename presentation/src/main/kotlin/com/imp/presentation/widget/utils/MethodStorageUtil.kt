@@ -1,6 +1,8 @@
 package com.imp.presentation.widget.utils
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.app.ActivityManager
 import android.content.Context
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
@@ -10,7 +12,6 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
-import android.os.PowerManager
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.text.Spannable
@@ -36,6 +37,7 @@ import com.bumptech.glide.request.target.CustomViewTarget
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
+import com.imp.data.tracking.service.TrackingForegroundService
 import com.imp.presentation.widget.component.CustomTypefaceSpan
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
@@ -262,6 +264,32 @@ class MethodStorageUtil {
         }
 
         /**
+         * Tracking Service 실행 여부 확인
+         *
+         * @param context
+         */
+        fun isServiceRunning(context: Context): Boolean {
+
+            try {
+
+                val activityManager = context.getSystemService(Activity.ACTIVITY_SERVICE) as ActivityManager
+                val serviceList = activityManager.getRunningServices(Int.MAX_VALUE)
+                for (service in serviceList) {
+
+                    if (service.service.className == TrackingForegroundService::class.java.name) {
+                        return true
+                    }
+                }
+
+                return false
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+                return false
+            }
+        }
+
+        /**
          * 클릭 시 해당 앱 이동
          *
          * @param context
@@ -300,24 +328,6 @@ class MethodStorageUtil {
 
                     view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
                 }
-            }
-        }
-
-        /**
-         * Check Current Screen On/Off
-         *
-         * @return
-         */
-        fun checkDeviceStatus(context: Context): Boolean {
-
-            return try {
-
-                val powerManager = context.getSystemService(Context.POWER_SERVICE) as PowerManager
-                powerManager.isInteractive
-
-            } catch (e: Exception) {
-                e.printStackTrace()
-                false
             }
         }
 

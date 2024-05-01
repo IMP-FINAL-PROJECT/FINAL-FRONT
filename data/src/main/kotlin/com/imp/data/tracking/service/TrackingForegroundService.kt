@@ -36,12 +36,15 @@ import com.imp.data.tracking.constants.BaseConstants
 import com.imp.data.tracking.data.SensorDataStore
 import com.imp.data.tracking.receiver.PhoneCallReceiver
 import com.imp.data.tracking.receiver.ScreenStateReceiver
+import com.imp.data.tracking.util.DateUtil
 import com.imp.data.tracking.util.resetCalendarTime
 import com.imp.data.tracking.work.TrackingWorkManager
+import com.imp.data.util.PreferencesUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
 
@@ -272,6 +275,12 @@ class TrackingForegroundService : Service() {
             addAction(Intent.ACTION_SCREEN_OFF)
             registerReceiver(screenStateReceiver, this, RECEIVER_EXPORTED)
         }
+
+        // screen time tracking 시작 시간 저장
+        val recentTimestamp = PreferencesUtil.getPreferencesLong(this@TrackingForegroundService, PreferencesUtil.TRACKING_SCREEN_RECENT_TIMESTAMP_KEY)
+        if (recentTimestamp == 0L) {
+            PreferencesUtil.setPreferencesLong(this@TrackingForegroundService, PreferencesUtil.TRACKING_SCREEN_RECENT_TIMESTAMP_KEY, System.currentTimeMillis())
+        }
     }
 
     /**
@@ -296,6 +305,9 @@ class TrackingForegroundService : Service() {
         } catch (e: IllegalArgumentException) {
             Log.d("tracking", "unregisterScreenReceiver >>> $e")
         }
+
+        // screen time tracking 시작 시간 초기화
+        PreferencesUtil.deletePreferences(this@TrackingForegroundService, PreferencesUtil.TRACKING_SCREEN_RECENT_TIMESTAMP_KEY)
     }
 
     /**
@@ -520,10 +532,59 @@ class TrackingForegroundService : Service() {
                         SensorDataStore.saveStepData(this@TrackingForegroundService, 1, System.currentTimeMillis())
                     }
 
+                    // 날짜 확인
+                    checkDate(this@TrackingForegroundService)
+
+                    // step count 갱신
+                    val stepCount = PreferencesUtil.getPreferencesInt(this@TrackingForegroundService, PreferencesUtil.TRACKING_STEP_KEY)
+                    PreferencesUtil.setPreferencesInt(this@TrackingForegroundService, PreferencesUtil.TRACKING_STEP_KEY, stepCount + 1)
+
                     // Update Step Sensor Data
-                    updateStepSensor(currentStep)
+                    updateStepSensor(stepCount + 1)
                 }
             }
         }
+    }
+
+    /**
+     * Check Date
+     *
+     * @param context
+     */
+    private fun checkDate(context: Context) {
+
+        val savedDateString = PreferencesUtil.getPreferencesString(context, PreferencesUtil.TRACKING_DATE_KEY)
+        if (savedDateString.isEmpty()) {
+
+            // 비어 있는 경우, 현재 날짜 저장 후 리턴
+            PreferencesUtil.setPreferencesString(context, PreferencesUtil.TRACKING_DATE_KEY, LocalDate.now().toString())
+            clearTrackingData(context)
+            return
+        }
+
+        val savedDate = DateUtil.stringToLocalDate(savedDateString)
+        val currentDate = LocalDate.now()
+
+        if (currentDate.isAfter(savedDate)) {
+
+            // 날짜 갱신
+            PreferencesUtil.setPreferencesString(context, PreferencesUtil.TRACKING_DATE_KEY, currentDate.toString())
+
+            // 초기화
+            clearTrackingData(context)
+        }
+    }
+
+    /**
+     * Clear Tracking Data
+     *
+     * @param context
+     */
+    private fun clearTrackingData(context: Context) {
+
+        PreferencesUtil.deletePreferences(context, PreferencesUtil.TRACKING_SCREEN_AWAKE_KEY)
+        PreferencesUtil.deletePreferences(context, PreferencesUtil.TRACKING_SCREEN_TIME_KEY)
+        PreferencesUtil.setPreferencesLong(context, PreferencesUtil.TRACKING_SCREEN_RECENT_TIMESTAMP_KEY, System.currentTimeMillis())
+        PreferencesUtil.deletePreferences(context, PreferencesUtil.TRACKING_STEP_KEY)
     }
 }
