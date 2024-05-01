@@ -1,4 +1,4 @@
-package com.imp.presentation.firebase
+package com.imp.fluffymood.firebase
 
 import android.annotation.SuppressLint
 import android.content.Context

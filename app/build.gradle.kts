@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.jetbrainsKotlinParcelize)
     alias(libs.plugins.googleDevtoolsKsp)
+    alias(libs.plugins.googleService)
     id(libs.plugins.daggerHiltAndroidPlugin.get().pluginId)
 }
 
@@ -117,6 +118,10 @@ dependencies {
     /** Hilt */
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
+
+    /** Firebase */
+    implementation(libs.firebase.messaging)
+    implementation(libs.firebase.analytics)
 
     /** Kakao Map */
     implementation(libs.kakao.map)

@@ -1,4 +1,4 @@
-package com.imp.presentation.firebase
+package com.imp.fluffymood.firebase
 
 import android.app.Notification
 import android.app.NotificationChannel
