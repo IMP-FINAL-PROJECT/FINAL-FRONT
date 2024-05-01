@@ -45,16 +45,18 @@ class ScreenStateReceiver: BroadcastReceiver() {
             // Save Screen On/Off Data into Preference DataStore
             SensorDataStore.saveScreenData(context, state, System.currentTimeMillis())
 
+            // 날짜 확인
+            checkDate(context)
+
             if (!isOn) {
 
-                // 날짜 확인
-                checkDate(context)
-
-                // screen time, awake count 갱신
+                // screen time 갱신
                 updateScreenTime(context)
-                updateScreenAwakeCount(context)
 
             } else {
+
+                // awake count 갱신
+                updateScreenAwakeCount(context)
 
                 // 초기화
                 PreferencesUtil.deletePreferences(context, PreferencesUtil.TRACKING_SCREEN_RECENT_TIMESTAMP_KEY)
