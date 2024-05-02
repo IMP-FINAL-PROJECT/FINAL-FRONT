@@ -27,6 +27,16 @@ class BaseConstants {
         const val INTENT_KEY_STEP_SENSOR = "STEP_SENSOR"
 
         /**
+         * Analysis Type
+         */
+        const val ANALYSIS_TYPE_SCREEN_TIME = "ANALYSIS_TYPE_SCREEN_TIME"
+        const val ANALYSIS_TYPE_SCREEN_AWAKE = "ANALYSIS_TYPE_SCREEN_AWAKE"
+        const val ANALYSIS_TYPE_STEP = "ANALYSIS_TYPE_STEP"
+        const val ANALYSIS_TYPE_CALL_TIME = "ANALYSIS_TYPE_CALL_TIME"
+        const val ANALYSIS_TYPE_CALL_FREQUENCY = "ANALYSIS_TYPE_CALL_FREQUENCY"
+        const val ANALYSIS_TYPE_LIGHT = "ANALYSIS_TYPE_LIGHT"
+
+        /**
          * Gender Type
          */
         const val GENDER_TYPE_MALE = "M"

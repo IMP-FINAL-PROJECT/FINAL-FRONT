@@ -101,6 +101,18 @@
     <string name="log_text_10">로그</string>
     <string name="log_text_11">날짜를 선택해주세요.</string>
 
+    <!-- Main - Analysis -->
+    <string name="analysis_text_1">선택한 날짜의 데이터가 없습니다.\n날짜를 변경해 주세요.</string>
+    <string name="analysis_text_2">빛 노출량</string>
+    <string name="analysis_text_3"></string>
+    <string name="analysis_text_4"></string>
+    <string name="analysis_text_5"></string>
+    <string name="analysis_text_6"></string>
+    <string name="analysis_text_7"></string>
+    <string name="analysis_text_8"></string>
+    <string name="analysis_text_9"></string>
+    <string name="analysis_text_10"></string>
+
     <!-- Main - Chat -->
     <string name="chat_text_1">새로운 채팅을 생성하시겠습니까?</string>
     <string name="chat_text_2"></string>

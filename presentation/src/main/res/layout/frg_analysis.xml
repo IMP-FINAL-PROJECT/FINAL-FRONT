@@ -20,82 +20,186 @@
         app:layout_constraintTop_toBottomOf="@+id/incHeader">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/clContents"
+            android:id="@+id/ctContents"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="12dp"
             android:layout_marginBottom="30dp"
             android:paddingStart="24dp"
-            android:paddingTop="12dp"
             android:paddingEnd="24dp"
             android:paddingBottom="30dp">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cvAnalysis"
-                android:layout_width="match_parent"
+            <!-- 날짜 -->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/llDate"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                android:elevation="0dp"
-                app:cardBackgroundColor="@color/transparent"
-                app:cardElevation="0dp"
+                android:orientation="horizontal"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvDate"
+                    style="@style/suitMedium.15"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_radius_8_stroke_e6e6e6">
+                    android:includeFontPadding="false"
+                    android:textColor="@color/black"
+                    tools:text="2024년 04월 30일" />
 
-                    <!-- ViewPager -->
-                    <androidx.viewpager2.widget.ViewPager2
-                        android:id="@+id/viewPager"
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        app:layout_constraintTop_toTopOf="parent" />
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/tvDropDown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:src="@drawable/icon_drop_down"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvDate"
+                    app:layout_constraintStart_toEndOf="@+id/tvDate"
+                    app:layout_constraintTop_toTopOf="@+id/tvDate" />
 
-                    <!-- Indicator -->
-                    <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
-                        android:id="@+id/indicator"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="20dp"
-                        app:dotsColor="@color/color_a9a9a9"
-                        app:dotsCornerRadius="8dp"
-                        app:dotsSize="6dp"
-                        app:dotsSpacing="3dp"
-                        app:dotsStrokeColor="@color/color_c9c9c9"
-                        app:dotsStrokeWidth="0.9dp"
-                        app:layout_constraintBottom_toBottomOf="@+id/viewPager"
-                        app:layout_constraintEnd_toEndOf="@+id/viewPager"
-                        app:layout_constraintStart_toStartOf="@+id/viewPager" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.cardview.widget.CardView>
-
+            <!-- 데이터 없을 경우 -->
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ctNoneData"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                app:layout_constraintTop_toBottomOf="@+id/cvAnalysis">
+                android:layout_marginTop="12dp"
+                android:background="@drawable/bg_radius_8_f7f7f7"
+                android:paddingStart="16dp"
+                android:paddingTop="30dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="30dp"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/llDate">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvMapTitle"
+                    android:id="@+id/tvNoneData"
+                    style="@style/suitMedium.14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:lineSpacingExtra="4dp"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="선택한 날짜의 데이터가 없습니다.\n날짜를 변경해 주세요." />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ctAnalysisContents"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/llDate">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvAnalysis"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:elevation="0dp"
+                    app:cardBackgroundColor="@color/transparent"
+                    app:cardElevation="0dp"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_radius_8_stroke_e6e6e6">
+
+                        <!-- ViewPager -->
+                        <androidx.viewpager2.widget.ViewPager2
+                            android:id="@+id/viewPager"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <!-- Indicator -->
+                        <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
+                            android:id="@+id/indicator"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="20dp"
+                            app:dotsColor="@color/color_a9a9a9"
+                            app:dotsCornerRadius="8dp"
+                            app:dotsSize="6dp"
+                            app:dotsSpacing="3dp"
+                            app:dotsStrokeColor="@color/color_c9c9c9"
+                            app:dotsStrokeWidth="0.9dp"
+                            app:layout_constraintBottom_toBottomOf="@+id/viewPager"
+                            app:layout_constraintEnd_toEndOf="@+id/viewPager"
+                            app:layout_constraintStart_toStartOf="@+id/viewPager" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvHomeTitle"
                     style="@style/suitRegular.16"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:includeFontPadding="false"
-                    android:textColor="@color/black_alpha_60"
+                    android:layout_marginTop="30dp"
+                    android:textColor="@color/black"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="@string/log_text_5" />
+                    app:layout_constraintTop_toBottomOf="@+id/cvAnalysis"
+                    tools:text="집에 머무른 시간" />
 
-                <!-- Kakao Map View -->
-                <com.kakao.vectormap.MapView
-                    android:id="@+id/mapView"
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvRegularity"
+                    style="@style/suitRegular.16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:layout_marginTop="30dp"
+                    android:textColor="@color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvHomeTitle"
+                    tools:text="생활의 규칙성" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvPlace"
+                    style="@style/suitRegular.16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:layout_marginTop="30dp"
+                    android:textColor="@color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvRegularity"
+                    tools:text="장소의 다양성" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="400dp"
-                    android:layout_marginTop="10dp"
-                    app:layout_constraintTop_toBottomOf="@+id/tvMapTitle" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    app:layout_constraintTop_toBottomOf="@+id/tvPlace">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvMapTitle"
+                        style="@style/suitRegular.16"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:includeFontPadding="false"
+                        android:textColor="@color/black_alpha_60"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="@string/log_text_5" />
+
+                    <!-- Kakao Map View -->
+                    <com.kakao.vectormap.MapView
+                        android:id="@+id/mapView"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:layout_marginTop="10dp"
+                        app:layout_constraintTop_toBottomOf="@+id/tvMapTitle" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

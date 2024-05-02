@@ -10,12 +10,17 @@ import com.shawnlin.numberpicker.NumberPicker
 import java.util.Calendar
 
 /**
- * Detail Disclaimer BotthonSheet
+ * Detail Disclaimer BottomSheet
  */
-class DatePickerBottomSheet(private val calendar: Calendar, private val callback: (Calendar) -> Unit, private val dismissCallback: () -> Unit) : BaseBottomSheetFragment<SheetDatePickerBinding>() {
+class DatePickerBottomSheet(
+    private val calendar: Calendar,
+    private val excludeToday: Boolean,
+    private val callback: (Calendar) -> Unit,
+    private val dismissCallback: () -> Unit
+) : BaseBottomSheetFragment<SheetDatePickerBinding>() {
 
     /** Calendar */
-    private val todayCalendar: Calendar = Calendar.getInstance()
+    private val maxCalendar: Calendar = Calendar.getInstance()
     private val newCalendar: Calendar = Calendar.getInstance()
 
     /** Date Picker ValueChangeListener */
@@ -57,6 +62,11 @@ class DatePickerBottomSheet(private val calendar: Calendar, private val callback
 
         isFullScreen = false
         setStyle(STYLE_NORMAL, R.style.BottomModalDialogTheme)
+
+        // set max calendar
+        if (excludeToday) {
+            maxCalendar.add(Calendar.DAY_OF_MONTH, -1)
+        }
 
         // set calendar
         newCalendar.time = calendar.time
@@ -112,7 +122,7 @@ class DatePickerBottomSheet(private val calendar: Calendar, private val callback
                 npDay.typeface = npFont
                 npDay.setSelectedTypeface(npSelectedFont)
 
-                npYear.maxValue = todayCalendar.get(Calendar.YEAR)
+                npYear.maxValue = maxCalendar.get(Calendar.YEAR)
                 npYear.value = calendar.get(Calendar.YEAR)
                 npYear.setOnValueChangedListener(valueChangedListener)
                 npYear.wrapSelectorWheel = false
@@ -176,7 +186,7 @@ class DatePickerBottomSheet(private val calendar: Calendar, private val callback
 
         with(mBinding) {
 
-            incSelect.tvButton.isEnabled = calendar.time != newCalendar.time && todayCalendar.time >= newCalendar.time
+            incSelect.tvButton.isEnabled = calendar.time != newCalendar.time && maxCalendar.time >= newCalendar.time
         }
     }
 }

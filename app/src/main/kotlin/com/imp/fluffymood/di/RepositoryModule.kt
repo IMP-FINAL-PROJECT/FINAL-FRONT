@@ -1,9 +1,11 @@
 package com.imp.fluffymood.di
 
+import com.imp.data.repository.AnalysisRepositoryImpl
 import com.imp.data.repository.ChatRepositoryImpl
 import com.imp.data.repository.HomeRepositoryImpl
 import com.imp.data.repository.LogRepositoryImpl
 import com.imp.data.repository.MemberRepositoryImpl
+import com.imp.domain.repository.AnalysisRepository
 import com.imp.domain.repository.ChatRepository
 import com.imp.domain.repository.HomeRepository
 import com.imp.domain.repository.LogRepository
@@ -29,6 +31,10 @@ class RepositoryModule {
     @Provides
     @Singleton
     fun provideLogRepository(): LogRepository = LogRepositoryImpl()
+
+    @Provides
+    @Singleton
+    fun provideAnalysisRepository(): AnalysisRepository = AnalysisRepositoryImpl()
 
     @Provides
     @Singleton

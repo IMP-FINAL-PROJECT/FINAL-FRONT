@@ -566,6 +566,8 @@ class ActLog : BaseContractActivity<ActLogBinding>() {
         if (addPoints) return
         addPoints = true
 
+        if (list.isEmpty()) return
+
         // label 추가
         list.forEach { location ->
             map.labelManager?.layer?.addLabel(LabelOptions.from(location).setStyles(R.drawable.icon_map_marker))
@@ -591,7 +593,7 @@ class ActLog : BaseContractActivity<ActLogBinding>() {
     private fun openDatePickerBottomSheet() {
 
         datePickerBottomSheet?.dismiss()
-        datePickerBottomSheet = DatePickerBottomSheet(calendar, { newCalendar ->
+        datePickerBottomSheet = DatePickerBottomSheet(calendar, false, { newCalendar ->
 
             // calendar 초기화
             calendar.time = newCalendar.time
