@@ -193,6 +193,12 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
                 tvStepTitle.text = getString(R.string.log_text_3)
                 tvStep.text = getString(R.string.unit_steps, 0.toString())
 
+                tvCallTimeTitle.text = getString(R.string.log_text_8)
+                tvCallTime.text = getString(R.string.unit_hour_minute, 0, 0)
+
+                tvCallCountTitle.text = getString(R.string.log_text_9)
+                tvCallCount.text = getString(R.string.unit_count, 0)
+
                 tvLightTitle.text = getString(R.string.home_text_3)
                 tvLight.text = getString(R.string.unit_light, "", 0)
 
@@ -347,6 +353,15 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
                 // 걸음
                 val stepCount = PreferencesUtil.getPreferencesInt(ctx, PreferencesUtil.TRACKING_STEP_KEY)
                 tvStep.text = getString(R.string.unit_steps, stepCount.toString())
+
+                // 전화 시간
+                val callTimestamp = PreferencesUtil.getPreferencesLong(ctx, PreferencesUtil.TRACKING_CALL_TIME_KEY)
+                val callTime = DateUtil.timestampToScreenTime(callTimestamp)
+                tvScreenTime.text = getString(R.string.unit_hour_minute, callTime.first, callTime.second)
+
+                // 전화 횟수
+                val callCount = PreferencesUtil.getPreferencesInt(ctx, PreferencesUtil.TRACKING_CALL_COUNT_KEY)
+                tvScreenAwake.text = getString(R.string.unit_count, callCount)
             }
         }
     }
@@ -364,11 +379,11 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
             recentTimestamp = currentTimestamp
         }
 
-        var screenTime = PreferencesUtil.getPreferencesLong(context, PreferencesUtil.TRACKING_SCREEN_TIME_KEY)
-        screenTime += currentTimestamp - recentTimestamp
+        var calculateTime = PreferencesUtil.getPreferencesLong(context, PreferencesUtil.TRACKING_SCREEN_TIME_KEY)
+        calculateTime += currentTimestamp - recentTimestamp
 
-        // screen time 저장
-        PreferencesUtil.setPreferencesLong(context, PreferencesUtil.TRACKING_SCREEN_TIME_KEY, screenTime)
+        // screen / call time 저장
+        PreferencesUtil.setPreferencesLong(context, PreferencesUtil.TRACKING_SCREEN_TIME_KEY, calculateTime)
 
         // recent timestamp 저장
         PreferencesUtil.setPreferencesLong(context, PreferencesUtil.TRACKING_SCREEN_RECENT_TIMESTAMP_KEY, currentTimestamp)
@@ -413,6 +428,9 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
         PreferencesUtil.deletePreferences(context, PreferencesUtil.TRACKING_SCREEN_AWAKE_KEY)
         PreferencesUtil.deletePreferences(context, PreferencesUtil.TRACKING_SCREEN_TIME_KEY)
         PreferencesUtil.setPreferencesLong(context, PreferencesUtil.TRACKING_SCREEN_RECENT_TIMESTAMP_KEY, System.currentTimeMillis())
+        PreferencesUtil.deletePreferences(context, PreferencesUtil.TRACKING_CALL_COUNT_KEY)
+        PreferencesUtil.deletePreferences(context, PreferencesUtil.TRACKING_CALL_TIME_KEY)
+        PreferencesUtil.deletePreferences(context, PreferencesUtil.TRACKING_CALL_RECENT_TIMESTAMP_KEY)
         PreferencesUtil.deletePreferences(context, PreferencesUtil.TRACKING_STEP_KEY)
     }
 

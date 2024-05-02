@@ -363,6 +363,66 @@
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
+                        <!-- Call Time -->
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:id="@+id/llCallTime"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:orientation="horizontal">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/tvCallTimeTitle"
+                                style="@style/suitRegular.16"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:includeFontPadding="false"
+                                android:textColor="@color/black_alpha_60"
+                                tools:text="@string/log_text_8" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/tvCallTime"
+                                style="@style/suitRegular.16"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="end"
+                                android:includeFontPadding="false"
+                                android:textColor="@color/black"
+                                tools:text="@string/unit_hour_minute" />
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        <!-- Call Count -->
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:id="@+id/llCallCount"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:orientation="horizontal">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/tvCallCountTitle"
+                                style="@style/suitRegular.16"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:includeFontPadding="false"
+                                android:textColor="@color/black_alpha_60"
+                                tools:text="@string/log_text_9" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/tvCallCount"
+                                style="@style/suitRegular.16"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="end"
+                                android:includeFontPadding="false"
+                                android:textColor="@color/black"
+                                tools:text="@string/unit_count" />
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
                         <!-- Light -->
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/llLight"

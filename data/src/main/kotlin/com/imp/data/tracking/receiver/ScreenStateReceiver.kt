@@ -139,6 +139,9 @@ class ScreenStateReceiver: BroadcastReceiver() {
         PreferencesUtil.deletePreferences(context, PreferencesUtil.TRACKING_SCREEN_AWAKE_KEY)
         PreferencesUtil.deletePreferences(context, PreferencesUtil.TRACKING_SCREEN_TIME_KEY)
         PreferencesUtil.setPreferencesLong(context, PreferencesUtil.TRACKING_SCREEN_RECENT_TIMESTAMP_KEY, System.currentTimeMillis())
+        PreferencesUtil.deletePreferences(context, PreferencesUtil.TRACKING_CALL_COUNT_KEY)
+        PreferencesUtil.deletePreferences(context, PreferencesUtil.TRACKING_CALL_TIME_KEY)
+        PreferencesUtil.deletePreferences(context, PreferencesUtil.TRACKING_CALL_RECENT_TIMESTAMP_KEY)
         PreferencesUtil.deletePreferences(context, PreferencesUtil.TRACKING_STEP_KEY)
     }
 }
