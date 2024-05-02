@@ -5,7 +5,6 @@ import com.imp.domain.model.ErrorCallbackModel
 import com.imp.domain.repository.ChatRepository
 import javax.inject.Inject
 
-
 /**
  * Main - Chat UseCase
  */

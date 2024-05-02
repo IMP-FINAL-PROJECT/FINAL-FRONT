@@ -14,7 +14,7 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 /**
- * Main - Log Repository Implementation
+ * Main - Home Repository Implementation
  */
 class HomeRepositoryImpl @Inject constructor() : HomeRepository {
 

@@ -1,7 +1,7 @@
 package com.imp.domain.model
 
 /**
- * Main - Log Model
+ * Home - Log Model
  */
 data class LogModel (
 

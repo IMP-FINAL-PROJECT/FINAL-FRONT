@@ -7,16 +7,14 @@ import androidx.lifecycle.viewModelScope
 import com.imp.domain.model.ErrorCallbackModel
 import com.imp.domain.model.LogModel
 import com.imp.domain.usecase.LogUseCase
-import com.imp.presentation.widget.utils.CommonUtil
 import com.imp.presentation.widget.utils.Event
 import com.kakao.vectormap.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.math.sign
 
 /**
- * Main - Log ViewModel
+ * Home - Log ViewModel
  */
 @HiltViewModel
 class LogViewModel @Inject constructor(private val useCase: LogUseCase) : ViewModel() {

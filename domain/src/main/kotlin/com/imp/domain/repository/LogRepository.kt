@@ -4,7 +4,7 @@ import com.imp.domain.model.ErrorCallbackModel
 import com.imp.domain.model.LogModel
 
 /**
- * Main - Log Repository Interface
+ * Home - Log Repository Interface
  */
 interface LogRepository {
 

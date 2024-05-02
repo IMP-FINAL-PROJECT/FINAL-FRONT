@@ -1,7 +1,7 @@
 package com.imp.domain.model
 
 /**
- * Chat List Model
+ * Main - Chat Model
  */
 data class ChatListModel(
 

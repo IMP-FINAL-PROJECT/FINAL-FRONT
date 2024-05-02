@@ -6,7 +6,6 @@ import com.imp.domain.model.SensorModel
 import com.imp.domain.repository.HomeRepository
 import javax.inject.Inject
 
-
 /**
  * Main - Home UseCase
  */

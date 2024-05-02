@@ -5,9 +5,8 @@ import com.imp.domain.model.LogModel
 import com.imp.domain.repository.LogRepository
 import javax.inject.Inject
 
-
 /**
- * Main - Log UseCase
+ * Home - Log UseCase
  */
 class LogUseCase @Inject constructor(private val repository: LogRepository) {
 

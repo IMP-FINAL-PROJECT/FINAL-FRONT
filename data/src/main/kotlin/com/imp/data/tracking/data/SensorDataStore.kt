@@ -25,7 +25,7 @@ import java.io.IOException
 /**
  * DataStoreUtil
  */
-class SensorDataStore() {
+class SensorDataStore {
 
     companion object {
 

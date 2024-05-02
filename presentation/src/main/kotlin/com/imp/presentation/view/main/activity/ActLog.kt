@@ -101,7 +101,10 @@ class ActLog : BaseContractActivity<ActLogBinding>() {
         }
 
         /** Gps Point List */
-        viewModel.pointList.observe(this) { if (kakaoMap != null) addPoints(kakaoMap!!, it) }
+        viewModel.pointList.observe(this) { list ->
+
+            kakaoMap?.let { addPoints(it, list) }
+        }
 
         /** Error Callback */
         viewModel.errorCallback.observe(this) { event ->
