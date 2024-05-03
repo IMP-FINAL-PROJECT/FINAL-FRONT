@@ -129,7 +129,8 @@ class ActSplash : BaseSplashActivity<ActSplashBinding>() {
         if (userId.isNotEmpty() && userPassword.isNotEmpty()) {
 
             // login api 요청
-            viewModel.login(userId, userPassword)
+            val pushToken = PreferencesUtil.getPreferencesString(this@ActSplash, PreferencesUtil.PUSH_TOKEN)
+            viewModel.login(userId, userPassword, pushToken)
 
         } else {
 

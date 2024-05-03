@@ -160,7 +160,8 @@ class ActLogin : BaseContractActivity<ActMemberLoginBinding>() {
                 userPassword = incPassword.etInput.text.toString()
 
                 // login api 호츌
-                viewModel.login(userId, userPassword)
+                val pushToken = PreferencesUtil.getPreferencesString(this@ActLogin, PreferencesUtil.PUSH_TOKEN)
+                viewModel.login(userId, userPassword, pushToken)
             }
         }
     }

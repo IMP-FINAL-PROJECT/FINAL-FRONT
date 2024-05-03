@@ -130,6 +130,6 @@ dependencies {
     /** Indicator */
     implementation(libs.dotsindicator)
 
-    /* Number Picker */
+    /** Number Picker */
     implementation(libs.number.picker)
 }

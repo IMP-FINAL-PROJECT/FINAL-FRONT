@@ -11,6 +11,8 @@ datastorePreferences = "1.0.0"
 datastorePreferencesCore = "1.0.0"
 dotsindicator = "5.0"
 espressoCore = "3.5.1"
+firebase-messaging = "23.4.1"
+firebase-analytics = "21.6.2"
 fragment = "1.6.2"
 glide = "4.16.0"
 glide-transformations = "4.3.0"
@@ -78,6 +80,8 @@ androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converter-gson" }
 datastore-preferences-core = { module = "androidx.datastore:datastore-preferences-core", version.ref = "datastorePreferencesCore" }
 dotsindicator = { module = "com.tbuonomo:dotsindicator", version.ref = "dotsindicator" }
+firebase-messaging = { module = "com.google.firebase:firebase-messaging", version.ref = "firebase-messaging" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics", version.ref = "firebase-analytics" }
 google-services = { module = "com.google.gms:google-services", version.ref = "googleService" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 glide-transformations = { module = "jp.wasabeef:glide-transformations", version.ref = "glide-transformations" }
