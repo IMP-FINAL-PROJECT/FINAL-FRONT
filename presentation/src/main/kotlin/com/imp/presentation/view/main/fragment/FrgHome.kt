@@ -357,11 +357,11 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
                 // 전화 시간
                 val callTimestamp = PreferencesUtil.getPreferencesLong(ctx, PreferencesUtil.TRACKING_CALL_TIME_KEY)
                 val callTime = DateUtil.timestampToScreenTime(callTimestamp)
-                tvScreenTime.text = getString(R.string.unit_hour_minute, callTime.first, callTime.second)
+                tvCallTime.text = getString(R.string.unit_hour_minute, callTime.first, callTime.second)
 
                 // 전화 횟수
                 val callCount = PreferencesUtil.getPreferencesInt(ctx, PreferencesUtil.TRACKING_CALL_COUNT_KEY)
-                tvScreenAwake.text = getString(R.string.unit_count, callCount)
+                tvCallCount.text = getString(R.string.unit_count, callCount)
             }
         }
     }
