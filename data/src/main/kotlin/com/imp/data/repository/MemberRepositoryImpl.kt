@@ -32,12 +32,13 @@ class MemberRepositoryImpl @Inject constructor() : MemberRepository {
     /**
      * Login
      */
-    override suspend fun login(id: String, password: String, successCallback: (MemberModel) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit) {
+    override suspend fun login(id: String, password: String, token: String, successCallback: (MemberModel) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit) {
 
         val params: MutableMap<String, Any> = HashMap()
 
         params["id"] = id
         params["password"] = password
+        params["token"] = token
 
         ApiClient.getClient().create(ApiMember::class.java).login(params)
             .subscribeOn(Schedulers.io())

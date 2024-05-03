@@ -14,8 +14,8 @@ class MemberUseCase @Inject constructor(private val repository: MemberRepository
     /**
      * Login
      */
-    suspend fun login(id: String, password: String, successCallback: (MemberModel) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit) {
-        repository.login(id, password, successCallback, errorCallback)
+    suspend fun login(id: String, password: String, token: String, successCallback: (MemberModel) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit) {
+        repository.login(id, password, token, successCallback, errorCallback)
     }
 
     /**

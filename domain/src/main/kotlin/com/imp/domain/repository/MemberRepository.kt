@@ -12,7 +12,7 @@ interface MemberRepository {
     /**
      * Login
      */
-    suspend fun login(id: String, password: String, successCallback: (MemberModel) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit)
+    suspend fun login(id: String, password: String, token: String, successCallback: (MemberModel) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit)
 
     /**
      * Register

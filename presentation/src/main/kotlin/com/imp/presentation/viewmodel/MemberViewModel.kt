@@ -49,11 +49,12 @@ class MemberViewModel @Inject constructor(private val useCase: MemberUseCase) : 
     /**
      * Login
      */
-    fun login(id: String, password: String) = viewModelScope.launch {
+    fun login(id: String, password: String, pushToken: String) = viewModelScope.launch {
 
         useCase.login(
             id = id,
             password = password,
+            token = pushToken,
             successCallback = { _loginData.value = it },
             errorCallback = { _errorCallback.value = Event(it) }
         )
