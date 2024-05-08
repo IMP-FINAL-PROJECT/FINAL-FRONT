@@ -128,6 +128,10 @@ class FrgAnalysis: BaseFragment<FrgAnalysisBinding>() {
 
         with(mBinding) {
 
+            // 노출 여부 초기화
+            ctNoneData.visibility = View.GONE
+            ctAnalysisContents.visibility = View.GONE
+
             // Header
             incHeader.tvTitle.text = getString(R.string.navigation_analysis)
             incHeader.ivAddChat.visibility = View.GONE

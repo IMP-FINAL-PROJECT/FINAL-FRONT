@@ -110,7 +110,7 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
 
         initObserver()
         initDisplay()
-        initMapView()
+//        initMapView()
         initSeekbar()
         setOnClickListener()
 
