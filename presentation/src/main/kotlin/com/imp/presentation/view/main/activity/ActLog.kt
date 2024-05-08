@@ -52,9 +52,6 @@ class ActLog : BaseContractActivity<ActLogBinding>() {
     /** Kakao Map */
     private var kakaoMap: KakaoMap? = null
 
-    /** Gps Point 추가 여부 */
-    private var addPoints: Boolean = false
-
     /** Day, Week TextView List */
     private var dayViewList: ArrayList<TextView> = ArrayList()
     private var weekViewList: ArrayList<TextView> = ArrayList()
@@ -565,11 +562,10 @@ class ActLog : BaseContractActivity<ActLogBinding>() {
      */
     private fun addPoints(map: KakaoMap, list: ArrayList<LatLng>) {
 
-        // points add 여부
-        if (addPoints) return
-        addPoints = true
-
         if (list.isEmpty()) return
+
+        // 초기화
+        map.labelManager?.layer?.removeAll()
 
         // label 추가
         list.forEach { location ->
