@@ -107,6 +107,39 @@ class MethodStorageUtil {
          * 이미지 출력 (Glide)
          *
          * @param imageView
+         * @param url
+         */
+        fun setImageUrl(imageView: ImageView, url: String) {
+
+            if (imageView.context == null) return
+
+            try {
+
+                Glide.with(imageView.context)
+                    .load(url)
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .override(imageView.width, imageView.height)
+                    .skipMemoryCache(true)
+                    .dontAnimate()
+                    .into(object : SimpleTarget<Drawable>() {
+                        override fun onResourceReady(
+                            resource: Drawable,
+                            transition: Transition<in Drawable>?
+                        ) {
+
+                            imageView.setImageDrawable(resource)
+                        }
+                    })
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+        /**
+         * 이미지 출력 (Glide)
+         *
+         * @param imageView
          * @param file
          */
         fun setImageFile(imageView: ImageView, file: File) {

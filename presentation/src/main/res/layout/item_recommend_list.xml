@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="-8dp"
+    android:layout_marginTop="-8dp"
+    android:layout_marginEnd="-8dp"
+    android:layout_marginBottom="-8dp"
+    tools:background="@color/black">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_shadow_card"
+        app:layout_constraintBottom_toBottomOf="@+id/ctItem"
+        app:layout_constraintEnd_toEndOf="@+id/ctItem"
+        app:layout_constraintStart_toStartOf="@+id/ctItem"
+        app:layout_constraintTop_toTopOf="@+id/ctItem" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/ctItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:padding="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ctMainImage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.6"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvMainImage"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@color/transparent"
+                android:elevation="0dp"
+                app:cardBackgroundColor="@color/transparent"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="0dp"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivMain"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    tools:background="@color/black" />
+
+            </androidx.cardview.widget.CardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ctContent"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="12dp"
+            android:layout_weight="1">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvTitle"
+                style="@style/suitBold.16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/color_3377ff"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="바베큐 파티는 못 참지" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDescription"
+                style="@style/suitRegular.12"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="4dp"
+                android:lineSpacingExtra="2dp"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+                tools:text="도심 속에서 새로운 사람들을 만나고, 맛있는 바베큐 파티를 즐겨보세요!\n꿀꿀한 기분도 금방 날아갈 거예요!" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,7 @@
 package com.imp.presentation.view.main.fragment
 
 import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -9,11 +10,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.imp.domain.model.HomeModel
 import com.imp.presentation.R
 import com.imp.presentation.base.BaseFragment
 import com.imp.presentation.constants.BaseConstants
 import com.imp.presentation.databinding.FrgHomeBinding
+import com.imp.presentation.view.adapter.RecommendListAdapter
 import com.imp.presentation.view.main.activity.ActMain
 import com.imp.presentation.viewmodel.HomeViewModel
 import com.imp.presentation.widget.extension.toDp
@@ -97,6 +100,9 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
     private var centerLabel: Label? = null
     private var tackingManager: TrackingManager? = null
 
+    /** Recommend List Adapter */
+    private lateinit var recommendAdapter: RecommendListAdapter
+
     override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?) = FrgHomeBinding.inflate(inflater, container, false)
 
     override fun initData() {
@@ -111,6 +117,7 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
         initObserver()
         initDisplay()
 //        initMapView()
+        initRecyclerView()
         initSeekbar()
         setOnClickListener()
 
@@ -205,6 +212,9 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
                 tvMapTitle.text = getString(R.string.log_text_5)
 
                 tvTrackingOff.text = getString(R.string.home_text_4)
+
+                /** Recommend */
+                tvRecommendTitle.text = getString(R.string.home_text_6)
             }
         }
     }
@@ -280,6 +290,43 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
                     }
                     duration = 500
                     start()
+                }
+            }
+        }
+    }
+
+    /**
+     * Initialize RecyclerView
+     */
+    private fun initRecyclerView() {
+
+        context?.let { ctx ->
+
+            with(mBinding) {
+
+                rvRecommend.apply {
+
+                    val dummy = arrayListOf("1", "2", "3", "4", "5")
+
+                    recommendAdapter = RecommendListAdapter(ctx, dummy)
+                    layoutManager = LinearLayoutManager(ctx, LinearLayoutManager.VERTICAL, false)
+                    adapter = recommendAdapter
+                    recommendAdapter.apply {
+
+                        selectItem = object : RecommendListAdapter.SelectItem {
+
+                            override fun selectItem(position: Int, url: String) {
+
+                                if (list.size > position) {
+
+                                    if (ctx is ActMain) {
+
+                                        ctx.moveToTerms(getString(R.string.home_text_6), url)
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
