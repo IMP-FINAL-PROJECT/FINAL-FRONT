@@ -260,6 +260,7 @@ class FrgAnalysis: BaseFragment<FrgAnalysisBinding>() {
     private fun addAreaPolygon(map: KakaoMap, list: ArrayList<LatLng>) {
 
         map.shapeManager?.layer?.removeAll()
+        map.labelManager?.layer?.removeAll()
 
         if (list.isEmpty()) return
 
