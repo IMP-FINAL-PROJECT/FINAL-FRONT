@@ -28,7 +28,7 @@ object PermissionUtil {
     }
 
     /**
-     * 알림 권한 허용 여부 확인
+     * 알림 권한 허용 여부 확인 (선택)
      *
      * @param context
      * @return 권한 허용 여부 반환
@@ -39,6 +39,16 @@ object PermissionUtil {
         } else {
             true
         }
+    }
+
+    /**
+     * 카메라 권한 허용 여부 확인 (선택)
+     *
+     * @param context
+     * @return 권한 허용 여부 반환
+     */
+    fun checkPermissionCamera(context: Context): Boolean {
+        return ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
     }
 
     /**
@@ -130,6 +140,37 @@ object PermissionUtil {
     }
 
     /**
+     * 카메라 권한 요청
+     *
+     * @param activity
+     * @param launcher 결과를 처리할 ActivityResultLauncher
+     * @param deniedLauncher 권한이 거부된 경우를 처리할 ActivityResultLauncher
+     */
+    fun requestPermissionCamera(activity: Activity, launcher: ActivityResultLauncher<String>, deniedLauncher: ActivityResultLauncher<Intent>, deniedCallback: Boolean, callback: (() -> Unit) -> Unit = {}) {
+
+        // 권한이 허용된 경우 return
+        if (checkPermissionCamera(activity)) return
+
+        if (!activity.shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+
+            launcher.launch(Manifest.permission.CAMERA)
+
+        } else {
+
+            callback.invoke {
+
+                if (deniedCallback) {
+
+                    // 권한을 거부한 경우, 설정으로 이동
+                    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                    intent.data = Uri.parse(String.format("package:%s", activity.packageName))
+                    deniedLauncher.launch(intent)
+                }
+            }
+        }
+    }
+
+    /**
      * 위치 권한 요청
      *
      * @param activity
@@ -153,9 +194,6 @@ object PermissionUtil {
         } else {
 
             callback.invoke {
-
-                CommonUtil.log("ACCESS_FINE_LOCATION: ${activity.shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)}")
-                CommonUtil.log("ACCESS_COARSE_LOCATION: ${activity.shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION)}")
 
                 // 권한을 거부한 경우, 설정으로 이동
                 val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)

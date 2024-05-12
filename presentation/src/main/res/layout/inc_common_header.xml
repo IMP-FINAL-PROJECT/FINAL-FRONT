@@ -32,4 +32,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvTitle" />
 
+    <!-- 화상 채팅 -->
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivVideoChat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:src="@drawable/icon_video_chat"
+        app:layout_constraintBottom_toBottomOf="@+id/tvTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvTitle" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

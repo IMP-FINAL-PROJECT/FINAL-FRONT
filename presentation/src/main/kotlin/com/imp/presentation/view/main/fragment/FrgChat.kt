@@ -201,7 +201,7 @@ class FrgChat: BaseFragment<FrgChatBinding>() {
 
                 val id = PreferencesUtil.getPreferencesString(ctx, PreferencesUtil.AUTO_LOGIN_ID_KEY)
                 val url = BuildConfig.CHATTING_SERVER_HOST + "?id=$id&number=$number"
-                ctx.moveToChatting("이름", url)
+                ctx.moveToChatting("이름", url, true)
             }
         }
     }

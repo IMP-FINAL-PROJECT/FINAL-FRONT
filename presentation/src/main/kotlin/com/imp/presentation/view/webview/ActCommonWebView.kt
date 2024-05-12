@@ -1,6 +1,7 @@
 package com.imp.presentation.view.webview
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.net.Uri
 import android.webkit.JavascriptInterface
 import android.webkit.JsResult
@@ -12,6 +13,7 @@ import android.webkit.WebViewClient
 import com.imp.presentation.R
 import com.imp.presentation.base.BaseContractActivity
 import com.imp.presentation.databinding.ActCommonWebViewBinding
+import com.imp.presentation.view.main.activity.ActVideoChat
 import com.imp.presentation.widget.extension.toVisibleOrGone
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -33,6 +35,9 @@ class ActCommonWebView : BaseContractActivity<ActCommonWebViewBinding>() {
     /** WebView Url */
     private var webViewUrl: String = ""
 
+    /** Chat 여부 */
+    private var isChat: Boolean = false
+
     override fun getViewBinding() = ActCommonWebViewBinding.inflate(layoutInflater)
 
     override fun initData() {
@@ -41,6 +46,7 @@ class ActCommonWebView : BaseContractActivity<ActCommonWebViewBinding>() {
         isHtml = intent.getBooleanExtra("html", false)
         headerTitle = intent.getStringExtra("header_title") ?: ""
         webViewUrl = intent.getStringExtra("url") ?: ""
+        isChat = intent.getBooleanExtra("chat", false)
     }
 
     override fun initView() {
@@ -60,6 +66,7 @@ class ActCommonWebView : BaseContractActivity<ActCommonWebViewBinding>() {
             incHeader.apply {
 
                 ctHeader.visibility = showHeader.toVisibleOrGone()
+                ivVideoChat.visibility = isChat.toVisibleOrGone()
                 tvTitle.text = headerTitle
             }
 
@@ -111,6 +118,22 @@ class ActCommonWebView : BaseContractActivity<ActCommonWebViewBinding>() {
 
             // 뒤로 가기
             incHeader.ivBack.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
+
+            // 화상 채팅
+            incHeader.ivVideoChat.setOnClickListener { moveToVideoChat() }
+        }
+    }
+
+    /**
+     * Move to Video Chat
+     */
+    private fun moveToVideoChat() {
+
+        Intent(this@ActCommonWebView, ActVideoChat::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+            putExtra("title", headerTitle)
+            startActivity(this)
+            finish()
         }
     }
 

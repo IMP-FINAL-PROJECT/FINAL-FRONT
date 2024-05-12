@@ -53,6 +53,7 @@ reactivex-rxjava = "2.2.21"
 rxandroid = "3.0.2"
 rxjava = "3.1.6"
 rxkotlin = "3.0.1"
+sceneform = "1.20.5"
 screen-easy = "0.1.0"
 work-runtime-ktx = "2.8.1"
 workRuntime = "2.7.0"
@@ -112,6 +113,7 @@ rxjava = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjava" }
 rxjava2-rxandroid = { module = "io.reactivex.rxjava2:rxandroid", version.ref = "reactivex-rxandroid" }
 rxjava2-rxjava = { module = "io.reactivex.rxjava2:rxjava", version.ref = "reactivex-rxjava" }
 rxkotlin = { module = "io.reactivex.rxjava3:rxkotlin", version.ref = "rxkotlin" }
+sceneform = { module = "com.gorisse.thomas.sceneform:sceneform", version.ref = "sceneform" }
 screen-easy = { module = "io.github.torrydo:screen-easy", version.ref = "screen-easy" }
 
 

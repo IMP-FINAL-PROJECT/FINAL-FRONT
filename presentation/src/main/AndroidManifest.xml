@@ -31,6 +31,9 @@
     <!-- Notification -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
+    <!-- Camera -->
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <!-- 배터리 최적화 제외 -->
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
 
@@ -98,6 +101,14 @@
             android:noHistory="false"
             android:screenOrientation="portrait" />
 
+        <!-- Video Chatting -->
+        <activity
+            android:name=".view.main.activity.ActVideoChat"
+            android:configChanges="screenSize|screenLayout|orientation"
+            android:exported="true"
+            android:noHistory="false"
+            android:screenOrientation="portrait" />
+
         <!-- Edit Profile -->
         <activity
             android:name=".view.mypage.ActEditProfile"
@@ -121,6 +132,8 @@
             android:exported="true"
             android:noHistory="false"
             android:screenOrientation="portrait" />
+
+        <meta-data android:name="com.google.ar.core" android:value="optional" />
 
     </application>
 

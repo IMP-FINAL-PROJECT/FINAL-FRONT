@@ -132,4 +132,7 @@ dependencies {
 
     /** Number Picker */
     implementation(libs.number.picker)
+
+    /** AR SceneForm */
+    implementation(libs.sceneform)
 }

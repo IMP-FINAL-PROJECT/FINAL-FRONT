@@ -18,13 +18,13 @@ import dagger.hilt.android.AndroidEntryPoint
 class ActPermission : BaseContractActivity<ActPermissionBinding>() {
 
     /** 권한 요청 */
-    private val permissionActivityResultLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { moveToSplash() }
+    private val permissionActivityResultLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { selectionPermission() }
 
     /** multi 권한 요청 */
-    private val multiPermissionActivityResultLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { moveToSplash() }
+    private val multiPermissionActivityResultLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { selectionPermission() }
 
     /** 권한 거부 시 런처 */
-    private val permissionDeniedActivityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { moveToSplash() }
+    private val permissionDeniedActivityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { selectionPermission() }
 
     /**
      * Show Permission Denied Popup
@@ -42,11 +42,21 @@ class ActPermission : BaseContractActivity<ActPermissionBinding>() {
     /**
      * Request Selection Permission
      */
+    private var requestNotificationPermission = false
+    private var requestCameraPermission = false
     private fun selectionPermission() {
 
         // 알림 권한 요청
-        if (!PermissionUtil.checkPermissionNotification(this)) {
+        if (!PermissionUtil.checkPermissionNotification(this) && !requestNotificationPermission) {
+            requestNotificationPermission = true
             PermissionUtil.requestPermissionNotification(this, permissionActivityResultLauncher, permissionDeniedActivityResultLauncher)
+            return
+        }
+
+        // 카메라 권한 요청
+        if (!PermissionUtil.checkPermissionCamera(this) && !requestCameraPermission) {
+            requestCameraPermission = true
+            PermissionUtil.requestPermissionCamera(this, permissionActivityResultLauncher, permissionDeniedActivityResultLauncher, false)
             return
         }
 
@@ -100,6 +110,9 @@ class ActPermission : BaseContractActivity<ActPermissionBinding>() {
 
     override fun initData() {
 
+        requestNotificationPermission = false
+        requestCameraPermission = false
+
         permissionRequest = intent.getBooleanExtra("permission_request", true)
     }
 
@@ -141,6 +154,10 @@ class ActPermission : BaseContractActivity<ActPermissionBinding>() {
             // 알림 권한
             incNotification.tvTitle.text = getString(R.string.permission_text_7)
             incNotification.tvDescription.text = getString(R.string.permission_text_8)
+
+            // 카메 권한
+            incCamera.tvTitle.text = getString(R.string.permission_text_14)
+            incCamera.tvDescription.text = getString(R.string.permission_text_15)
 
             // 권한 허용 설명
             tvPermissionDesc.text = getString(R.string.permission_text_9)

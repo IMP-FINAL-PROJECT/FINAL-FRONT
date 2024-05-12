@@ -396,5 +396,21 @@ class MethodStorageUtil {
                 spannable.setSpan(CustomTypefaceSpan(font), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
             }
         }
+
+        /**
+         * Get StatusBar Height
+         *
+         * @param context
+         * @return Int
+         */
+        @SuppressLint("DiscouragedApi", "InternalInsetResource")
+        fun getStatusBarHeight(context: Context): Int {
+
+            var statusBarHeight = 0
+            val resourceId: Int = context.resources.getIdentifier("status_bar_height", "dimen", "android")
+            if (resourceId > 0) statusBarHeight = context.resources.getDimensionPixelSize(resourceId)
+
+            return statusBarHeight
+        }
     }
 }

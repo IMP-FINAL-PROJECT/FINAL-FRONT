@@ -95,6 +95,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp" />
 
+            <!-- 카메라 권한 (선택) -->
+            <include
+                android:id="@+id/incCamera"
+                layout="@layout/inc_permission"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
