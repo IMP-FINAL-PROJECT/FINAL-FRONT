@@ -118,7 +118,7 @@
 
     <!-- Main - Chat -->
     <string name="chat_text_1">새로운 채팅을 생성하시겠습니까?</string>
-    <string name="chat_text_2"></string>
+    <string name="chat_text_2">핸드폰을 움직여 빈 공간을 찾은 후, 화면을 터치해 주세요.</string>
     <string name="chat_text_3"></string>
     <string name="chat_text_4"></string>
     <string name="chat_text_5"></string>
@@ -147,7 +147,7 @@
     <string name="popup_text_3">회원 가입이 완료되었습니다.</string>
     <string name="popup_text_4">회원 정보 수정이 완료되었습니다.</string>
     <string name="popup_text_5">로그아웃 하시겠습니까?</string>
-    <string name="popup_text_6"></string>
+    <string name="popup_text_6">잠시만 기다려 주세요...</string>
     <string name="popup_text_7"></string>
     <string name="popup_text_8"></string>
     <string name="popup_text_9"></string>

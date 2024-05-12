@@ -49,6 +49,26 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <!-- 타이틀 -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvDescription"
+        style="@style/suitBold.16"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginEnd="48dp"
+        android:includeFontPadding="false"
+        android:padding="7dp"
+        android:gravity="center"
+        android:shadowColor="@android:color/black"
+        android:shadowRadius="8"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ctHeader"
+        tools:text="이용약관" />
+
     <!-- 로딩 -->
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lottieLoading"
@@ -64,5 +84,88 @@
         app:lottie_autoPlay="false"
         app:lottie_fileName="loading.json"
         app:lottie_loop="true" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivSttBackground"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="-13dp"
+        android:layout_marginTop="-24dp"
+        android:layout_marginEnd="-13dp"
+        android:layout_marginBottom="-36dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_speech_balloon"
+        app:layout_constraintBottom_toBottomOf="@+id/tvStt"
+        app:layout_constraintEnd_toEndOf="@+id/tvStt"
+        app:layout_constraintStart_toStartOf="@+id/tvStt"
+        app:layout_constraintTop_toTopOf="@+id/tvStt" />
+
+    <!-- 타이틀 -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvStt"
+        style="@style/suitSemiBold.14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="26dp"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:maxWidth="300dp"
+        android:minWidth="80dp"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@id/ctSpeech"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="이럴수가" />
+
+    <!-- 눌러서 말하기 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ctSpeech"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/bg_stt"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivMic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/icon_mic"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottieSpeech"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:visibility="gone"
+            app:layout_anchorGravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="false"
+            app:lottie_fileName="audio.json"
+            app:lottie_loop="true" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
