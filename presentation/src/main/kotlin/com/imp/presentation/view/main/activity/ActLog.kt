@@ -584,6 +584,9 @@ class ActLog : BaseContractActivity<ActLogBinding>() {
         val options = RouteLineOptions.from(segment).setStylesSet(stylesSet)
 
         map.routeLineManager?.layer?.addRouteLine(options)
+
+        // 날짜 갱신
+        mBinding.incMap.tvDate.text = DateUtil.getMonthDay(calendar)
     }
 
     /**
