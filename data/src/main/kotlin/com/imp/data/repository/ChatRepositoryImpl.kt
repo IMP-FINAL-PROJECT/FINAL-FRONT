@@ -36,7 +36,7 @@ class ChatRepositoryImpl @Inject constructor() : ChatRepository {
             })
     }
 
-    override suspend fun createChat(id: String, successCallback: (String) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit) {
+    override suspend fun createChat(id: String, successCallback: (ChatListModel.Chat) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit) {
 
         val params: MutableMap<String, Any> = HashMap()
 
@@ -48,7 +48,7 @@ class ChatRepositoryImpl @Inject constructor() : ChatRepository {
             .subscribe({ response ->
 
                 if (response.isSuccess()) {
-                    response.data?.let { successCallback.invoke(it.create_number ?: "") }
+                    response.data?.let { successCallback.invoke(it) }
                 } else {
                     errorCallback.invoke(CommonMapper.mappingErrorCallbackData(response))
                 }

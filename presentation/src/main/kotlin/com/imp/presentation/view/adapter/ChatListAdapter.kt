@@ -52,13 +52,13 @@ class ChatListAdapter(var context: Context?, val list: ArrayList<ChatListModel.C
                     ivProfile.setBackgroundColor(ContextCompat.getColor(ctx, R.color.color_3377ff))
 
                     // 이름
-                    tvName.text = "이름 $position"
+                    tvName.text = dao.chat_info?.name
 
                     // 채팅
                     tvChat.text = "내용 $position"
 
                     // 시간
-                    tvTime.text = dao.update_at
+                    tvTime.text = dao.chat_info?.update_at
 
                     // 읽지 않은 알림 여부
                     cvNotification.visibility = View.GONE

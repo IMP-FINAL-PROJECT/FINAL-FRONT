@@ -12,7 +12,12 @@ data class ChatListModel(
 
         var number: String? = null,
 
-        var create_number: String? = null,
+        var chat_info: ChatInfo? = null
+    )
+
+    data class ChatInfo(
+
+        var name: String? = null,
 
         var update_at: String? = null
     )

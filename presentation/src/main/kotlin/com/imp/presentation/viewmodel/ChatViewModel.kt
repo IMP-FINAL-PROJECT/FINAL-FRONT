@@ -25,8 +25,8 @@ class ChatViewModel @Inject constructor(private val useCase: ChatUseCase) : View
 
     /** Chat Callback */
 
-    private val _chatCallback = MutableLiveData<String>()
-    val chatCallback: LiveData<String> get() = _chatCallback
+    private val _chatCallback = MutableLiveData<ChatListModel.Chat>()
+    val chatCallback: LiveData<ChatListModel.Chat> get() = _chatCallback
 
     /** Error Callback */
     private val _errorCallback = MutableLiveData<Event<ErrorCallbackModel?>>()

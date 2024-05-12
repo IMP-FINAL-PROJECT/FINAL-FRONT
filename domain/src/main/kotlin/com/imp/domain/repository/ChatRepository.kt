@@ -16,7 +16,7 @@ interface ChatRepository {
     /**
      * 채팅 생성
      */
-    suspend fun createChat(id: String, successCallback: (String) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit)
+    suspend fun createChat(id: String, successCallback: (ChatListModel.Chat) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit)
 
     /**
      * 채팅 삭제

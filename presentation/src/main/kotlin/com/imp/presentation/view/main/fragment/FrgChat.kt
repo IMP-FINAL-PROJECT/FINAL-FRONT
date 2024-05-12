@@ -18,6 +18,7 @@ import com.imp.presentation.view.main.activity.ActMain
 import com.imp.presentation.viewmodel.ChatViewModel
 import com.imp.presentation.widget.component.ItemTouchHelperCallback
 import com.imp.presentation.widget.extension.toDp
+import com.imp.presentation.widget.utils.CommonUtil
 import com.imp.presentation.widget.utils.PreferencesUtil
 
 /**
@@ -75,8 +76,9 @@ class FrgChat: BaseFragment<FrgChatBinding>() {
             }
         }
 
+        // todo 중복 호출 이슈
         /** Chatting Callback */
-        viewModel.chatCallback.observe(viewLifecycleOwner) { loadChatting(it) }
+        viewModel.chatCallback.observe(viewLifecycleOwner) { loadChatting(it.number, it.chat_info?.name ?: "") }
 
         /** Error Callback */
         viewModel.errorCallback.observe(viewLifecycleOwner) { event ->
@@ -133,7 +135,7 @@ class FrgChat: BaseFragment<FrgChatBinding>() {
                                     when(type) {
 
                                         // 채팅방 열기
-                                        BaseConstants.CHAT_CLICK_TYPE_CHATTING -> loadChatting(list[position].number)
+                                        BaseConstants.CHAT_CLICK_TYPE_CHATTING -> loadChatting(list[position].number, list[position].chat_info?.name ?: "")
 
                                         // 채팅방 삭제
                                         BaseConstants.CHAT_CLICK_TYPE_EXIT -> {
@@ -191,7 +193,7 @@ class FrgChat: BaseFragment<FrgChatBinding>() {
     /**
      * Load Chatting
      */
-    private fun loadChatting(number: String?) {
+    private fun loadChatting(number: String?, name: String) {
 
         if (number.isNullOrEmpty()) return
 
@@ -201,7 +203,7 @@ class FrgChat: BaseFragment<FrgChatBinding>() {
 
                 val id = PreferencesUtil.getPreferencesString(ctx, PreferencesUtil.AUTO_LOGIN_ID_KEY)
                 val url = BuildConfig.CHATTING_SERVER_HOST + "?id=$id&number=$number"
-                ctx.moveToChatting("이름", url, true)
+                ctx.moveToChatting(name, url, true)
             }
         }
     }
