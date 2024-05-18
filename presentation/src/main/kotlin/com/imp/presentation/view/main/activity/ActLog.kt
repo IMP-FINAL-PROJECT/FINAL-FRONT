@@ -345,7 +345,7 @@ class ActLog : BaseContractActivity<ActLogBinding>() {
             }
 
             // 요약
-            val summary = if (isDay) data.day.screen_duration else data.day.screen_duration
+            val summary = if (isDay) data.day.screen_duration else data.week.screen_duration
             val screenTime = DateUtil.timestampToScreenTime(summary.toLong())
 
             tvSummary.text = getString(R.string.unit_hour_minute, screenTime.first, screenTime.second)
@@ -383,7 +383,7 @@ class ActLog : BaseContractActivity<ActLogBinding>() {
             }
 
             // 요약
-            val summary = if (isDay) data.day.screen_frequency else data.day.screen_frequency
+            val summary = if (isDay) data.day.screen_frequency else data.week.screen_frequency
             tvSummary.text = getString(R.string.unit_times, summary)
 
             MethodStorageUtil.setSpannable(tvSummary, tvSummary.length() - 1, tvSummary.length(), 11.toDp(this@ActLog).toInt(), R.font.suit_medium)
@@ -420,7 +420,7 @@ class ActLog : BaseContractActivity<ActLogBinding>() {
             }
 
             // 요약
-            val summary = if (isDay) data.day.pedometer else data.day.pedometer
+            val summary = if (isDay) data.day.pedometer else data.week.pedometer
             tvSummary.text = getString(R.string.unit_steps, summary.thousandUnits())
 
             MethodStorageUtil.setSpannable(tvSummary, tvSummary.length() - 2, tvSummary.length(), 11.toDp(this@ActLog).toInt(), R.font.suit_medium)
@@ -457,7 +457,7 @@ class ActLog : BaseContractActivity<ActLogBinding>() {
             }
 
             // 요약
-            val summary = if (isDay) data.day.call_duration else data.day.call_duration
+            val summary = if (isDay) data.day.call_duration else data.week.call_duration
             val screenTime = DateUtil.timestampToScreenTime(summary.toLong())
 
             tvSummary.text = getString(R.string.unit_hour_minute, screenTime.first, screenTime.second)
@@ -495,7 +495,7 @@ class ActLog : BaseContractActivity<ActLogBinding>() {
             }
 
             // 요약
-            val summary = if (isDay) data.day.call_frequency else data.day.call_frequency
+            val summary = if (isDay) data.day.call_frequency else data.week.call_frequency
             tvSummary.text = getString(R.string.unit_times, summary)
 
             MethodStorageUtil.setSpannable(tvSummary, tvSummary.length() - 1, tvSummary.length(), 11.toDp(this@ActLog).toInt(), R.font.suit_medium)
