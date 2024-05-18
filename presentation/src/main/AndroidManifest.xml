@@ -104,6 +104,14 @@
             android:noHistory="false"
             android:screenOrientation="portrait" />
 
+        <!-- Score Detail -->
+        <activity
+            android:name=".view.main.activity.ActScoreDetail"
+            android:configChanges="screenSize|screenLayout|orientation"
+            android:exported="true"
+            android:noHistory="false"
+            android:screenOrientation="portrait" />
+
         <!-- Video Chatting -->
         <activity
             android:name=".view.main.activity.ActVideoChat"

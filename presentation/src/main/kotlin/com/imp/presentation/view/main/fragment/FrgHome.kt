@@ -228,6 +228,9 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
 
             with(mBinding) {
 
+                // 행복 점수 상세
+                ivScoreDetail.setOnClickListener { if (ctx is ActMain) ctx.moveToScoreDetail() }
+
                 // 트래킹 상세
                 llTrackingTitle.setOnClickListener { if (ctx is ActMain) ctx.moveToLog() }
 
