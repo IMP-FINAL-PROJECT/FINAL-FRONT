@@ -17,6 +17,7 @@ import android.os.Vibrator
 import android.text.Spannable
 import android.text.Spanned
 import android.text.style.AbsoluteSizeSpan
+import android.text.style.ForegroundColorSpan
 import android.text.style.TypefaceSpan
 import android.view.HapticFeedbackConstants
 import android.view.View
@@ -383,8 +384,9 @@ class MethodStorageUtil {
          * @param start 시작 index
          * @param end 끝 index
          * @param font 폰트
+         * @param color 색상
          */
-        fun setSpannable(textView: TextView, start: Int, end: Int, size: Int, font: Int) {
+        fun setSpannable(textView: TextView, start: Int, end: Int, size: Int, font: Int, color: Int = -1) {
 
             val spannable = textView.text as Spannable
             spannable.setSpan(AbsoluteSizeSpan(size), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
@@ -394,6 +396,10 @@ class MethodStorageUtil {
                 spannable.setSpan(TypefaceSpan(font), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
             } else {
                 spannable.setSpan(CustomTypefaceSpan(font), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            }
+
+            if (color != -1) {
+                spannable.setSpan(ForegroundColorSpan(color), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
             }
         }
 

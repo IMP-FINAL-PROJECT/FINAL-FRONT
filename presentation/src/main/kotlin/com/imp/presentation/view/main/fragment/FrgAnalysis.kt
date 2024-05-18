@@ -19,9 +19,13 @@ import com.imp.presentation.view.adapter.AnalysisListAdapter
 import com.imp.presentation.view.dialog.DatePickerBottomSheet
 import com.imp.presentation.view.main.activity.ActMain
 import com.imp.presentation.viewmodel.AnalysisViewModel
+import com.imp.presentation.widget.extension.setPreviewBothSide
+import com.imp.presentation.widget.extension.toDp
 import com.imp.presentation.widget.extension.toGoneOrVisible
 import com.imp.presentation.widget.extension.toVisibleOrGone
+import com.imp.presentation.widget.utils.CommonUtil
 import com.imp.presentation.widget.utils.DateUtil
+import com.imp.presentation.widget.utils.MethodStorageUtil
 import com.imp.presentation.widget.utils.PreferencesUtil
 import com.kakao.vectormap.KakaoMap
 import com.kakao.vectormap.KakaoMapReadyCallback
@@ -33,6 +37,7 @@ import com.kakao.vectormap.label.LabelOptions
 import com.kakao.vectormap.shape.DotPoints
 import com.kakao.vectormap.shape.PolygonOptions
 import java.util.Calendar
+import kotlin.math.roundToInt
 
 
 /**
@@ -45,6 +50,9 @@ class FrgAnalysis: BaseFragment<FrgAnalysisBinding>() {
 
     /** Analysis List Adapter */
     private lateinit var analysisAdapter: AnalysisListAdapter
+
+    /** ViewPager 관련 변수 */
+    private var initSetPreviewBothSide: Boolean = false
 
     /** 지도 관련 변수 */
     private var kakaoMap: KakaoMap? = null
@@ -185,7 +193,28 @@ class FrgAnalysis: BaseFragment<FrgAnalysisBinding>() {
 
                     // indicator 적용
                     indicator.attachTo(this)
+
+                    // offset ViewPager
+                    setViewPagerDecorator()
                 }
+            }
+        }
+    }
+
+    /**
+     * Set ViewPager Decorator
+     */
+    private fun setViewPagerDecorator() {
+
+        if (initSetPreviewBothSide) return
+
+        context?.let {
+
+            with(mBinding.viewPager) {
+
+                setPreviewBothSide(20.toDp(it), 16.toDp(it), 1)
+
+                initSetPreviewBothSide = true
             }
         }
     }
@@ -232,25 +261,37 @@ class FrgAnalysis: BaseFragment<FrgAnalysisBinding>() {
      */
     private fun updateUI(dao: AnalysisModel) {
 
-        with(mBinding) {
+        context?.let { ctx ->
 
-            // todo
-            // 집에 머무른 시간
-            tvHomeTitle.text = "집에 얼마나 있었게요?: ${dao.home_stay_percentage * 100}%"
+            with(mBinding) {
 
-            // 생활의 규칙성
-            val regularity = dao.life_routine_consistency * 3
-            tvRegularity.text = "나는 이만큼 규칙적이에요: ${String.format("%.1f", regularity)}/3"
+                incDescription.apply {
 
-            // 장소의 다양성
-            var placeText = "나는 여기에 이만큼 머물렀어요"
-            dao.place_diversity.forEachIndexed { index, place ->
+                    // 집에 머무른 시간
+                    val home = (dao.home_stay_percentage * 100).roundToInt()
+                    tvHomeTitle.text = if (home >= 50) getString(R.string.analysis_text_3) else getString(R.string.analysis_text_4)
+                    tvHomeDescription.text = getString(R.string.analysis_text_7, home)
 
-                if (place.size > 2) {
-                    placeText += "\n${index + 1}위: $index 번째 장소, ${place.first()}%"
+                    MethodStorageUtil.setSpannable(tvHomeDescription, 8, home.toString().length + 9, 16.toDp(ctx).toInt(), R.font.suit_extrabold, ContextCompat.getColor(ctx, R.color.color_3377ff))
+
+                    // 생활의 규칙성
+                    val regularity = (dao.life_routine_consistency * 100).roundToInt()
+                    tvRegularityTitle.text = if (regularity >= 50) getString(R.string.analysis_text_6) else getString(R.string.analysis_text_5)
+                    tvRegularityDescription.text = getString(R.string.analysis_text_8, regularity)
+
+                    MethodStorageUtil.setSpannable(tvRegularityDescription, 3, regularity.toString().length + 4, 16.toDp(ctx).toInt(), R.font.suit_extrabold, ContextCompat.getColor(ctx, R.color.color_3377ff))
                 }
+
+                // 장소의 다양성
+                var placeText = "나는 여기에 이만큼 머물렀어요"
+                dao.place_diversity.forEachIndexed { index, place ->
+
+                    if (place.size > 2) {
+                        placeText += "\n${index + 1}위: $index 번째 장소, ${place.first()}%"
+                    }
+                }
+                tvPlace.text = placeText
             }
-            tvPlace.text = placeText
         }
     }
 

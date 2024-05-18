@@ -119,12 +119,12 @@
     <!-- Main - Analysis -->
     <string name="analysis_text_1">선택한 날짜의 데이터가 없습니다.\n날짜를 변경해 주세요.</string>
     <string name="analysis_text_2">빛 노출량</string>
-    <string name="analysis_text_3"></string>
-    <string name="analysis_text_4"></string>
-    <string name="analysis_text_5"></string>
-    <string name="analysis_text_6"></string>
-    <string name="analysis_text_7"></string>
-    <string name="analysis_text_8"></string>
+    <string name="analysis_text_3">밖보다\n집이 좋아!</string>
+    <string name="analysis_text_4">집보다\n밖이 좋아!</string>
+    <string name="analysis_text_5">내 MBTI는\n혹시 P?</string>
+    <string name="analysis_text_6">내 MBTI는\n혹시 J?</string>
+    <string name="analysis_text_7">나는 오늘 약 %d%% 만큼 집에 있었어요.</string>
+    <string name="analysis_text_8">나는 %d%% 만큼 규칙적인 생활을 하고 있어요.</string>
     <string name="analysis_text_9"></string>
     <string name="analysis_text_10"></string>
 

@@ -75,7 +75,7 @@ class RoundedHorizontalBarChart : HorizontalBarChart {
 
             valueFormatter = object : ValueFormatter() {
                 override fun getFormattedValue(value: Float): String {
-                    return if (value == 1f) "☀️" else "🌙"
+                    return if (value == 1f) "오전" else "오후"
                 }
             }
         }
