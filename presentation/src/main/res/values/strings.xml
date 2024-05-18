@@ -125,8 +125,28 @@
     <string name="analysis_text_6">내 MBTI는\n혹시 J?</string>
     <string name="analysis_text_7">나는 오늘 약 %d%% 만큼 집에 있었어요.</string>
     <string name="analysis_text_8">나는 %d%% 만큼 규칙적인 생활을 하고 있어요.</string>
-    <string name="analysis_text_9"></string>
-    <string name="analysis_text_10"></string>
+    <string name="analysis_text_9">오전보다 약 %d회 만큼\n오후에 더 많이 걸었어요.</string>
+    <string name="analysis_text_10">오후보다 약 %d회 만큼\n오전에 더 많이 걸었어요.</string>
+    <string name="analysis_text_11">오늘 하루 동안\n약 %d회 만큼 걸었어요.</string>
+    <string name="analysis_text_12">오전보다 약 %d회 만큼\n오후에 더 많이 화면을 깨웠어요.</string>
+    <string name="analysis_text_13">오후보다 약 %d회 만큼\n오전에 더 많이 화면을 깨웠어요.</string>
+    <string name="analysis_text_14">오늘 하루 동안\n약 %d회 만큼 화면을 깨웠어요.</string>
+    <string name="analysis_text_15">오전보다 약 %s 만큼\n오후에 더 오래 핸드폰을 사용했어요.</string>
+    <string name="analysis_text_16">오후보다 약 %s 만큼\n오전에 더 오래 핸드폰을 사용했어요.</string>
+    <string name="analysis_text_17">오늘 하루 동안\n약 %s 동안 핸드폰을 사용했어요.</string>
+    <string name="analysis_text_18">오전보다 약 %s 만큼\n오후에 더 오래 통화 했어요.</string>
+    <string name="analysis_text_19">오후보다 약 %s 만큼\n오전에 더 오래 통화 했어요.</string>
+    <string name="analysis_text_20">오늘 하루 동안\n약 %s 동안 통화 했어요.</string>
+    <string name="analysis_text_21">오전보다 약 d회 만큼\n오후에 더 많이 통화 했어요.</string>
+    <string name="analysis_text_22">오후보다 약 d회 만큼\n오전에 더 많이 통화 했어요.</string>
+    <string name="analysis_text_23">오늘 하루 동안\n약 %d회 만큼 통화 했어요.</string>
+    <string name="analysis_text_24"></string>
+    <string name="analysis_text_25"></string>
+    <string name="analysis_text_26"></string>
+    <string name="analysis_text_27"></string>
+    <string name="analysis_text_28"></string>
+    <string name="analysis_text_29"></string>
+    <string name="analysis_text_30"></string>
 
     <!-- Main - Chat -->
     <string name="chat_text_1">새로운 채팅을 생성하시겠습니까?</string>
