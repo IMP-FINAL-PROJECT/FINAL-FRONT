@@ -23,6 +23,11 @@ class ChatViewModel @Inject constructor(private val useCase: ChatUseCase) : View
     private val _chatList = MutableLiveData<ArrayList<ChatListModel.Chat>>()
     val chatList: LiveData<ArrayList<ChatListModel.Chat>> get() = _chatList
 
+    /** Chatting Response */
+
+    private val _chatResponse = MutableLiveData<ChatListModel.ChatResponse>()
+    val chatResponse: LiveData<ChatListModel.ChatResponse> get() = _chatResponse
+
     /** Chat Callback */
 
     private val _chatCallback = MutableLiveData<ChatListModel.Chat>()
@@ -65,6 +70,20 @@ class ChatViewModel @Inject constructor(private val useCase: ChatUseCase) : View
             id = id,
             number = number,
             successCallback = { chatList(id) },
+            errorCallback = { _errorCallback.value = Event(it) }
+        )
+    }
+
+    /**
+     * 채팅 전송
+     */
+    fun sendChat(id: String, number: String, request: String) = viewModelScope.launch {
+
+        useCase.sendChat(
+            id = id,
+            number = number,
+            request = request,
+            successCallback = { _chatResponse.value = it },
             errorCallback = { _errorCallback.value = Event(it) }
         )
     }

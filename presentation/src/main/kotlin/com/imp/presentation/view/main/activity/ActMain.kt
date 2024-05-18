@@ -221,14 +221,15 @@ class ActMain : BaseContractActivity<ActMainBinding>() {
     /**
      * Move to Chatting
      */
-    fun moveToChatting(title: String, url: String, isChat: Boolean = false) {
+    fun moveToChatting(title: String, url: String, number: String) {
 
         Intent(this@ActMain, ActCommonWebView::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
             putExtra("header", true)
             putExtra("header_title", title)
             putExtra("url", url)
-            putExtra("chat", isChat)
+            putExtra("chatNumber", number)
+            putExtra("chat", true)
             startActivity(this)
         }
     }

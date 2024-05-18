@@ -48,6 +48,7 @@ class HttpConstants {
         const val API_CHAT_LIST = "/chat/list"                                // 채팅 목록
         const val API_CHAT_CREATE = "/chat/create"                            // 채팅 생성
         const val API_CHAT_DELETE = "/chat/delete"                            // 채팅 삭제
+        const val API_CHAT_QUESTION = "/chat/question"                        // 채팅 전송
         const val API_CHANGE = "/api/change/{id}"                             // 회원 정보 변경
 
         const val KAKAO_BASE_HOST = "https://dapi.kakao.com/"

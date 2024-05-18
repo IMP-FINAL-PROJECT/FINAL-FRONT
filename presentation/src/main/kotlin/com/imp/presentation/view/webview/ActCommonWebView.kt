@@ -35,7 +35,8 @@ class ActCommonWebView : BaseContractActivity<ActCommonWebViewBinding>() {
     /** WebView Url */
     private var webViewUrl: String = ""
 
-    /** Chat 여부 */
+    /** Chat 관련 변수 */
+    private var chatNumber: String = ""
     private var isChat: Boolean = false
 
     override fun getViewBinding() = ActCommonWebViewBinding.inflate(layoutInflater)
@@ -46,6 +47,7 @@ class ActCommonWebView : BaseContractActivity<ActCommonWebViewBinding>() {
         isHtml = intent.getBooleanExtra("html", false)
         headerTitle = intent.getStringExtra("header_title") ?: ""
         webViewUrl = intent.getStringExtra("url") ?: ""
+        chatNumber = intent.getStringExtra("chatNumber") ?: ""
         isChat = intent.getBooleanExtra("chat", false)
     }
 
@@ -132,6 +134,7 @@ class ActCommonWebView : BaseContractActivity<ActCommonWebViewBinding>() {
         Intent(this@ActCommonWebView, ActVideoChat::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
             putExtra("title", headerTitle)
+            putExtra("number", chatNumber)
             startActivity(this)
             finish()
         }

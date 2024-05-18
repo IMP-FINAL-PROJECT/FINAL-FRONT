@@ -39,4 +39,13 @@ interface ApiChat {
     fun deleteChat(
         @Body body: Map<String, Any>
     ): Observable<BaseResponse<Any>>
+
+    /**
+     * 채팅 전송
+     */
+    @Headers("Content-Type: application/json")
+    @POST(HttpConstants.API_CHAT_QUESTION)
+    fun sendChat(
+        @Body body: Map<String, Any>
+    ): Observable<BaseResponse<ChatListModel.ChatResponse>>
 }

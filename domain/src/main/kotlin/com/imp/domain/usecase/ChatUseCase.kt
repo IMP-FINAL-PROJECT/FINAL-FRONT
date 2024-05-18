@@ -30,4 +30,11 @@ class ChatUseCase @Inject constructor(private val repository: ChatRepository) {
     suspend fun deleteChat(id: String, number: String, successCallback: () -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit) {
         repository.deleteChat(id, number, successCallback, errorCallback)
     }
+
+    /**
+     * 채팅 전송
+     */
+    suspend fun sendChat(id: String, number: String, request: String, successCallback: (ChatListModel.ChatResponse) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit) {
+        repository.sendChat(id, number, request, successCallback, errorCallback)
+    }
 }

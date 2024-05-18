@@ -82,14 +82,18 @@ class ActVideoChat : BaseContractActivity<ActVideoChatBinding>() {
         initRecognizeSpeech()
     }
 
+    /** Chat ViewModel */
+    private val viewModel: ChatViewModel by viewModels()
+
     /** AR 관련 변수 */
     private lateinit var arFragment: ArFragment
     private var model: Renderable? = null
     private var modelView: ViewRenderable? = null
     private var node: Node? = null
 
-    /** Title */
-    private var title: String? = null
+    /** Chatting 정보 관련 변수 */
+    private var title: String = ""
+    private var number: String = ""
 
     /** Stt Animator */
     private var sttShowAnimator: AnimatorSet? = null
@@ -133,11 +137,15 @@ class ActVideoChat : BaseContractActivity<ActVideoChatBinding>() {
 
         override fun onResults(p0: Bundle?) {
 
+            var result = ""
             val matches = p0?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION) ?: return
-            for (i in matches.indices) mBinding.tvStt.text = matches[i]
+            for (i in matches.indices) result = matches[i]
+
+            mBinding.tvStt.text = result
 
             controlSpeechLottie(false)
             controlSttView(true)
+            sendChat(result)
         }
 
         override fun onPartialResults(p0: Bundle?) {
@@ -155,13 +163,15 @@ class ActVideoChat : BaseContractActivity<ActVideoChatBinding>() {
 
         fullScreen = true
 
-        title = intent?.getStringExtra("title")
+        title = intent?.getStringExtra("title") ?: ""
+        number = intent?.getStringExtra("number") ?: ""
 
         selectionPermission()
     }
 
     override fun initView() {
 
+        initObserver()
         initDisplay()
         initSceneForm()
         setOnClickListener()
@@ -396,5 +406,17 @@ class ActVideoChat : BaseContractActivity<ActVideoChatBinding>() {
         val end = if (show) 1f else 0f
 
         return ObjectAnimator.ofFloat(view, View.ALPHA, start, end)
+    }
+
+    /**
+     * Send Chat
+     *
+     * @param request
+     */
+    private fun sendChat(request: String) {
+
+        // log data api 호출
+        val id = PreferencesUtil.getPreferencesString(this@ActVideoChat, PreferencesUtil.AUTO_LOGIN_ID_KEY)
+        viewModel.sendChat(id, number, request)
     }
 }

@@ -80,4 +80,28 @@ class ChatRepositoryImpl @Inject constructor() : ChatRepository {
                 errorCallback.invoke(CommonMapper.mappingErrorData(error))
             })
     }
+
+    override suspend fun sendChat(id: String, number: String, request: String, successCallback: (ChatListModel.ChatResponse) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit) {
+
+        val params: MutableMap<String, Any> = HashMap()
+
+        params["id"] = id
+        params["number"] = number
+        params["request"] = request
+
+        ApiClient.getChatClient().create(ApiChat::class.java).sendChat(params)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ response ->
+
+                if (response.isSuccess()) {
+                    response.data?.let { successCallback.invoke(it) }
+                } else {
+                    errorCallback.invoke(CommonMapper.mappingErrorCallbackData(response))
+                }
+
+            }, { error ->
+                errorCallback.invoke(CommonMapper.mappingErrorData(error))
+            })
+    }
 }

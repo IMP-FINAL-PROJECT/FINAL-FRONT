@@ -22,4 +22,9 @@ interface ChatRepository {
      * 채팅 삭제
      */
     suspend fun deleteChat(id: String, number: String, successCallback: () -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit)
+
+    /**
+     * 채팅 전송
+     */
+    suspend fun sendChat(id: String, number: String, request: String, successCallback: (ChatListModel.ChatResponse) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit)
 }

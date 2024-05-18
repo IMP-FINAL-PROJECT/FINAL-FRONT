@@ -23,4 +23,13 @@ data class ChatListModel(
 
         val last_chat: String? = null
     )
+
+    data class ChatResponse(
+
+        var request: String? = null,
+
+        var response: String? = null,
+
+        var chat_time: String? = null
+    )
 }
