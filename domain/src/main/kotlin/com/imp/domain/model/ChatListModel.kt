@@ -19,6 +19,8 @@ data class ChatListModel(
 
         var name: String? = null,
 
-        var update_at: String? = null
+        var update_at: String? = null,
+
+        val last_chat: String? = null
     )
 }

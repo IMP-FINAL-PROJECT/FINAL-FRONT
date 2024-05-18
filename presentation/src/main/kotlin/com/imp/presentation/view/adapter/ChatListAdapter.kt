@@ -55,7 +55,7 @@ class ChatListAdapter(var context: Context?, val list: ArrayList<ChatListModel.C
                     tvName.text = dao.chat_info?.name
 
                     // 채팅
-                    tvChat.text = "내용 $position"
+                    tvChat.text = dao.chat_info?.last_chat
 
                     // 시간
                     tvTime.text = dao.chat_info?.update_at
