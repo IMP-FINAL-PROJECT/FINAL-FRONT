@@ -8,10 +8,12 @@ import android.os.Bundle
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
+import android.speech.tts.TextToSpeech
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
@@ -30,11 +32,14 @@ import com.gorisse.thomas.sceneform.scene.await
 import com.imp.presentation.R
 import com.imp.presentation.base.BaseContractActivity
 import com.imp.presentation.databinding.ActVideoChatBinding
+import com.imp.presentation.viewmodel.ChatViewModel
 import com.imp.presentation.widget.extension.toGoneOrVisible
 import com.imp.presentation.widget.extension.toVisibleOrGone
 import com.imp.presentation.widget.utils.MethodStorageUtil
 import com.imp.presentation.widget.utils.PermissionUtil
+import com.imp.presentation.widget.utils.PreferencesUtil
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Locale
 
 
 /**
@@ -42,6 +47,11 @@ import dagger.hilt.android.AndroidEntryPoint
  */
 @AndroidEntryPoint
 class ActVideoChat : BaseContractActivity<ActVideoChatBinding>() {
+
+    companion object {
+
+        private const val TTS_ID = "VIDEO_TTS_ID"
+    }
 
     /** 권한 요청 */
     private val permissionActivityResultLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { selectionPermission() }
@@ -80,6 +90,9 @@ class ActVideoChat : BaseContractActivity<ActVideoChatBinding>() {
 
         // recognizer speech 초기화
         initRecognizeSpeech()
+
+        // text to speech 초기화
+        initTextToSpeech()
     }
 
     /** Chat ViewModel */
@@ -95,11 +108,14 @@ class ActVideoChat : BaseContractActivity<ActVideoChatBinding>() {
     private var title: String = ""
     private var number: String = ""
 
-    /** Stt Animator */
+    /** STT Animator */
     private var sttShowAnimator: AnimatorSet? = null
     private var sttEndAnimator: AnimatorSet? = null
 
-    /** 음성 인식 관련 변수 */
+    /** TTS 관련 변수 */
+    private var textToSpeech: TextToSpeech? = null
+
+    /** STT 관련 변수 */
     private lateinit var recognizerIntent: Intent
     private lateinit var speechRecognizer: SpeechRecognizer
 
@@ -177,6 +193,12 @@ class ActVideoChat : BaseContractActivity<ActVideoChatBinding>() {
         setOnClickListener()
     }
 
+    override fun onDestroy() {
+
+        stopTextToSpeech()
+        super.onDestroy()
+    }
+
     /**
      * Initialize Recognize Speech
      */
@@ -185,6 +207,62 @@ class ActVideoChat : BaseContractActivity<ActVideoChatBinding>() {
         recognizerIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
             putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, packageName)
             putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR")
+        }
+    }
+
+    /**
+     * Initialize Text to Speech
+     */
+    private fun initTextToSpeech() {
+
+        textToSpeech = TextToSpeech(this@ActVideoChat) { status ->
+
+            if (status != TextToSpeech.ERROR) {
+
+                textToSpeech?.let { tts ->
+
+                    tts.setLanguage(Locale.KOREAN)
+
+                    // ko-KR-SMTf00 (일반 여성 아나운서 느낌), ko-KR-SMTl08 (소심한 여성)
+                    // ko-KR-SMTl01 (일반 여성), ko-KR-SMTl04 (일반 여성 전자녀 느낌), ko-KR-SMTl05 (일반 여성 좀더 높나?..)
+                    // ko-KR-default (일반 남성 아나운서 느낌), ko-KR-SMTg01 (일반 남성), ko-KR-SMTm01 (일반 남성 전자녀 남자버전?)
+                    val voices = tts.voices.filter { it.name.contains("ko-KR-SMTl08") }
+                    voices.firstOrNull()?.let {tts.setVoice(it) }
+                }
+            }
+        }
+    }
+
+    /**
+     * Stop Text to Speech
+     */
+    private fun stopTextToSpeech() {
+
+        if(textToSpeech != null){
+
+            textToSpeech?.stop()
+            textToSpeech?.shutdown()
+            textToSpeech = null
+        }
+    }
+
+    /**
+     * Initialize Observer
+     */
+    private fun initObserver() {
+
+        /** Chat List */
+        viewModel.chatResponse.observe(this) { chat ->
+
+            textToSpeech?.speak(chat.response, TextToSpeech.QUEUE_FLUSH, null, TTS_ID)
+        }
+
+        /** Error Callback */
+        viewModel.errorCallback.observe(this) { event ->
+            event.getContentIfNotHandled()?.let { error ->
+
+                Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
