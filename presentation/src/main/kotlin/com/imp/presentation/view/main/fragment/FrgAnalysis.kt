@@ -71,6 +71,9 @@ class FrgAnalysis: BaseFragment<FrgAnalysisBinding>() {
 
         // 하루 전날로 설정
         calendar.add(Calendar.DAY_OF_MONTH, -1)
+
+        // viewModel data 초기화
+        viewModel.resetData()
     }
 
     override fun initView() {

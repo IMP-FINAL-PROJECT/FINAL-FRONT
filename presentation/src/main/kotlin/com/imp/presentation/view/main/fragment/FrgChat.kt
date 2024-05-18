@@ -36,6 +36,8 @@ class FrgChat: BaseFragment<FrgChatBinding>() {
 
     override fun initData() {
 
+        // viewModel data 초기화
+        viewModel.resetData()
     }
 
     override fun initView() {
@@ -76,7 +78,6 @@ class FrgChat: BaseFragment<FrgChatBinding>() {
             }
         }
 
-        // todo 중복 호출 이슈
         /** Chatting Callback */
         viewModel.chatCallback.observe(viewLifecycleOwner) { loadChatting(it.number, it.chat_info?.name ?: "") }
 

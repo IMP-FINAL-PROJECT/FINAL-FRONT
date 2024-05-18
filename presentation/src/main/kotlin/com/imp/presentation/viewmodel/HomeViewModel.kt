@@ -24,7 +24,7 @@ class HomeViewModel @Inject constructor(private val useCase: HomeUseCase) : View
     val homeData: LiveData<HomeModel> get() = _homeData
 
     /** Error Callback */
-    private val _errorCallback = MutableLiveData<Event<ErrorCallbackModel?>>()
+    private var _errorCallback: MutableLiveData<Event<ErrorCallbackModel?>> = MutableLiveData()
     val errorCallback: LiveData<Event<ErrorCallbackModel?>> get() = _errorCallback
 
     /**
@@ -62,5 +62,14 @@ class HomeViewModel @Inject constructor(private val useCase: HomeUseCase) : View
             successCallback = {  },
             errorCallback = { _errorCallback.value = Event(it) }
         )
+    }
+
+    /**
+     * Reset Data
+     */
+    fun resetData() {
+
+        _homeData = MutableLiveData()
+        _errorCallback = MutableLiveData()
     }
 }

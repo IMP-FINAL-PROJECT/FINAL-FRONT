@@ -20,27 +20,27 @@ import javax.inject.Inject
 class MemberViewModel @Inject constructor(private val useCase: MemberUseCase) : ViewModel() {
 
     /** Login Data */
-    private val _loginData = MutableLiveData<MemberModel>()
+    private val _loginData: MutableLiveData<MemberModel> = MutableLiveData()
     val loginData: LiveData<MemberModel> get() = _loginData
 
     /** Register Response Data */
-    private val _registerResData = MutableLiveData<MemberModel>()
+    private val _registerResData: MutableLiveData<MemberModel> = MutableLiveData()
     val registerResData: LiveData<MemberModel> get() = _registerResData
 
     /** Email Validation Data */
-    private val _emailValidationData = MutableLiveData<Boolean>()
+    private val _emailValidationData: MutableLiveData<Boolean> = MutableLiveData()
     val emailValidationData: LiveData<Boolean> get() = _emailValidationData
 
     /** Address Data */
-    private val _addressData = MutableLiveData<AddressModel>()
+    private val _addressData: MutableLiveData<AddressModel> = MutableLiveData()
     val addressData: LiveData<AddressModel> get() = _addressData
 
     /** Member Data */
-    private val _memberData = MutableLiveData<MemberModel>()
+    private val _memberData: MutableLiveData<MemberModel> = MutableLiveData()
     val memberData: LiveData<MemberModel> get() = _memberData
 
     /** Error Callback */
-    private val _errorCallback = MutableLiveData<Event<ErrorCallbackModel?>>()
+    private val _errorCallback: MutableLiveData<Event<ErrorCallbackModel?>> = MutableLiveData()
     val errorCallback: LiveData<Event<ErrorCallbackModel?>> get() = _errorCallback
 
     /** Register Data */

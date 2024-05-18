@@ -107,6 +107,8 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
 
     override fun initData() {
 
+        // viewModel data 초기화
+        viewModel.resetData()
     }
 
     override fun initView() {

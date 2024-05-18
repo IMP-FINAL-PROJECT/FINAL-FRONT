@@ -20,21 +20,21 @@ class ChatViewModel @Inject constructor(private val useCase: ChatUseCase) : View
 
     /** Chatting List */
 
-    private val _chatList = MutableLiveData<ArrayList<ChatListModel.Chat>>()
+    private var _chatList: MutableLiveData<ArrayList<ChatListModel.Chat>> = MutableLiveData()
     val chatList: LiveData<ArrayList<ChatListModel.Chat>> get() = _chatList
 
     /** Chatting Response */
 
-    private val _chatResponse = MutableLiveData<ChatListModel.ChatResponse>()
+    private var _chatResponse: MutableLiveData<ChatListModel.ChatResponse> = MutableLiveData()
     val chatResponse: LiveData<ChatListModel.ChatResponse> get() = _chatResponse
 
     /** Chat Callback */
 
-    private val _chatCallback = MutableLiveData<ChatListModel.Chat>()
+    private var _chatCallback: MutableLiveData<ChatListModel.Chat> = MutableLiveData()
     val chatCallback: LiveData<ChatListModel.Chat> get() = _chatCallback
 
     /** Error Callback */
-    private val _errorCallback = MutableLiveData<Event<ErrorCallbackModel?>>()
+    private var _errorCallback: MutableLiveData<Event<ErrorCallbackModel?>> = MutableLiveData()
     val errorCallback: LiveData<Event<ErrorCallbackModel?>> get() = _errorCallback
 
     /**
@@ -86,5 +86,16 @@ class ChatViewModel @Inject constructor(private val useCase: ChatUseCase) : View
             successCallback = { _chatResponse.value = it },
             errorCallback = { _errorCallback.value = Event(it) }
         )
+    }
+
+    /**
+     * Reset Data
+     */
+    fun resetData() {
+
+        _chatList = MutableLiveData()
+        _chatResponse = MutableLiveData()
+        _chatCallback = MutableLiveData()
+        _errorCallback = MutableLiveData()
     }
 }

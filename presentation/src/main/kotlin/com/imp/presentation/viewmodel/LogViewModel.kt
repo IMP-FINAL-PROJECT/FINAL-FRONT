@@ -28,7 +28,7 @@ class LogViewModel @Inject constructor(private val useCase: LogUseCase) : ViewMo
     val pointList: LiveData<ArrayList<LatLng>> get() = _pointList
 
     /** Error Callback */
-    private val _errorCallback = MutableLiveData<Event<ErrorCallbackModel?>>()
+    private val _errorCallback: MutableLiveData<Event<ErrorCallbackModel?>> = MutableLiveData()
     val errorCallback: LiveData<Event<ErrorCallbackModel?>> get() = _errorCallback
 
     /**

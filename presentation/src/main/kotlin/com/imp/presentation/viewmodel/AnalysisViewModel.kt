@@ -28,7 +28,7 @@ class AnalysisViewModel @Inject constructor(private val useCase: AnalysisUseCase
     val pointList: LiveData<ArrayList<LatLng>> get() = _pointList
 
     /** Error Callback */
-    private val _errorCallback = MutableLiveData<Event<ErrorCallbackModel?>>()
+    private var _errorCallback: MutableLiveData<Event<ErrorCallbackModel?>> = MutableLiveData()
     val errorCallback: LiveData<Event<ErrorCallbackModel?>> get() = _errorCallback
 
     /**
@@ -64,5 +64,15 @@ class AnalysisViewModel @Inject constructor(private val useCase: AnalysisUseCase
         }
 
         _pointList.value = list
+    }
+
+    /**
+     * Reset Data
+     */
+    fun resetData() {
+
+        _analysisData = MutableLiveData()
+        _pointList = MutableLiveData()
+        _errorCallback = MutableLiveData()
     }
 }
