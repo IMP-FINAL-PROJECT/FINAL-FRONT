@@ -208,17 +208,6 @@ class ActMain : BaseContractActivity<ActMainBinding>() {
     }
 
     /**
-     * Move to Score Detail
-     */
-    fun moveToScoreDetail() {
-
-        Intent(this@ActMain, ActScoreDetail::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
-            startActivity(this)
-        }
-    }
-
-    /**
      * Move to Chatting
      */
     fun moveToChatting(title: String, url: String, number: String) {
