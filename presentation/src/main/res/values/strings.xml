@@ -145,8 +145,9 @@
     <string name="analysis_text_26">활동</string>
     <string name="analysis_text_27">장소의 다양성</string>
     <string name="analysis_text_28">빛 노출량</string>
-    <string name="analysis_text_29">AI 분석 결과</string>
-    <string name="analysis_text_30"></string>
+    <string name="analysis_text_29">AI 분석</string>
+    <string name="analysis_text_30">%s님의 AI 분석 결과</string>
+    <string name="analysis_text_31">결과 보기</string>
 
     <!-- Main - Chat -->
     <string name="chat_text_1">새로운 채팅을 생성하시겠습니까?</string>

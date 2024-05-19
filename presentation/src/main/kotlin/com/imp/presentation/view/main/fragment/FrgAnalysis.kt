@@ -18,9 +18,11 @@ import com.imp.presentation.base.BaseFragment
 import com.imp.presentation.constants.BaseConstants
 import com.imp.presentation.databinding.FrgAnalysisBinding
 import com.imp.presentation.view.adapter.AnalysisListAdapter
+import com.imp.presentation.view.dialog.AIAnalysisBottomSheet
 import com.imp.presentation.view.dialog.DatePickerBottomSheet
 import com.imp.presentation.view.main.activity.ActMain
 import com.imp.presentation.viewmodel.AnalysisViewModel
+import com.imp.presentation.viewmodel.MemberViewModel
 import com.imp.presentation.widget.extension.setPreviewBothSide
 import com.imp.presentation.widget.extension.toDp
 import com.imp.presentation.widget.extension.toGoneOrVisible
@@ -49,6 +51,9 @@ class FrgAnalysis: BaseFragment<FrgAnalysisBinding>() {
     /** Analysis ViewModel */
     private val viewModel: AnalysisViewModel by activityViewModels()
 
+    /** Member ViewModel */
+    private val memberViewModel: MemberViewModel by activityViewModels()
+
     /** Analysis List Adapter */
     private lateinit var analysisAdapter: AnalysisListAdapter
 
@@ -58,11 +63,12 @@ class FrgAnalysis: BaseFragment<FrgAnalysisBinding>() {
     /** 지도 관련 변수 */
     private var kakaoMap: KakaoMap? = null
 
-    /** Date Picker Bottom Sheet */
-    private var datePickerBottomSheet: DatePickerBottomSheet? = null
-
     /** API 조회 Calendar */
     private var calendar: Calendar = Calendar.getInstance()
+
+    /** Bottom Sheet */
+    private var datePickerBottomSheet: DatePickerBottomSheet? = null
+    private var aiAnalysisBottomSheet: AIAnalysisBottomSheet? = null
 
     /** Animator */
     private var objectAnimator: ObjectAnimator? = null
@@ -84,6 +90,9 @@ class FrgAnalysis: BaseFragment<FrgAnalysisBinding>() {
 
         // viewModel data 초기화
         viewModel.resetData()
+
+        // member data api 호출
+        memberViewModel.getMember()
     }
 
     override fun initView() {
@@ -164,11 +173,12 @@ class FrgAnalysis: BaseFragment<FrgAnalysisBinding>() {
                 incPlace.tvTitle.text = getString(R.string.analysis_text_27)
                 incLight.tvTitle.text = getString(R.string.analysis_text_28)
                 incDetail.tvTitle.text = getString(R.string.analysis_text_29)
+                incDetail.tvResult.text = getString(R.string.analysis_text_31)
 
                 // AI 분석 결과 노출 여부 설정
                 incDetail.progressBar.visibility = View.GONE
                 incDetail.tvScore.visibility = View.GONE
-                incDetail.ivArrow.visibility = View.VISIBLE
+                incDetail.cvResult.visibility = View.VISIBLE
             }
 
             // todo
@@ -246,6 +256,9 @@ class FrgAnalysis: BaseFragment<FrgAnalysisBinding>() {
 
             // 날짜
             llDate.setOnClickListener { openDatePickerBottomSheet() }
+
+            // AI 분석 결과
+            incScoreBoard.incDetail.cvResult.setOnClickListener { openAIAnalysisBottomSheet() }
         }
     }
 
@@ -424,6 +437,19 @@ class FrgAnalysis: BaseFragment<FrgAnalysisBinding>() {
             controlDropDownAnimation(false)
         })
         datePickerBottomSheet?.show(childFragmentManager, "")
+    }
+
+    /**
+     * Open AI Analysis Result BottomSheet
+     */
+    private fun openAIAnalysisBottomSheet() {
+
+        aiAnalysisBottomSheet?.dismiss()
+        aiAnalysisBottomSheet = AIAnalysisBottomSheet(
+            memberViewModel.memberData.value?.name,
+            viewModel.analysisData.value?.ai_analysis_result
+        )
+        aiAnalysisBottomSheet?.show(childFragmentManager, "")
     }
 
     /**

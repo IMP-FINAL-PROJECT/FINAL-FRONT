@@ -28,39 +28,66 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="생활의 규칙성" />
 
-        <!-- progress bar -->
-        <com.imp.presentation.widget.component.CustomCircleBarSmallerView
-            android:id="@+id/progressBar"
-            android:layout_width="62.5dp"
-            android:layout_height="63dp"
-            android:layout_marginTop="16dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle">
+
+            <!-- progress bar -->
+            <com.imp.presentation.widget.component.CustomCircleBarSmallerView
+                android:id="@+id/progressBar"
+                android:layout_width="62.5dp"
+                android:layout_height="63dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- Score -->
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvScore"
+                style="@style/suitBold.10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_343942"
+                app:layout_constraintBottom_toBottomOf="@+id/progressBar"
+                app:layout_constraintEnd_toEndOf="@+id/progressBar"
+                app:layout_constraintStart_toStartOf="@+id/progressBar"
+                app:layout_constraintTop_toTopOf="@+id/progressBar"
+                tools:text="75/100" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Result -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvResult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:background="@null"
+            android:elevation="0dp"
+            android:visibility="gone"
+            app:cardBackgroundColor="@color/color_3377ff"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+            app:layout_constraintStart_toStartOf="parent">
 
-        <!-- Score -->
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvScore"
-            style="@style/suitBold.10"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/color_343942"
-            app:layout_constraintBottom_toBottomOf="@+id/progressBar"
-            app:layout_constraintEnd_toEndOf="@+id/progressBar"
-            app:layout_constraintStart_toStartOf="@+id/progressBar"
-            app:layout_constraintTop_toTopOf="@+id/progressBar"
-            tools:text="75/100" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvResult"
+                style="@style/suitSemiBold.14"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:text="결과 보기"
+                android:textColor="@color/white" />
 
-        <!-- Arrow -->
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ivArrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/icon_arrow_right"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+        </androidx.cardview.widget.CardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

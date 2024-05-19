@@ -138,14 +138,6 @@ class MemberRepositoryImpl @Inject constructor() : MemberRepository {
             successCallback.invoke(memberData!!)
             return
         }
-
-        successCallback.invoke(MemberModel(
-            name = "고주원",
-            id = "rhwndnjs123@gmail.com",
-            birth = "1997-05-05",
-            address = arrayListOf(33.333333, 122.222222),
-            gender = "M"
-        ))
     }
 
     /**

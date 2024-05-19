@@ -9,6 +9,9 @@ data class AnalysisModel(
 
     var date: String? = null,
 
+    // AI 분석 결과
+    var ai_analysis_result: String? = null,
+
     // 생활의 규칙성 점수
     var circadian_rhythm_score: Double = 0.0,
 
