@@ -23,6 +23,7 @@
         android:background="@color/white"
         app:layout_constraintTop_toBottomOf="@+id/ivShadow">
 
+        <!-- Title -->
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvTitle"
             style="@style/suitBold.18"
@@ -35,24 +36,37 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="AI 분석 결과" />
+            tools:text="행복 점수 추이" />
 
+        <!-- Date -->
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvContents"
-            style="@style/suitRegular.15"
+            android:id="@+id/tvDate"
+            style="@style/suitSemiBold.12"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="32dp"
-            android:layout_marginBottom="60dp"
             android:includeFontPadding="false"
-            android:lineSpacingExtra="3dp"
-            android:maxHeight="500dp"
-            android:textColor="@color/black"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:textColor="@color/color_999999"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-            tools:text="" />
+            tools:text="05월 01일 ~ 05월 07일" />
+
+        <!-- Chart -->
+        <com.imp.presentation.widget.component.CommonLineChart
+            android:id="@+id/chart"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="40dp"
+            app:circularflow_radiusInDP="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvDate" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

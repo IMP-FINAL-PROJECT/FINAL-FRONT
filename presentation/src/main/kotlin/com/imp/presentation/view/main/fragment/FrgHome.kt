@@ -16,6 +16,7 @@ import com.imp.presentation.base.BaseFragment
 import com.imp.presentation.constants.BaseConstants
 import com.imp.presentation.databinding.FrgHomeBinding
 import com.imp.presentation.view.adapter.RecommendListAdapter
+import com.imp.presentation.view.dialog.ScoreTransitionBottomSheet
 import com.imp.presentation.view.main.activity.ActMain
 import com.imp.presentation.viewmodel.HomeViewModel
 import com.imp.presentation.widget.extension.toDp
@@ -101,6 +102,9 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
 
     /** Recommend List Adapter */
     private lateinit var recommendAdapter: RecommendListAdapter
+
+    /** Bottom Sheet */
+    private var scoreTransitionBottomSheet: ScoreTransitionBottomSheet? = null
 
     override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?) = FrgHomeBinding.inflate(inflater, container, false)
 
@@ -248,7 +252,7 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
             with(mBinding) {
 
                 // 행복 점수 상세
-                ivScoreDetail.setOnClickListener { if (ctx is ActMain) ctx.moveToScoreDetail() }
+                ivScoreDetail.setOnClickListener { openScoreTransitionBottomSheet() }
 
                 // 트래킹 상세
                 llTrackingTitle.setOnClickListener { if (ctx is ActMain) ctx.moveToLog() }
@@ -540,6 +544,18 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
         kakaoMap = null
         centerLabel = null
         tackingManager = null
+    }
+
+    /**
+     * Open Score Transition BottomSheet
+     */
+    private fun openScoreTransitionBottomSheet() {
+
+        scoreTransitionBottomSheet?.dismiss()
+        scoreTransitionBottomSheet = ScoreTransitionBottomSheet(
+            viewModel.homeData.value?.point_list ?: ArrayList()
+        )
+        scoreTransitionBottomSheet?.show(childFragmentManager, "")
     }
 
     /**
