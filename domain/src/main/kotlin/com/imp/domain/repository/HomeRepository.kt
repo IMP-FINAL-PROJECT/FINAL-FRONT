@@ -2,6 +2,7 @@ package com.imp.domain.repository
 
 import com.imp.domain.model.ErrorCallbackModel
 import com.imp.domain.model.HomeModel
+import com.imp.domain.model.RecommendModel
 import com.imp.domain.model.SensorModel
 
 /**
@@ -23,4 +24,9 @@ interface HomeRepository {
      * 센싱 데이터 저장
      */
     suspend fun saveSensorData(data: SensorModel, successCallback: () -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit)
+
+    /**
+     * Recommend Data
+     */
+    suspend fun recommendData(id: String, score: Int, successCallback: (ArrayList<RecommendModel>) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit)
 }

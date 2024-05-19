@@ -2,6 +2,7 @@ package com.imp.domain.usecase
 
 import com.imp.domain.model.ErrorCallbackModel
 import com.imp.domain.model.HomeModel
+import com.imp.domain.model.RecommendModel
 import com.imp.domain.model.SensorModel
 import com.imp.domain.repository.HomeRepository
 import javax.inject.Inject
@@ -29,5 +30,12 @@ class HomeUseCase @Inject constructor(private val repository: HomeRepository) {
      */
     suspend fun saveSensorData(data: SensorModel, successCallback: () -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit) {
         repository.saveSensorData(data, successCallback, errorCallback)
+    }
+
+    /**
+     * Recommend Data
+     */
+    suspend fun recommendData(id: String, score: Int, successCallback: (ArrayList<RecommendModel>) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit) {
+        repository.recommendData(id, score, successCallback, errorCallback)
     }
 }

@@ -22,7 +22,7 @@ data class AnalysisModel(
     var location_diversity_score: Double = 0.0,
 
     // 빛 노출량 점수
-    var illuminance_exposure_score: Double = 0.0,
+    var illumination_exposure_score: Double = 0.0,
 
     // 장소의 다양성
     var place_diversity: ArrayList<ArrayList<Double>> = ArrayList(),

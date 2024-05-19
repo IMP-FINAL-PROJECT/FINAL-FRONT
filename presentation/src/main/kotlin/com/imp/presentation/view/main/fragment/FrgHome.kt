@@ -1,7 +1,6 @@
 package com.imp.presentation.view.main.fragment
 
 import android.animation.ValueAnimator
-import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -161,7 +160,25 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
     private fun initObserver() {
 
         /** Home Data */
-        viewModel.homeData.observe(this) { initScoreBoard(it) }
+        viewModel.homeData.observe(this) {
+
+            // score board
+            initScoreBoard(it)
+
+            // recommend data
+            viewModel.recommendData("", it.point)
+        }
+
+        /** Recommend Data */
+        viewModel.recommendData.observe(this) { recommendList ->
+
+            if (::recommendAdapter.isInitialized) {
+
+                recommendAdapter.list.clear()
+                recommendAdapter.list.addAll(recommendList)
+                recommendAdapter.notifyDataSetChanged()
+            }
+        }
 
         /** Error Callback */
         viewModel.errorCallback.observe(viewLifecycleOwner) { event ->
@@ -311,9 +328,7 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
 
                 rvRecommend.apply {
 
-                    val dummy = arrayListOf("1", "2", "3", "4", "5")
-
-                    recommendAdapter = RecommendListAdapter(ctx, dummy)
+                    recommendAdapter = RecommendListAdapter(ctx, ArrayList())
                     layoutManager = LinearLayoutManager(ctx, LinearLayoutManager.VERTICAL, false)
                     adapter = recommendAdapter
                     recommendAdapter.apply {

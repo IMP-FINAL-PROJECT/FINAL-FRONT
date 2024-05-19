@@ -1,12 +1,14 @@
 package com.imp.data.repository
 
 import android.annotation.SuppressLint
+import com.imp.data.db.entity.RecommendData
 import com.imp.data.mapper.CommonMapper
 import com.imp.data.remote.api.ApiHome
 import com.imp.data.util.ApiClient
 import com.imp.data.util.extension.isSuccess
 import com.imp.domain.model.ErrorCallbackModel
 import com.imp.domain.model.HomeModel
+import com.imp.domain.model.RecommendModel
 import com.imp.domain.model.SensorModel
 import com.imp.domain.repository.HomeRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -95,5 +97,14 @@ class HomeRepositoryImpl @Inject constructor() : HomeRepository {
 
                 errorCallback.invoke(CommonMapper.mappingErrorData(error))
             })
+    }
+
+    /**
+     * Recommend Data
+     */
+    override suspend fun recommendData(id: String, score: Int, successCallback: (ArrayList<RecommendModel>) -> Unit, errorCallback: (ErrorCallbackModel?) -> Unit) {
+
+        val result = RecommendData.getRecommendData(score)
+        successCallback.invoke(result)
     }
 }
