@@ -98,32 +98,13 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/llDate">
 
-                <!-- Background Card View -->
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginStart="-8dp"
-                    android:layout_marginTop="-8dp"
-                    android:layout_marginEnd="-8dp"
-                    android:layout_marginBottom="-8dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/bg_shadow_card"
-                    app:layout_constraintBottom_toBottomOf="@+id/llScoreBoard"
-                    app:layout_constraintEnd_toEndOf="@+id/llScoreBoard"
-                    app:layout_constraintStart_toStartOf="@+id/llScoreBoard"
-                    app:layout_constraintTop_toTopOf="@+id/llScoreBoard" />
-
-                <!-- Score -->
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/llScoreBoard"
+                <!-- Score Board -->
+                <include
+                    android:id="@+id/incScoreBoard"
+                    layout="@layout/inc_analysis_score"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="24dp"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <!-- Description -->
                 <include
@@ -131,8 +112,8 @@
                     layout="@layout/inc_analysis_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    app:layout_constraintTop_toBottomOf="@+id/llScoreBoard" />
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintTop_toBottomOf="@+id/incScoreBoard" />
 
                 <!-- ViewPager -->
                 <androidx.viewpager2.widget.ViewPager2

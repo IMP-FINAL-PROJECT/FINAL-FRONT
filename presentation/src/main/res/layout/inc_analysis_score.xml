@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!-- Background Card View -->
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivBackground1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="-8dp"
+        android:layout_marginTop="-8dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="-8dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_shadow_card_smaller"
+        app:layout_constraintBottom_toBottomOf="@+id/ctFirst"
+        app:layout_constraintEnd_toStartOf="@+id/ivBackground2"
+        app:layout_constraintStart_toStartOf="@+id/ctFirst"
+        app:layout_constraintTop_toTopOf="@+id/ctFirst" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivBackground2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="-8dp"
+        android:layout_marginEnd="-10dp"
+        android:layout_marginBottom="-8dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_shadow_card_smaller"
+        app:layout_constraintBottom_toBottomOf="@+id/ctFirst"
+        app:layout_constraintEnd_toEndOf="@+id/ctFirst"
+        app:layout_constraintStart_toEndOf="@+id/ivBackground1"
+        app:layout_constraintTop_toTopOf="@+id/ctFirst" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivBackground3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="-8dp"
+        android:layout_marginTop="-8dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="-8dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_shadow_card_smaller"
+        app:layout_constraintBottom_toBottomOf="@+id/ctSecond"
+        app:layout_constraintEnd_toStartOf="@+id/ivBackground4"
+        app:layout_constraintStart_toStartOf="@+id/ctSecond"
+        app:layout_constraintTop_toTopOf="@+id/ctSecond" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivBackground4"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="-8dp"
+        android:layout_marginEnd="-10dp"
+        android:layout_marginBottom="-8dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_shadow_card_smaller"
+        app:layout_constraintBottom_toBottomOf="@+id/ctSecond"
+        app:layout_constraintEnd_toEndOf="@+id/ctSecond"
+        app:layout_constraintStart_toEndOf="@+id/ivBackground3"
+        app:layout_constraintTop_toTopOf="@+id/ctSecond" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivBackground5"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="-8dp"
+        android:layout_marginTop="-8dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="-8dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_shadow_card_smaller"
+        app:layout_constraintBottom_toBottomOf="@+id/ctThird"
+        app:layout_constraintEnd_toStartOf="@+id/ivBackground6"
+        app:layout_constraintStart_toStartOf="@+id/ctThird"
+        app:layout_constraintTop_toTopOf="@+id/ctThird" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivBackground6"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="-8dp"
+        android:layout_marginEnd="-10dp"
+        android:layout_marginBottom="-8dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_shadow_card_smaller"
+        app:layout_constraintBottom_toBottomOf="@+id/ctThird"
+        app:layout_constraintEnd_toEndOf="@+id/ctThird"
+        app:layout_constraintStart_toEndOf="@+id/ivBackground5"
+        app:layout_constraintTop_toTopOf="@+id/ctThird" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/ctFirst"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <include
+            android:id="@+id/incRegularity"
+            layout="@layout/inc_analysis_progress"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <include
+            android:id="@+id/incScreenTime"
+            layout="@layout/inc_analysis_progress"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="20dp"
+            android:layout_weight="1" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/ctSecond"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/ctFirst">
+
+        <include
+            android:id="@+id/incActivity"
+            layout="@layout/inc_analysis_progress"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <include
+            android:id="@+id/incPlace"
+            layout="@layout/inc_analysis_progress"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="20dp"
+            android:layout_weight="1" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/ctThird"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/ctSecond">
+
+        <include
+            android:id="@+id/incLight"
+            layout="@layout/inc_analysis_progress"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <include
+            android:id="@+id/incDetail"
+            layout="@layout/inc_analysis_progress"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="20dp"
+            android:layout_weight="1" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

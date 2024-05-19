@@ -583,13 +583,6 @@
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="추천 활동" />
 
-                    <!-- Arrow -->
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/ivRecommendArrow"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/icon_arrow_right" />
-
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <!-- 추천 리스트 -->

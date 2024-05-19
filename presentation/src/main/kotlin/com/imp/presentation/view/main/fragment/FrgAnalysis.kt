@@ -1,6 +1,8 @@
 package com.imp.presentation.view.main.fragment
 
+import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -23,7 +25,6 @@ import com.imp.presentation.widget.extension.setPreviewBothSide
 import com.imp.presentation.widget.extension.toDp
 import com.imp.presentation.widget.extension.toGoneOrVisible
 import com.imp.presentation.widget.extension.toVisibleOrGone
-import com.imp.presentation.widget.utils.CommonUtil
 import com.imp.presentation.widget.utils.DateUtil
 import com.imp.presentation.widget.utils.MethodStorageUtil
 import com.imp.presentation.widget.utils.PreferencesUtil
@@ -63,8 +64,9 @@ class FrgAnalysis: BaseFragment<FrgAnalysisBinding>() {
     /** API 조회 Calendar */
     private var calendar: Calendar = Calendar.getInstance()
 
-    /** DropDown Object Animator */
+    /** Animator */
     private var objectAnimator: ObjectAnimator? = null
+    private var progressBarAnimator: AnimatorSet? = null
 
     /** Polygon Color List */
     private val polygonColorList = arrayListOf(
@@ -152,6 +154,22 @@ class FrgAnalysis: BaseFragment<FrgAnalysisBinding>() {
 
             // 데이터 없음
             tvNoneData.text = getString(R.string.analysis_text_1)
+
+            // 점수 title
+            incScoreBoard.apply {
+
+                incRegularity.tvTitle.text = getString(R.string.analysis_text_24)
+                incScreenTime.tvTitle.text = getString(R.string.analysis_text_25)
+                incActivity.tvTitle.text = getString(R.string.analysis_text_26)
+                incPlace.tvTitle.text = getString(R.string.analysis_text_27)
+                incLight.tvTitle.text = getString(R.string.analysis_text_28)
+                incDetail.tvTitle.text = getString(R.string.analysis_text_29)
+
+                // AI 분석 결과 노출 여부 설정
+                incDetail.progressBar.visibility = View.GONE
+                incDetail.tvScore.visibility = View.GONE
+                incDetail.ivArrow.visibility = View.VISIBLE
+            }
 
             // todo
             // 장소의 다양성
@@ -264,6 +282,32 @@ class FrgAnalysis: BaseFragment<FrgAnalysisBinding>() {
         context?.let { ctx ->
 
             with(mBinding) {
+
+                incScoreBoard.apply {
+
+                    // 생활의 규칙성 점수
+                    val regularity = (dao.circadian_rhythm_score * 100).roundToInt()
+                    incRegularity.tvScore.text = getString(R.string.unit_analysis_score, regularity)
+
+                    // 핸드폰 사용 시간 점수
+                    val screenTime = (dao.phone_usage_score * 100).roundToInt()
+                    incScreenTime.tvScore.text = getString(R.string.unit_analysis_score, screenTime)
+
+                    // 활동 점수
+                    val activity = (dao.activity_score * 100).roundToInt()
+                    incActivity.tvScore.text = getString(R.string.unit_analysis_score, activity)
+
+                    // 장소의 다양성 점수
+                    val place = (dao.location_diversity_score * 100).roundToInt()
+                    incPlace.tvScore.text = getString(R.string.unit_analysis_score, place)
+
+                    // 빛 노출량 점수
+                    val light = (dao.illuminance_exposure_score * 100).roundToInt()
+                    incLight.tvScore.text = getString(R.string.unit_analysis_score, light)
+
+                    // start animation
+                    setProgressBarAnimation(regularity, screenTime, activity, place, light)
+                }
 
                 incDescription.apply {
 
@@ -400,6 +444,51 @@ class FrgAnalysis: BaseFragment<FrgAnalysisBinding>() {
                 doOnStart { tvDropDown.rotation = startAngle }
                 doOnEnd { tvDropDown.rotation = endAngle }
                 start()
+            }
+        }
+    }
+
+    /**
+     * Set Progress Bar Animation
+     *
+     * @param regularity
+     * @param screenTime
+     * @param activity
+     * @param place
+     * @param light
+     */
+    private fun setProgressBarAnimation(regularity: Int, screenTime: Int, activity: Int, place: Int, light: Int) {
+
+        with(mBinding) {
+
+            incScoreBoard.apply {
+
+                val regularityBar = ValueAnimator.ofInt(0, regularity).apply {
+                    addUpdateListener { incRegularity.progressBar.setProgress(it.animatedValue as Int) }
+                }
+
+                val screenTimeBar = ValueAnimator.ofInt(0, screenTime).apply {
+                    addUpdateListener { incScreenTime.progressBar.setProgress(it.animatedValue as Int) }
+                }
+
+                val activityBar = ValueAnimator.ofInt(0, activity).apply {
+                    addUpdateListener { incActivity.progressBar.setProgress(it.animatedValue as Int) }
+                }
+
+                val placeBar = ValueAnimator.ofInt(0, place).apply {
+                    addUpdateListener { incPlace.progressBar.setProgress(it.animatedValue as Int) }
+                }
+
+                val lightBar = ValueAnimator.ofInt(0, light).apply {
+                    addUpdateListener { incLight.progressBar.setProgress(it.animatedValue as Int) }
+                }
+
+                progressBarAnimator?.cancel()
+                progressBarAnimator = AnimatorSet().apply {
+                    playTogether(regularityBar, screenTimeBar, activityBar, placeBar, lightBar)
+                    duration = 500
+                    start()
+                }
             }
         }
     }

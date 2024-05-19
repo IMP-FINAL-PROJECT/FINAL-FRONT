@@ -140,12 +140,12 @@
     <string name="analysis_text_21">오전보다 약 d회 만큼\n오후에 더 많이 통화 했어요.</string>
     <string name="analysis_text_22">오후보다 약 d회 만큼\n오전에 더 많이 통화 했어요.</string>
     <string name="analysis_text_23">오늘 하루 동안\n약 %d회 만큼 통화 했어요.</string>
-    <string name="analysis_text_24"></string>
-    <string name="analysis_text_25"></string>
-    <string name="analysis_text_26"></string>
-    <string name="analysis_text_27"></string>
-    <string name="analysis_text_28"></string>
-    <string name="analysis_text_29"></string>
+    <string name="analysis_text_24">생활의 규칙성</string>
+    <string name="analysis_text_25">핸드폰 사용 시간</string>
+    <string name="analysis_text_26">활동</string>
+    <string name="analysis_text_27">장소의 다양성</string>
+    <string name="analysis_text_28">빛 노출량</string>
+    <string name="analysis_text_29">AI 분석 결과</string>
     <string name="analysis_text_30"></string>
 
     <!-- Main - Chat -->
@@ -187,6 +187,7 @@
 
     <!-- unit -->
     <string name="unit_happy_score">%d/100점</string>
+    <string name="unit_analysis_score">%d/100</string>
     <string name="unit_hour_minute">%d시간 %d분</string>
     <string name="unit_times">%d번</string>
     <string name="unit_count">%d회</string>
