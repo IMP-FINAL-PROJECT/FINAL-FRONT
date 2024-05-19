@@ -148,6 +148,7 @@
     <string name="analysis_text_29">AI 분석</string>
     <string name="analysis_text_30">%s님의 AI 분석 결과</string>
     <string name="analysis_text_31">결과 보기</string>
+    <string name="analysis_text_32">나는 여기에 이~만큼 머물렀어요</string>
 
     <!-- Main - Chat -->
     <string name="chat_text_1">새로운 채팅을 생성하시겠습니까?</string>

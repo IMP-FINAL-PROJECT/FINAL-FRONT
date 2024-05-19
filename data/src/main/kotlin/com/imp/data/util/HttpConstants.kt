@@ -53,5 +53,6 @@ class HttpConstants {
 
         const val KAKAO_BASE_HOST = "https://dapi.kakao.com/"
         const val API_KAKAO_ADDRESS_SEARCH = "v2/local/search/address.json"
+        const val API_KAKAO_ADDRESS_REGION_CODE = "v2/local/geo/coord2regioncode.json"
     }
 }

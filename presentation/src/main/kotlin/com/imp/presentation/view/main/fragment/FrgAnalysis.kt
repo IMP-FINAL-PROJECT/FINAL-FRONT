@@ -12,6 +12,7 @@ import androidx.core.animation.doOnStart
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.widget.ViewPager2
+import com.imp.domain.model.AddressModel
 import com.imp.domain.model.AnalysisModel
 import com.imp.presentation.R
 import com.imp.presentation.base.BaseFragment
@@ -125,6 +126,19 @@ class FrgAnalysis: BaseFragment<FrgAnalysisBinding>() {
             controlContentsView(true)
             updateUI(it)
             analysisAdapter.setAnalysisData(it)
+
+            for (place in it.place_diversity) {
+
+                if (place.size >= 3) {
+                    viewModel.coordinateToRegionCode(place[1].toString(), place[2].toString())
+                }
+            }
+        }
+
+        /** Region Code List */
+        viewModel.regionCodeData.observe(this) { list ->
+
+            updatePlace(list)
         }
 
         /** Gps Point List */
@@ -164,9 +178,9 @@ class FrgAnalysis: BaseFragment<FrgAnalysisBinding>() {
             // 데이터 없음
             tvNoneData.text = getString(R.string.analysis_text_1)
 
-            // 점수 title
             incScoreBoard.apply {
 
+                // 점수 title
                 incRegularity.tvTitle.text = getString(R.string.analysis_text_24)
                 incScreenTime.tvTitle.text = getString(R.string.analysis_text_25)
                 incActivity.tvTitle.text = getString(R.string.analysis_text_26)
@@ -182,7 +196,7 @@ class FrgAnalysis: BaseFragment<FrgAnalysisBinding>() {
             }
 
             // 장소의 다양성
-            tvPlaceTitle.text = getString(R.string.analysis_text_27)
+            tvPlaceTitle.text = getString(R.string.analysis_text_32)
         }
     }
 
@@ -338,15 +352,52 @@ class FrgAnalysis: BaseFragment<FrgAnalysisBinding>() {
                     MethodStorageUtil.setSpannable(tvRegularityDescription, 3, regularity.toString().length + 4, 16.toDp(ctx).toInt(), R.font.suit_extrabold, ContextCompat.getColor(ctx, R.color.color_3377ff))
                 }
 
-                // 장소의 다양성
-                var placeText = "나는 여기에 이만큼 머물렀어요"
-                dao.place_diversity.forEachIndexed { index, place ->
+                // 장소의 다양성 노출 여부
+                incDiversity.root.visibility= dao.place_diversity.isEmpty().toGoneOrVisible()
+            }
+        }
+    }
 
-                    if (place.size > 2) {
-                        placeText += "\n${index + 1}위: $index 번째 장소, ${place.first()}%"
+    /**
+     * Update Place
+     *
+     * @param list
+     */
+    private fun updatePlace(list: ArrayList<AddressModel>) {
+
+        context?.let { ctx ->
+
+            with(mBinding.incDiversity) {
+
+                val diversityList = viewModel.analysisData.value?.place_diversity ?: ArrayList()
+                if (list.size != diversityList.size) return
+
+                list.forEachIndexed { index, place ->
+
+                    if (place.documents.isNotEmpty()) {
+
+                        val percent = diversityList[index][0]
+                        val text = "${place.documents.firstOrNull()?.address_name}, ${percent}%"
+
+                        val rootView = when(index) {
+                            0 -> ctFirst
+                            1 -> ctSecond
+                            else -> ctThird
+                        }
+
+                        val textView = when(index) {
+                            0 -> tvAddressFirst
+                            1 -> tvAddressSecond
+                            else -> tvAddressThird
+                        }
+
+                        textView.text = text
+                        rootView.visibility = View.VISIBLE
+
+                        val start = textView.text.length - percent.toString().length - 1
+                        MethodStorageUtil.setSpannable(textView, start, start + percent.toString().length + 1, 14.toDp(ctx).toInt(), R.font.suit_bold, ContextCompat.getColor(ctx, R.color.color_3377ff))
                     }
                 }
-                tvPlace.text = placeText
             }
         }
     }
