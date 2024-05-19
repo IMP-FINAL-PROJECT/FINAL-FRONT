@@ -312,23 +312,23 @@ class FrgAnalysis: BaseFragment<FrgAnalysisBinding>() {
                 incScoreBoard.apply {
 
                     // 생활의 규칙성 점수
-                    val regularity = (dao.circadian_rhythm_score * 100).roundToInt()
+                    val regularity = dao.circadian_rhythm_score.roundToInt()
                     incRegularity.tvScore.text = getString(R.string.unit_analysis_score, regularity)
 
                     // 핸드폰 사용 시간 점수
-                    val screenTime = (dao.phone_usage_score * 100).roundToInt()
+                    val screenTime = dao.phone_usage_score.roundToInt()
                     incScreenTime.tvScore.text = getString(R.string.unit_analysis_score, screenTime)
 
                     // 활동 점수
-                    val activity = (dao.activity_score * 100).roundToInt()
+                    val activity = dao.activity_score.roundToInt()
                     incActivity.tvScore.text = getString(R.string.unit_analysis_score, activity)
 
                     // 장소의 다양성 점수
-                    val place = (dao.location_diversity_score * 100).roundToInt()
+                    val place = dao.location_diversity_score.roundToInt()
                     incPlace.tvScore.text = getString(R.string.unit_analysis_score, place)
 
                     // 빛 노출량 점수
-                    val light = (dao.illumination_exposure_score * 100).roundToInt()
+                    val light = dao.illumination_exposure_score.roundToInt()
                     incLight.tvScore.text = getString(R.string.unit_analysis_score, light)
 
                     // start animation
@@ -497,7 +497,7 @@ class FrgAnalysis: BaseFragment<FrgAnalysisBinding>() {
         aiAnalysisBottomSheet?.dismiss()
         aiAnalysisBottomSheet = AIAnalysisBottomSheet(
             memberViewModel.memberData.value?.name,
-            viewModel.analysisData.value?.ai_analysis_result
+            viewModel.analysisData.value?.ai_analysis
         )
         aiAnalysisBottomSheet?.show(childFragmentManager, "")
     }
