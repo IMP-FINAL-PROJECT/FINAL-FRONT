@@ -69,13 +69,13 @@ class RoundedHorizontalBarChart : HorizontalBarChart {
             setDrawGridLines(false)
             typeface = ResourcesCompat.getFont(context, R.font.suit_regular)
             textColor = ContextCompat.getColor(context, R.color.color_999999)
-            textSize = 16f
+            textSize = 14f
             enableGridDashedLine(2f, 2f, 0f)
             labelCount = 2
 
             valueFormatter = object : ValueFormatter() {
                 override fun getFormattedValue(value: Float): String {
-                    return if (value == 1f) "오전" else "오후"
+                    return if (value == 1f) "주간" else "야간"
                 }
             }
         }

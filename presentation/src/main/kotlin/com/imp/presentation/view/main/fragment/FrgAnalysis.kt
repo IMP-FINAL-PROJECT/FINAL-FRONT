@@ -376,7 +376,7 @@ class FrgAnalysis: BaseFragment<FrgAnalysisBinding>() {
 
                     if (place.documents.isNotEmpty()) {
 
-                        val percent = diversityList[index][0]
+                        val percent = String.format("%.2f", diversityList[index][0] * 100)
                         val text = "${place.documents.firstOrNull()?.address_name}, ${percent}%"
 
                         val rootView = when(index) {
@@ -394,8 +394,8 @@ class FrgAnalysis: BaseFragment<FrgAnalysisBinding>() {
                         textView.text = text
                         rootView.visibility = View.VISIBLE
 
-                        val start = textView.text.length - percent.toString().length - 1
-                        MethodStorageUtil.setSpannable(textView, start, start + percent.toString().length + 1, 14.toDp(ctx).toInt(), R.font.suit_bold, ContextCompat.getColor(ctx, R.color.color_3377ff))
+                        val start = textView.text.length - percent.length - 1
+                        MethodStorageUtil.setSpannable(textView, start, start + percent.length + 1, 14.toDp(ctx).toInt(), R.font.suit_bold, ContextCompat.getColor(ctx, R.color.color_3377ff))
                     }
                 }
             }
