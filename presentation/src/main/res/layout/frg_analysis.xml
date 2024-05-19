@@ -23,7 +23,6 @@
             android:id="@+id/ctContents"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="30dp"
             android:paddingBottom="30dp">
 
             <!-- 날짜 -->
@@ -128,8 +127,7 @@
                     android:id="@+id/indicator"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="8dp"
                     app:dotsColor="@color/color_999999"
                     app:dotsCornerRadius="8dp"
                     app:dotsSize="6dp"
@@ -140,46 +138,77 @@
                     app:layout_constraintStart_toStartOf="@+id/viewPager"
                     app:layout_constraintTop_toBottomOf="@+id/viewPager" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvPlace"
-                    style="@style/suitRegular.16"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginEnd="24dp"
-                    android:includeFontPadding="false"
-                    android:textColor="@color/black"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/indicator"
-                    tools:text="장소의 다양성" />
+                <!-- Background -->
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivPlaceBackground"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="-8dp"
+                    android:layout_marginTop="-8dp"
+                    android:layout_marginEnd="-8dp"
+                    android:layout_marginBottom="-8dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/bg_shadow_card_smaller"
+                    app:layout_constraintBottom_toBottomOf="@+id/ctPlace"
+                    app:layout_constraintEnd_toEndOf="@+id/ctPlace"
+                    app:layout_constraintStart_toStartOf="@+id/ctPlace"
+                    app:layout_constraintTop_toTopOf="@+id/ctPlace" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/ctPlace"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="30dp"
                     android:layout_marginEnd="24dp"
-                    app:layout_constraintTop_toBottomOf="@+id/tvPlace">
+                    android:paddingStart="16dp"
+                    android:paddingTop="20dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="20dp"
+                    app:layout_constraintTop_toBottomOf="@+id/indicator">
 
+                    <!-- Title -->
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tvMapTitle"
+                        android:id="@+id/tvPlaceTitle"
+                        style="@style/suitBold.16"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="장소의 다양성" />
+
+                    <!-- Place -->
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvPlace"
                         style="@style/suitRegular.16"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:includeFontPadding="false"
-                        android:textColor="@color/black_alpha_60"
+                        android:layout_marginTop="12dp"
+                        android:textColor="@color/black"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:text="@string/log_text_5" />
+                        app:layout_constraintTop_toBottomOf="@+id/tvPlaceTitle"
+                        tools:text="장소의 다양성" />
 
-                    <!-- Kakao Map View -->
-                    <com.kakao.vectormap.MapView
-                        android:id="@+id/mapView"
+                    <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
-                        android:layout_height="300dp"
-                        android:layout_marginTop="10dp"
-                        app:layout_constraintTop_toBottomOf="@+id/tvMapTitle" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:background="@color/transparent"
+                        android:elevation="0dp"
+                        app:cardBackgroundColor="@color/transparent"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="0dp"
+                        app:layout_constraintTop_toBottomOf="@+id/tvPlace">
+
+                        <!-- Kakao Map View -->
+                        <com.kakao.vectormap.MapView
+                            android:id="@+id/mapView"
+                            android:layout_width="match_parent"
+                            android:layout_height="300dp"
+                            app:layout_constraintTop_toBottomOf="@+id/tvMapTitle" />
+
+                    </androidx.cardview.widget.CardView>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

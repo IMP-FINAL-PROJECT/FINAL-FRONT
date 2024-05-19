@@ -181,9 +181,8 @@ class FrgAnalysis: BaseFragment<FrgAnalysisBinding>() {
                 incDetail.cvResult.visibility = View.VISIBLE
             }
 
-            // todo
             // 장소의 다양성
-            tvMapTitle.text = "장소의 다양성"
+            tvPlaceTitle.text = getString(R.string.analysis_text_27)
         }
     }
 

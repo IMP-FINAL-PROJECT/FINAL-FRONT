@@ -27,7 +27,7 @@ class CustomCircleBarSmallerView: View {
         paint.isAntiAlias = true
         paint.style = Paint.Style.STROKE
         paint.strokeWidth = CommonUtil.pxFromDp(context, 5f)
-        paint.color = ContextCompat.getColor(context, R.color.color_bdd3ff)
+        paint.color = ContextCompat.getColor(context, R.color.color_e6e6e6)
         canvas.drawArc(CommonUtil.pxFromDp(context, 3f), CommonUtil.pxFromDp(context, 3f), CommonUtil.pxFromDp(context, 60f), CommonUtil.pxFromDp(context, 60f), 0f, 360f, false, paint)
 
         paint.strokeCap = Paint.Cap.ROUND
