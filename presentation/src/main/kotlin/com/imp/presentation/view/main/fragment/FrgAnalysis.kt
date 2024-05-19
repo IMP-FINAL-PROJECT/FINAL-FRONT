@@ -302,7 +302,7 @@ class FrgAnalysis: BaseFragment<FrgAnalysisBinding>() {
                     incPlace.tvScore.text = getString(R.string.unit_analysis_score, place)
 
                     // 빛 노출량 점수
-                    val light = (dao.illuminance_exposure_score * 100).roundToInt()
+                    val light = (dao.illumination_exposure_score * 100).roundToInt()
                     incLight.tvScore.text = getString(R.string.unit_analysis_score, light)
 
                     // start animation
