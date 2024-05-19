@@ -29,6 +29,7 @@
     <!-- color -->
     <color name="color_3377ff">#3377ff</color>
     <color name="color_3377ff_alpha_60">#993377ff</color>
+    <color name="color_266ecb">#266ECB</color>
     <color name="color_7ba7ff">#7BA7FF</color>
     <color name="color_7ba7ff_alpha_60">#997BA7FF</color>
     <color name="color_bdd3ff">#BDD3FF</color>

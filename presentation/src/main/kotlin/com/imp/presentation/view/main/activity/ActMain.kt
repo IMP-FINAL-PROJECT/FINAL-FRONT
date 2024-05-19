@@ -159,7 +159,7 @@ class ActMain : BaseContractActivity<ActMainBinding>() {
 
         when(destination) {
 
-            BaseConstants.MAIN_NAV_LABEL_HOME -> setStatusBarColor(R.color.color_e3e6f0)
+            BaseConstants.MAIN_NAV_LABEL_HOME -> setStatusBarColor(R.color.color_3377ff)
             else -> setStatusBarColor()
         }
     }
