@@ -32,6 +32,7 @@ import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
+import com.imp.data.R
 import com.imp.data.tracking.constants.BaseConstants
 import com.imp.data.tracking.data.SensorDataStore
 import com.imp.data.tracking.receiver.PhoneCallReceiver
@@ -158,8 +159,8 @@ class TrackingForegroundService : Service() {
 
         builder.apply {
 
-            setContentTitle("Phone Tracking")
-//            setSmallIcon(R.drawable.ic_launcher_foreground)
+            setContentTitle("Fluffy Mood")
+            setSmallIcon(R.mipmap.ic_launcher)
             setContentIntent(pendingIntent)
             setNumber(0)
 
