@@ -62,7 +62,6 @@ class AnalysisViewModel @Inject constructor(private val useCase: AnalysisUseCase
         val list = ArrayList<LatLng>()
         _analysisData.value?.place_diversity?.forEach { location ->
 
-            // todo 임시로 3개 제한
             if (list.size >= 3) return@forEach
 
             if (location.size >= 3) {
@@ -83,6 +82,7 @@ class AnalysisViewModel @Inject constructor(private val useCase: AnalysisUseCase
             y = y,
             successCallback = {
 
+                regionCodeList.clear()
                 regionCodeList.add(it)
 
                 if (regionCodeList.size >= (_analysisData.value?.place_diversity?.size ?: 0)) {
