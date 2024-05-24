@@ -1,5 +1,6 @@
 package com.imp.presentation.view.member.register.activity
 
+import android.content.Intent
 import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -15,6 +16,7 @@ import com.imp.presentation.view.member.register.fragment.FrgEmail
 import com.imp.presentation.view.member.register.fragment.FrgPassword
 import com.imp.presentation.view.member.register.fragment.FrgProfile
 import com.imp.presentation.view.member.register.fragment.FrgTerms
+import com.imp.presentation.view.mypage.ActTerms
 import com.imp.presentation.viewmodel.MemberViewModel
 import com.imp.presentation.widget.extension.hideKeyboard
 import dagger.hilt.android.AndroidEntryPoint
@@ -206,5 +208,19 @@ class ActRegister : BaseContractActivity<ActMemberRegisterBinding>() {
      */
     fun controlButtonEnabled(isEnabled: Boolean) {
         mBinding.incNextAndRegister.tvButton.isEnabled = isEnabled
+    }
+
+    /**
+     * Move to Terms
+     *
+     * @param type
+     */
+    fun moveToTerms(type: String) {
+
+        Intent(this@ActRegister, ActTerms::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+            putExtra("type", type)
+            startActivity(this)
+        }
     }
 }

@@ -2,9 +2,11 @@ package com.imp.presentation.view.member.register.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import com.imp.presentation.R
 import com.imp.presentation.base.BaseFragment
+import com.imp.presentation.constants.BaseConstants
 import com.imp.presentation.databinding.FrgRegisterTermsBinding
 import com.imp.presentation.databinding.IncRegisterTermsBinding
 import com.imp.presentation.view.member.register.activity.ActRegister
@@ -47,9 +49,12 @@ class FrgTerms: BaseFragment<FrgRegisterTermsBinding>() {
 
             // 약관
             initTerms(incAll, R.string.register_text_4)
+            initTerms(incUsage, R.string.my_page_text_6)
             initTerms(incPrivacy, R.string.register_text_5)
             initTerms(incSensitive, R.string.register_text_6)
-            initTerms(incUse, R.string.register_text_7)
+            initTerms(incOptionalSensitive, R.string.register_text_7)
+
+            incAll.ivDetail.visibility = View.GONE
         }
     }
 
@@ -58,19 +63,31 @@ class FrgTerms: BaseFragment<FrgRegisterTermsBinding>() {
      */
     private fun setOnClickListener() {
 
-        with(mBinding) {
+        context?.let { ctx ->
 
-            // 모두 동의
-            incAll.ctTerms.setOnClickListener { setTermsSelected(!it.isSelected, incAll, incPrivacy, incSensitive, incUse) }
+            val act = ctx as ActRegister
 
-            // 개인 정보
-            incPrivacy.ctTerms.setOnClickListener { controlTermsSelected(incPrivacy, !it.isSelected) }
+            with(mBinding) {
 
-            // 민감 정보
-            incSensitive.ctTerms.setOnClickListener { controlTermsSelected(incSensitive, !it.isSelected) }
+                // 모두 동의
+                incAll.ctTerms.setOnClickListener { setTermsSelected(!it.isSelected, incAll, incPrivacy, incSensitive, incOptionalSensitive) }
 
-            // 개인 정보 제3자 제공 동의
-            incUse.ctTerms.setOnClickListener { controlTermsSelected(incUse, !it.isSelected) }
+                // 이용 약관
+                incUsage.ctTerms.setOnClickListener { controlTermsSelected(incUsage, !it.isSelected) }
+                incUsage.ivDetail.setOnClickListener { act.moveToTerms(BaseConstants.TERMS_TYPE_USAGE) }
+
+                // 개인 정보
+                incPrivacy.ctTerms.setOnClickListener { controlTermsSelected(incPrivacy, !it.isSelected) }
+                incPrivacy.ivDetail.setOnClickListener { act.moveToTerms(BaseConstants.TERMS_TYPE_PRIVACY) }
+
+                // 민감 정보
+                incSensitive.ctTerms.setOnClickListener { controlTermsSelected(incSensitive, !it.isSelected) }
+                incSensitive.ivDetail.setOnClickListener { act.moveToTerms(BaseConstants.TERMS_TYPE_SENSITIVE) }
+
+                // 개인 정보 제3자 제공 동의
+                incOptionalSensitive.ctTerms.setOnClickListener { controlTermsSelected(incOptionalSensitive, !it.isSelected) }
+                incOptionalSensitive.ivDetail.setOnClickListener { act.moveToTerms(BaseConstants.TERMS_TYPE_OPTIONAL_SENSITIVE) }
+            }
         }
     }
 
@@ -109,7 +126,7 @@ class FrgTerms: BaseFragment<FrgRegisterTermsBinding>() {
 
         with(mBinding) {
 
-            return incPrivacy.ctTerms.isSelected && incSensitive.ctTerms.isSelected
+            return incUsage.ctTerms.isSelected && incPrivacy.ctTerms.isSelected && incSensitive.ctTerms.isSelected
         }
     }
 

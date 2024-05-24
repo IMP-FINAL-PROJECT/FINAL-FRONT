@@ -45,6 +45,12 @@
                 android:background="@color/color_cccccc" />
 
             <include
+                android:id="@+id/incUsage"
+                layout="@layout/inc_register_terms"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
                 android:id="@+id/incPrivacy"
                 layout="@layout/inc_register_terms"
                 android:layout_width="match_parent"
@@ -57,7 +63,7 @@
                 android:layout_height="wrap_content" />
 
             <include
-                android:id="@+id/incUse"
+                android:id="@+id/incOptionalSensitive"
                 layout="@layout/inc_register_terms"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
