@@ -44,6 +44,9 @@ class ScoreTransitionBottomSheet(private val pointList: ArrayList<Int>) : BaseBo
 
             // date
             tvDate.text = DateUtil.getWeeklyWithLast(Calendar.getInstance())
+
+            // description
+            tvDescription.text = getString(R.string.home_text_8)
         }
     }
 

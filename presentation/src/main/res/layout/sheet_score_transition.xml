@@ -61,12 +61,38 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="32dp"
-            android:layout_marginBottom="40dp"
             app:circularflow_radiusInDP="20dp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvDate" />
+
+        <!-- Description -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="40dp"
+            android:background="@color/transparent"
+            android:elevation="0dp"
+            app:cardBackgroundColor="@color/color_f7f7f7"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chart">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDescription"
+                style="@style/suitRegular.13"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="20dp"
+                android:lineSpacingExtra="2dp"
+                android:textColor="@color/black_alpha_60" />
+
+        </androidx.cardview.widget.CardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
