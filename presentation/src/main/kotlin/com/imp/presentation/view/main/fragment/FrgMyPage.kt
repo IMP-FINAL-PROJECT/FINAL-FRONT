@@ -160,8 +160,8 @@ class FrgMyPage: BaseFragment<FrgMypageBinding>() {
 
                 TYPE_SETTING_EDIT -> actMain.moveToEditProfile()
                 TYPE_SETTING_ACCOUNT -> actMain.moveToManageAccount()
-                TYPE_SETTING_TERMS -> actMain.moveToTerms(getString(R.string.my_page_text_6), "https://m.naver.com")
-                TYPE_SETTING_PRIVACY -> actMain.moveToTerms(getString(R.string.my_page_text_7), "https://m.naver.com")
+                TYPE_SETTING_TERMS -> actMain.moveToTerms(BaseConstants.TERMS_TYPE_USAGE)
+                TYPE_SETTING_PRIVACY -> actMain.moveToTerms(BaseConstants.TERMS_TYPE_PRIVACY)
                 TYPE_SETTING_PERMISSION -> actMain.moveToPermission()
                 else -> return
             }

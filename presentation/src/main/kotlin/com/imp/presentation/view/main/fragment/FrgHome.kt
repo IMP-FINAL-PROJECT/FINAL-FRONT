@@ -345,7 +345,7 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
 
                                     if (ctx is ActMain) {
 
-                                        ctx.moveToTerms(getString(R.string.home_text_6), url)
+                                        ctx.moveToWebView(getString(R.string.home_text_6), url)
                                     }
                                 }
                             }

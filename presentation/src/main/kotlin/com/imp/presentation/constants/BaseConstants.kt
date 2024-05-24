@@ -48,5 +48,13 @@ class BaseConstants {
          */
         const val CHAT_CLICK_TYPE_CHATTING = "CHATTING"
         const val CHAT_CLICK_TYPE_EXIT = "EXIT"
+
+        /**
+         * Terms Type
+         */
+        const val TERMS_TYPE_USAGE = "USAGE"
+        const val TERMS_TYPE_PRIVACY = "PRIVACY"
+        const val TERMS_TYPE_SENSITIVE = "SENSITIVE"
+        const val TERMS_TYPE_OPTIONAL_SENSITIVE = "OPTIONAL_SENSITIVE"
     }
 }

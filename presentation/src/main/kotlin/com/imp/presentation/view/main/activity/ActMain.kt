@@ -14,6 +14,7 @@ import com.imp.presentation.constants.BaseConstants
 import com.imp.presentation.databinding.ActMainBinding
 import com.imp.presentation.view.mypage.ActEditProfile
 import com.imp.presentation.view.mypage.ActManageAccount
+import com.imp.presentation.view.mypage.ActTerms
 import com.imp.presentation.view.splash.ActPermission
 import com.imp.presentation.view.webview.ActCommonWebView
 import com.imp.presentation.widget.utils.MethodStorageUtil
@@ -247,8 +248,25 @@ class ActMain : BaseContractActivity<ActMainBinding>() {
 
     /**
      * Move to Terms
+     *
+     * @param type
      */
-    fun moveToTerms(title: String, url: String) {
+    fun moveToTerms(type: String) {
+
+        Intent(this@ActMain, ActTerms::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+            putExtra("type", type)
+            startActivity(this)
+        }
+    }
+
+    /**
+     * Move to WebView
+     *
+     * @param title
+     * @param url
+     */
+    fun moveToWebView(title: String, url: String) {
 
         Intent(this@ActMain, ActCommonWebView::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
