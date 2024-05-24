@@ -3,6 +3,7 @@ adapter-rxjava2 = "2.9.0"
 androidx-hilt-compiler = "1.0.0"
 agp = "7.4.0"
 appcompat = "1.6.1"
+balloon = "1.6.4"
 core-splashscreen = "1.1.0-alpha02"
 constraintlayout = "2.1.4"
 converter-gson = "2.9.0"
@@ -78,6 +79,7 @@ androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navi
 androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigationUiKtx" }
 androidx-work-runtime = { module = "androidx.work:work-runtime", version.ref = "workRuntime" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "work-runtime-ktx" }
+balloon = { module = "com.github.skydoves:balloon", version.ref = "balloon" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converter-gson" }
 datastore-preferences-core = { module = "androidx.datastore:datastore-preferences-core", version.ref = "datastorePreferencesCore" }
 dotsindicator = { module = "com.tbuonomo:dotsindicator", version.ref = "dotsindicator" }

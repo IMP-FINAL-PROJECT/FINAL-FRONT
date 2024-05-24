@@ -135,4 +135,7 @@ dependencies {
 
     /** AR SceneForm */
     implementation(libs.sceneform)
+
+    /** Balloon */
+    implementation(libs.balloon)
 }

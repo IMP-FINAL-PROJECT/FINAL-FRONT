@@ -23,24 +23,26 @@
     <color name="black_alpha_40">#66000000</color>
     <color name="black_alpha_50">#80000000</color>
     <color name="black_alpha_60">#99000000</color>
-    <color name="black_alpha_70">#b3000000</color>
+    <color name="black_alpha_70">#B3000000</color>
     <color name="black_alpha_80">#CC000000</color>
 
     <!-- color -->
-    <color name="color_3377ff">#3377ff</color>
-    <color name="color_3377ff_alpha_60">#993377ff</color>
+    <color name="color_3377ff">#3377FF</color>
+    <color name="color_3377ff_alpha_60">#993377FF</color>
+    <color name="color_3581ff">#3581FF</color>
+    <color name="color_3581ff_alpha_70">#B33581FF</color>
     <color name="color_266ecb">#266ECB</color>
     <color name="color_7ba7ff">#7BA7FF</color>
     <color name="color_7ba7ff_alpha_60">#997BA7FF</color>
     <color name="color_bdd3ff">#BDD3FF</color>
     <color name="color_bdd3ff_alpha_60">#99BDD3FF</color>
-    <color name="color_ff3e3e">#ff3e3e</color>
-    <color name="color_cccccc">#cccccc</color>
-    <color name="color_f7f7f7">#f7f7f7</color>
+    <color name="color_ff3e3e">#FF3E3E</color>
+    <color name="color_cccccc">#CCCCCC</color>
+    <color name="color_f7f7f7">#F7F7F7</color>
     <color name="color_e3e6f0">#E3E6F0</color>
-    <color name="color_e6e6e6">#e6e6e6</color>
-    <color name="color_c9c9c9">#c9c9c9</color>
-    <color name="color_a9a9a9">#a9a9a9</color>
+    <color name="color_e6e6e6">#E6E6E6</color>
+    <color name="color_c9c9c9">#C9C9C9</color>
+    <color name="color_a9a9a9">#A9A9A9</color>
     <color name="color_999999">#999999</color>
     <color name="color_555555">#555555</color>
     <color name="color_484848">#484848</color>

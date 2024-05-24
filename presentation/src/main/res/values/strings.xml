@@ -137,6 +137,11 @@
     <string name="analysis_text_30">%s님의 AI 분석 결과</string>
     <string name="analysis_text_31">결과 보기</string>
     <string name="analysis_text_32">나는 여기에 이~만큼 머물렀어요</string>
+    <string name="analysis_text_33">생활의 규칙성 설명</string>
+    <string name="analysis_text_34">핸드폰 사용 시간 설명</string>
+    <string name="analysis_text_35">활동 설명</string>
+    <string name="analysis_text_36">장소의 다양성 설명</string>
+    <string name="analysis_text_37">빛 노출량 설명</string>
 
     <!-- Main - Chat -->
     <string name="chat_text_1">새로운 채팅을 생성하시겠습니까?</string>

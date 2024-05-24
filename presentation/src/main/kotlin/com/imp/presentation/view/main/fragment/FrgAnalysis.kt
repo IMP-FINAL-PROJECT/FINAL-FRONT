@@ -40,6 +40,10 @@ import com.kakao.vectormap.camera.CameraUpdateFactory
 import com.kakao.vectormap.label.LabelOptions
 import com.kakao.vectormap.shape.DotPoints
 import com.kakao.vectormap.shape.PolygonOptions
+import com.skydoves.balloon.ArrowPositionRules
+import com.skydoves.balloon.Balloon
+import com.skydoves.balloon.BalloonAnimation
+import com.skydoves.balloon.BalloonSizeSpec
 import java.util.Calendar
 import kotlin.math.roundToInt
 
@@ -48,6 +52,24 @@ import kotlin.math.roundToInt
  * Main - Analysis Fragment
  */
 class FrgAnalysis: BaseFragment<FrgAnalysisBinding>() {
+
+    companion object {
+
+        // 생활의 규칙성
+        private const val SCORE_TYPE_REGULARITY = "REGULARITY"
+
+        // 핸드폰 사용 시간
+        private const val SCORE_TYPE_SCREEN_TIME = "SCREEN_TIME"
+
+        // 활동
+        private const val SCORE_TYPE_ACTIVITY = "ACTIVITY"
+
+        // 장소의 다양성
+        private const val SCORE_TYPE_PLACE = "PLACE"
+
+        // 빛 노출량
+        private const val SCORE_TYPE_LIGHT = "LIGHT"
+    }
 
     /** Analysis ViewModel */
     private val viewModel: AnalysisViewModel by activityViewModels()
@@ -74,6 +96,9 @@ class FrgAnalysis: BaseFragment<FrgAnalysisBinding>() {
     /** Animator */
     private var objectAnimator: ObjectAnimator? = null
     private var progressBarAnimator: AnimatorSet? = null
+
+    /** Balloon */
+    private var mBalloon: Balloon? = null
 
     /** Polygon Color List */
     private val polygonColorList = arrayListOf(
@@ -113,6 +138,12 @@ class FrgAnalysis: BaseFragment<FrgAnalysisBinding>() {
 
         // analysis list api 호출
         callAnalysisApi(calendar)
+    }
+
+    override fun onPause() {
+
+        mBalloon?.dismiss()
+        super.onPause()
     }
 
     /**
@@ -193,6 +224,7 @@ class FrgAnalysis: BaseFragment<FrgAnalysisBinding>() {
                 incDetail.progressBar.visibility = View.GONE
                 incDetail.tvScore.visibility = View.GONE
                 incDetail.cvResult.visibility = View.VISIBLE
+                incDetail.ivDetail.visibility = View.GONE
             }
 
             // 장소의 다양성
@@ -314,22 +346,27 @@ class FrgAnalysis: BaseFragment<FrgAnalysisBinding>() {
                     // 생활의 규칙성 점수
                     val regularity = dao.circadian_rhythm_score.roundToInt()
                     incRegularity.tvScore.text = getString(R.string.unit_analysis_score, regularity)
+                    setScoreClickEvent(incRegularity.ivDetail, SCORE_TYPE_REGULARITY)
 
                     // 핸드폰 사용 시간 점수
                     val screenTime = dao.phone_usage_score.roundToInt()
                     incScreenTime.tvScore.text = getString(R.string.unit_analysis_score, screenTime)
+                    setScoreClickEvent(incScreenTime.ivDetail, SCORE_TYPE_SCREEN_TIME)
 
                     // 활동 점수
                     val activity = dao.activity_score.roundToInt()
                     incActivity.tvScore.text = getString(R.string.unit_analysis_score, activity)
+                    setScoreClickEvent(incActivity.ivDetail, SCORE_TYPE_ACTIVITY)
 
                     // 장소의 다양성 점수
                     val place = dao.location_diversity_score.roundToInt()
                     incPlace.tvScore.text = getString(R.string.unit_analysis_score, place)
+                    setScoreClickEvent(incPlace.ivDetail, SCORE_TYPE_PLACE)
 
                     // 빛 노출량 점수
                     val light = dao.illumination_exposure_score.roundToInt()
                     incLight.tvScore.text = getString(R.string.unit_analysis_score, light)
+                    setScoreClickEvent(incLight.ivDetail, SCORE_TYPE_LIGHT)
 
                     // start animation
                     setProgressBarAnimation(regularity, screenTime, activity, place, light)
@@ -345,7 +382,7 @@ class FrgAnalysis: BaseFragment<FrgAnalysisBinding>() {
                     MethodStorageUtil.setSpannable(tvHomeDescription, 8, home.toString().length + 9, 16.toDp(ctx).toInt(), R.font.suit_extrabold, ContextCompat.getColor(ctx, R.color.color_3377ff))
 
                     // 생활의 규칙성
-                    val regularity = (dao.life_routine_consistency * 100).roundToInt()
+                    val regularity = dao.life_routine_consistency.roundToInt()
                     tvRegularityTitle.text = if (regularity >= 50) getString(R.string.analysis_text_6) else getString(R.string.analysis_text_5)
                     tvRegularityDescription.text = getString(R.string.analysis_text_8, regularity)
 
@@ -353,7 +390,7 @@ class FrgAnalysis: BaseFragment<FrgAnalysisBinding>() {
                 }
 
                 // 장소의 다양성 노출 여부
-                incDiversity.root.visibility= dao.place_diversity.isEmpty().toGoneOrVisible()
+                incDiversity.root.visibility = dao.place_diversity.isEmpty().toGoneOrVisible()
             }
         }
     }
@@ -445,6 +482,61 @@ class FrgAnalysis: BaseFragment<FrgAnalysisBinding>() {
             DotPoints.fromCircle(center, radius.toFloat()),
             color
         )
+    }
+
+    /**
+     * Set Score Click Event
+     *
+     * @param view
+     * @param type
+     */
+    private fun setScoreClickEvent(view: View, type: String) {
+
+        view.setOnClickListener {
+
+            val text = when(type) {
+
+                SCORE_TYPE_REGULARITY -> getString(R.string.analysis_text_33)
+                SCORE_TYPE_SCREEN_TIME -> getString(R.string.analysis_text_34)
+                SCORE_TYPE_ACTIVITY -> getString(R.string.analysis_text_35)
+                SCORE_TYPE_PLACE -> getString(R.string.analysis_text_36)
+                SCORE_TYPE_LIGHT -> getString(R.string.analysis_text_37)
+                else -> ""
+            }
+
+            setToolTip(view, text)
+        }
+    }
+
+    /**
+     * Set Tool Tip
+     *
+     * @param view
+     * @param text
+     */
+    private fun setToolTip(view: View, text: String) {
+
+        context?.let { ctx ->
+
+            mBalloon?.dismiss()
+            mBalloon = Balloon.Builder(ctx)
+                .setWidthRatio(0.6f)
+                .setHeight(BalloonSizeSpec.WRAP)
+                .setText(text)
+                .setTextColorResource(R.color.white)
+                .setTextSize(13f)
+                .setArrowPositionRules(ArrowPositionRules.ALIGN_ANCHOR)
+                .setArrowSize(10)
+                .setArrowPosition(0.5f)
+                .setPadding(8)
+                .setCornerRadius(8f)
+                .setBackgroundColorResource(R.color.color_7ba7ff)
+                .setBalloonAnimation(BalloonAnimation.FADE)
+                .setLifecycleOwner(this)
+                .build()
+
+            mBalloon?.showAlignBottom(view)
+        }
     }
 
     /**
