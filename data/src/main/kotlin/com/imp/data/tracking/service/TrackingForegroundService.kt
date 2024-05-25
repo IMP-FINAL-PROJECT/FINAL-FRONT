@@ -43,7 +43,7 @@ import com.imp.data.tracking.work.TrackingWorkManager
 import com.imp.data.util.PreferencesUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.util.Calendar
@@ -61,9 +61,9 @@ class TrackingForegroundService : Service() {
     }
 
     /** Coroutine Scope */
-    private var locationCoroutine = CoroutineScope(Dispatchers.IO)
-    private var lightCoroutine = CoroutineScope(Dispatchers.IO)
-    private var stepCoroutine = CoroutineScope(Dispatchers.IO)
+    private var locationCoroutine: Job? = null
+    private var lightCoroutine: Job? = null
+    private var stepCoroutine: Job? = null
 
     /** Screen State Broadcast Receiver */
     private val screenStateReceiver: ScreenStateReceiver = ScreenStateReceiver()
@@ -118,9 +118,10 @@ class TrackingForegroundService : Service() {
 
         stopForeground(STOP_FOREGROUND_REMOVE)
 
-        locationCoroutine.cancel()
-        lightCoroutine.cancel()
-        stepCoroutine.cancel()
+        // Cancel Job
+        locationCoroutine?.cancel()
+        lightCoroutine?.cancel()
+        stepCoroutine?.cancel()
 
         // Unregister Broadcast Receiver
         unregisterReceiver()
@@ -318,7 +319,7 @@ class TrackingForegroundService : Service() {
         try {
             unregisterReceiver(phoneCallReceiver)
         } catch (e: IllegalArgumentException) {
-            Log.d("tracking", "unregisterScreenReceiver >>> $e")
+            Log.d("tracking", "unregisterPhoneCallReceiver >>> $e")
         }
     }
 
@@ -393,7 +394,10 @@ class TrackingForegroundService : Service() {
      * Stop Sensor Update
      */
     private fun stopSensorUpdate() {
-        sensorManager.unregisterListener(sensorListener)
+
+        if (::sensorManager.isInitialized) {
+            sensorManager.unregisterListener(sensorListener)
+        }
     }
 
     /**
@@ -466,7 +470,8 @@ class TrackingForegroundService : Service() {
 
                 if (location.latitude == 0.0 || location.longitude == 0.0) return
 
-                CoroutineScope(Dispatchers.IO).launch {
+                locationCoroutine?.cancel()
+                locationCoroutine = CoroutineScope(Dispatchers.IO).launch {
 
                     val distance = lastLocation?.distanceTo(location) ?: 0f
                     if (lastLocation == null || distance >= 20f) {
@@ -481,6 +486,8 @@ class TrackingForegroundService : Service() {
                         // Update Location Data
                         updateLocation(location)
                     }
+
+                    locationCoroutine?.cancel()
                 }
             }
         }
@@ -502,9 +509,8 @@ class TrackingForegroundService : Service() {
 
                     val light = event.values[0]
 
-                    lightCoroutine.cancel()
-                    lightCoroutine = CoroutineScope(Dispatchers.IO)
-                    lightCoroutine.launch {
+                    lightCoroutine?.cancel()
+                    lightCoroutine = CoroutineScope(Dispatchers.IO).launch {
 
                         if (System.currentTimeMillis() - currentTime >= TIME_DELAY) {
 
@@ -513,7 +519,8 @@ class TrackingForegroundService : Service() {
                             // Save Light Data into Preference DataStore
                             SensorDataStore.saveLightData(this@TrackingForegroundService, light, System.currentTimeMillis())
                         }
-                        lightCoroutine.cancel()
+
+                        lightCoroutine?.cancel()
                     }
 
                     // Update Light Sensor Data
@@ -524,9 +531,8 @@ class TrackingForegroundService : Service() {
 
                     currentStep ++
 
-                    stepCoroutine.cancel()
-                    stepCoroutine = CoroutineScope(Dispatchers.IO)
-                    stepCoroutine.launch {
+                    stepCoroutine?.cancel()
+                    stepCoroutine = CoroutineScope(Dispatchers.IO).launch {
 
                         // Save Step Data into Preference DataStore
                         SensorDataStore.saveStepData(this@TrackingForegroundService, 1, System.currentTimeMillis())

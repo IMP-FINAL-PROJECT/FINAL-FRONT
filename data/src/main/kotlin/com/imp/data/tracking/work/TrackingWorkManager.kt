@@ -28,22 +28,27 @@ import java.util.Calendar
  * Tracking WorkManager
  */
 @SuppressLint("CheckResult")
-class TrackingWorkManager(private val context: Context, params: WorkerParameters) : Worker(context, params) {
+class TrackingWorkManager(private val context: Context, params: WorkerParameters) : Worker(context.applicationContext, params) {
 
     companion object {
         private const val TAG = "tracking"
     }
 
-    private var mDisposable: CompositeDisposable? = null
+    private var mDisposable: CompositeDisposable? = CompositeDisposable()
     private var dataJob: Job? = null
-
-    init { mDisposable = CompositeDisposable() }
 
     override fun doWork(): Result {
 
         readTrackingData()
 
         return Result.success()
+    }
+
+    override fun onStopped() {
+        super.onStopped()
+
+        mDisposable?.dispose()
+        dataJob?.cancel()
     }
 
     /**
@@ -55,11 +60,11 @@ class TrackingWorkManager(private val context: Context, params: WorkerParameters
         dataJob = CoroutineScope(Dispatchers.IO).launch {
 
             // get data
-            val illuminance = async { TrackingDataUtil.getIlluminance(context) }.await()
-            var pedometer = async { TrackingDataUtil.getPedometer(context) }.await()
-            val gps = async { TrackingDataUtil.getGps(context) }.await()
-            var screen = async { TrackingDataUtil.getScreenTime(context) }.await()
-            var call = async { TrackingDataUtil.getPhoneCall(context) }.await()
+            val illuminance = async { TrackingDataUtil.getIlluminance(applicationContext) }.await()
+            var pedometer = async { TrackingDataUtil.getPedometer(applicationContext) }.await()
+            val gps = async { TrackingDataUtil.getGps(applicationContext) }.await()
+            var screen = async { TrackingDataUtil.getScreenTime(applicationContext) }.await()
+            var call = async { TrackingDataUtil.getPhoneCall(applicationContext) }.await()
 
             val minTimestamp = minOf(illuminance.first, pedometer.first, gps.first, screen.first, call.first)
             val hour = DateUtil.getHour(minTimestamp)
@@ -94,7 +99,7 @@ class TrackingWorkManager(private val context: Context, params: WorkerParameters
                     // 마지막 위치 저장 (최근 위치)
                     val dao = gps.second.last()
                     if (dao.size >= 2) {
-                        SensorDataStore.saveRecentGps(context, dao[0], dao[1])
+                        SensorDataStore.saveRecentGps(applicationContext, dao[0], dao[1])
                     }
                 }
             }
@@ -203,7 +208,7 @@ class TrackingWorkManager(private val context: Context, params: WorkerParameters
             val remove = async { TrackingDataUtil.removeData(context, timestamp) }.await()
             if (remove) {
 
-                SensorDataStore.getTrackingStartTime(context).firstOrNull()?.let { startTime ->
+                SensorDataStore.getTrackingStartTime(applicationContext).firstOrNull()?.let { startTime ->
 
                     val startCalendar = Calendar.getInstance().apply {
                         timeInMillis = startTime

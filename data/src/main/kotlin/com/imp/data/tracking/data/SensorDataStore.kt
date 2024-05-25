@@ -50,7 +50,7 @@ class SensorDataStore {
          */
         suspend fun saveLocationData(context: Context, latitude: Double, longitude: Double, timestamp: Long) {
 
-            context.dataStore.edit { prefs ->
+            context.applicationContext.dataStore.edit { prefs ->
 
                 prefs[KEY_LOCATION_DATA] = buildString {
 
@@ -76,7 +76,7 @@ class SensorDataStore {
          */
         suspend fun saveLightData(context: Context, light: Float, timestamp: Long) {
 
-            context.dataStore.edit { prefs ->
+            context.applicationContext.dataStore.edit { prefs ->
 
                 prefs[KEY_LIGHT_DATA] = buildString {
 
@@ -102,7 +102,7 @@ class SensorDataStore {
          */
         suspend fun saveStepData(context: Context, step: Int, timestamp: Long) {
 
-            context.dataStore.edit { prefs ->
+            context.applicationContext.dataStore.edit { prefs ->
 
                 prefs[KEY_STEP_DATA] = buildString {
 
@@ -128,7 +128,7 @@ class SensorDataStore {
          */
         suspend fun saveScreenData(context: Context, value: String, timestamp: Long) {
 
-            context.dataStore.edit { prefs ->
+            context.applicationContext.dataStore.edit { prefs ->
 
                 prefs[KEY_SCREEN_DATA] = buildString {
 
@@ -154,7 +154,7 @@ class SensorDataStore {
          */
         suspend fun savePhoneCallData(context: Context, value: String, timestamp: Long) {
 
-            context.dataStore.edit { prefs ->
+            context.applicationContext.dataStore.edit { prefs ->
 
                 prefs[KEY_PHONE_CALL_DATA] = buildString {
 
@@ -179,7 +179,7 @@ class SensorDataStore {
          */
         suspend fun saveTrackingStartTime(context: Context, timestamp: Long): Boolean {
 
-            context.dataStore.edit { prefs ->
+            context.applicationContext.dataStore.edit { prefs ->
 
                 prefs[KEY_TRACKING_START_TIME] = timestamp
             }
@@ -196,7 +196,7 @@ class SensorDataStore {
          */
         suspend fun saveRecentGps(context: Context, latitude: Double, longitude: Double) {
 
-            context.dataStore.edit { prefs ->
+            context.applicationContext.dataStore.edit { prefs ->
 
                 prefs[KEY_RECENT_GPS] = "$latitude, $longitude"
             }
@@ -210,7 +210,7 @@ class SensorDataStore {
          */
         suspend fun saveCurrentCallState(context: Context, isOn: Boolean) {
 
-            context.dataStore.edit { prefs ->
+            context.applicationContext.dataStore.edit { prefs ->
 
                 prefs[KEY_CURRENT_CALL_STATE] = isOn
             }
@@ -224,7 +224,7 @@ class SensorDataStore {
          */
         suspend fun getLocationData(context: Context): Flow<ArrayList<LocationDao>> {
 
-            return context.dataStore.data.catch { e ->
+            return context.applicationContext.dataStore.data.catch { e ->
                 if (e is IOException) {
                     e.printStackTrace()
                     emit(emptyPreferences())
@@ -244,17 +244,11 @@ class SensorDataStore {
                         val location = data.trim().split(",")
                         if (location.size >= 3) {
 
-                            result.add(
-                                LocationDao(
+                            result.add(LocationDao(
                                 latitude = location[0].trim().toFloat(),
                                 longitude = location[1].trim().toFloat(),
-                                timestamp = if (location[2].trim().isEmpty()) {
-                                    System.currentTimeMillis()
-                                } else {
-                                    location[2].trim().toLong()
-                                }
-                            )
-                            )
+                                timestamp = location[2].trim().toLongOrNull() ?: System.currentTimeMillis()
+                            ))
                         }
                     }
                 }
@@ -270,7 +264,7 @@ class SensorDataStore {
          */
         suspend fun getLightData(context: Context): Flow<ArrayList<LightDao>> {
 
-            return context.dataStore.data.catch { e ->
+            return context.applicationContext.dataStore.data.catch { e ->
                 if (e is IOException) {
                     e.printStackTrace()
                     emit(emptyPreferences())
@@ -290,16 +284,10 @@ class SensorDataStore {
                         val light = data.trim().split(",")
                         if (light.size >= 2) {
 
-                            result.add(
-                                LightDao(
+                            result.add(LightDao(
                                 light = light[0].trim().toFloat(),
-                                timestamp = if (light[1].trim().isNotEmpty()) {
-                                    light[1].trim().toLong()
-                                } else {
-                                    System.currentTimeMillis()
-                                }
-                            )
-                            )
+                                timestamp = light[1].trim().toLongOrNull() ?: System.currentTimeMillis()
+                            ))
                         }
                     }
                 }
@@ -315,7 +303,7 @@ class SensorDataStore {
          */
         suspend fun getStepData(context: Context): Flow<ArrayList<StepDao>> {
 
-            return context.dataStore.data.catch { e ->
+            return context.applicationContext.dataStore.data.catch { e ->
                 if (e is IOException) {
                     e.printStackTrace()
                     emit(emptyPreferences())
@@ -335,16 +323,10 @@ class SensorDataStore {
                         val step = data.trim().split(",")
                         if (step.size >= 2) {
 
-                            result.add(
-                                StepDao(
+                            result.add(StepDao(
                                 step = step[0].trim().toInt(),
-                                timestamp = if (step[1].trim().isEmpty()) {
-                                    System.currentTimeMillis()
-                                } else {
-                                    step[1].trim().toLong()
-                                }
-                            )
-                            )
+                                timestamp = step[1].trim().toLongOrNull() ?: System.currentTimeMillis()
+                            ))
                         }
                     }
                 }
@@ -360,7 +342,7 @@ class SensorDataStore {
          */
         suspend fun getScreenTimeData(context: Context): Flow<ArrayList<ScreenDao>> {
 
-            return context.dataStore.data.catch { e ->
+            return context.applicationContext.dataStore.data.catch { e ->
                 if (e is IOException) {
                     e.printStackTrace()
                     emit(emptyPreferences())
@@ -380,16 +362,10 @@ class SensorDataStore {
                         val screen = data.trim().split(",")
                         if (screen.size >= 2) {
 
-                            result.add(
-                                ScreenDao(
+                            result.add(ScreenDao(
                                 state = screen[0].trim(),
-                                timestamp = if (screen[1].trim().isEmpty()) {
-                                    System.currentTimeMillis()
-                                } else {
-                                    screen[1].trim().toLong()
-                                }
-                            )
-                            )
+                                timestamp = screen[1].trim().toLongOrNull() ?: System.currentTimeMillis()
+                            ))
                         }
                     }
                 }
@@ -405,7 +381,7 @@ class SensorDataStore {
          */
         suspend fun getPhoneCallData(context: Context): Flow<ArrayList<ScreenDao>> {
 
-            return context.dataStore.data.catch { e ->
+            return context.applicationContext.dataStore.data.catch { e ->
                 if (e is IOException) {
                     e.printStackTrace()
                     emit(emptyPreferences())
@@ -425,16 +401,10 @@ class SensorDataStore {
                         val call = data.trim().split(",")
                         if (call.size >= 2) {
 
-                            result.add(
-                                ScreenDao(
+                            result.add(ScreenDao(
                                 state = call[0].trim(),
-                                timestamp = if (call[1].trim().isEmpty()) {
-                                    System.currentTimeMillis()
-                                } else {
-                                    call[1].trim().toLong()
-                                }
-                            )
-                            )
+                                timestamp = call[1].trim().toLongOrNull() ?: System.currentTimeMillis()
+                            ))
                         }
                     }
                 }
@@ -450,7 +420,7 @@ class SensorDataStore {
          */
         suspend fun getTrackingStartTime(context: Context): Flow<Long> {
 
-            return context.dataStore.data.catch { e ->
+            return context.applicationContext.dataStore.data.catch { e ->
                 if (e is IOException) {
                     e.printStackTrace()
                     emit(emptyPreferences())
@@ -471,7 +441,7 @@ class SensorDataStore {
          */
         suspend fun getRecentGps(context: Context): Flow<Pair<Double, Double>> {
 
-            return context.dataStore.data.catch { e ->
+            return context.applicationContext.dataStore.data.catch { e ->
                 if (e is IOException) {
                     e.printStackTrace()
                     emit(emptyPreferences())
@@ -504,7 +474,7 @@ class SensorDataStore {
          */
         suspend fun getCurrentCallState(context: Context): Flow<Boolean> {
 
-            return context.dataStore.data.catch { e ->
+            return context.applicationContext.dataStore.data.catch { e ->
                 if (e is IOException) {
                     e.printStackTrace()
                     emit(emptyPreferences())
@@ -522,7 +492,7 @@ class SensorDataStore {
          */
         suspend fun removeAllData(context: Context) {
 
-            context.dataStore.edit { prefs ->
+            context.applicationContext.dataStore.edit { prefs ->
 
                 prefs.remove(KEY_LOCATION_DATA)
                 prefs.remove(KEY_LIGHT_DATA)
@@ -542,7 +512,7 @@ class SensorDataStore {
          * @param key
          */
         suspend fun <T> removeData(context: Context, key: Preferences.Key<T>) {
-            context.dataStore.edit { prefs ->
+            context.applicationContext.dataStore.edit { prefs ->
                 prefs.remove(key)
             }
         }
@@ -591,7 +561,7 @@ class SensorDataStore {
                     } else continue
                 }
 
-                context.dataStore.edit { it[KEY_LOCATION_DATA] = result }
+                context.applicationContext.dataStore.edit { it[KEY_LOCATION_DATA] = result }
             }
         }
 
@@ -624,7 +594,7 @@ class SensorDataStore {
                     } else continue
                 }
 
-                context.dataStore.edit { it[KEY_LIGHT_DATA] = result }
+                context.applicationContext.dataStore.edit { it[KEY_LIGHT_DATA] = result }
             }
         }
 
@@ -657,7 +627,7 @@ class SensorDataStore {
                     } else continue
                 }
 
-                context.dataStore.edit { it[KEY_STEP_DATA] = result }
+                context.applicationContext.dataStore.edit { it[KEY_STEP_DATA] = result }
             }
         }
 
@@ -690,7 +660,7 @@ class SensorDataStore {
                     } else continue
                 }
 
-                context.dataStore.edit { it[KEY_SCREEN_DATA] = result }
+                context.applicationContext.dataStore.edit { it[KEY_SCREEN_DATA] = result }
             }
         }
 
@@ -723,7 +693,7 @@ class SensorDataStore {
                     } else continue
                 }
 
-                context.dataStore.edit { it[KEY_PHONE_CALL_DATA] = result }
+                context.applicationContext.dataStore.edit { it[KEY_PHONE_CALL_DATA] = result }
             }
         }
     }
