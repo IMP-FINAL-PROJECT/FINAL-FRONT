@@ -25,6 +25,7 @@ import com.google.ar.core.Plane
 import com.google.ar.sceneform.AnchorNode
 import com.google.ar.sceneform.Node
 import com.google.ar.sceneform.SceneView
+import com.google.ar.sceneform.math.Vector3
 import com.google.ar.sceneform.rendering.ModelRenderable
 import com.google.ar.sceneform.rendering.Renderable
 import com.google.ar.sceneform.rendering.ViewRenderable
@@ -101,7 +102,7 @@ class ActVideoChat : BaseContractActivity<ActVideoChatBinding>() {
     private val viewModel: ChatViewModel by viewModels()
 
     /** AR 관련 변수 */
-    private lateinit var arFragment: ArFragment
+    private var arFragment: ArFragment? = null
     private var model: Renderable? = null
     private var modelView: ViewRenderable? = null
     private var node: Node? = null
@@ -116,7 +117,7 @@ class ActVideoChat : BaseContractActivity<ActVideoChatBinding>() {
 
     /** TTS 관련 변수 */
     private var textToSpeech: TextToSpeech? = null
-    private var viceList: ArrayList<Voice> = ArrayList()
+    private var voiceList: ArrayList<Voice> = ArrayList()
 
     /** STT 관련 변수 */
     private var recognizerIntent: Intent? = null
@@ -160,9 +161,10 @@ class ActVideoChat : BaseContractActivity<ActVideoChatBinding>() {
             val matches = p0?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION) ?: return
             for (i in matches.indices) result = matches[i]
 
-            mBinding.tvStt.text = result
+            mBinding.tvStt.text = "$result?"
 
             controlSpeechLottie(false)
+            controlLoadingLottie(true)
             controlSttView(true)
             sendChat(result)
         }
@@ -204,7 +206,17 @@ class ActVideoChat : BaseContractActivity<ActVideoChatBinding>() {
         sttEndAnimator?.cancel()
         sttEndAnimator = null
 
-        arFragment.destroy()
+        speechRecognizer?.destroy()
+        speechRecognizer = null
+        recognizerIntent = null
+
+        arFragment?.destroy()
+        arFragment = null
+
+        model = null
+        modelView = null
+        node = null
+
         stopTextToSpeech()
         super.onDestroy()
     }
@@ -239,7 +251,7 @@ class ActVideoChat : BaseContractActivity<ActVideoChatBinding>() {
                     val voices = tts.voices.filter { it.name.contains("ko-KR-SMTg01", ignoreCase = true) || it.name.contains("ko-KR-SMTl01", ignoreCase = true) }
                     voices.firstOrNull()?.let { tts.setVoice(it) }
 
-                    viceList.addAll(voices)
+                    voiceList.addAll(voices)
                 }
             }
         }
@@ -266,6 +278,7 @@ class ActVideoChat : BaseContractActivity<ActVideoChatBinding>() {
         /** Chat List */
         viewModel.chatResponse.observe(this) { chat ->
 
+            controlLoadingLottie(false)
             textToSpeech?.speak(chat.response, TextToSpeech.QUEUE_FLUSH, null, TTS_ID)
         }
 
@@ -333,7 +346,7 @@ class ActVideoChat : BaseContractActivity<ActVideoChatBinding>() {
 
                 textToSpeech?.let { tts ->
 
-                    val voice = viceList.filter { it.name.contains("ko-KR-SMTg01", ignoreCase = true) }
+                    val voice = voiceList.filter { it.name.contains("ko-KR-SMTg01", ignoreCase = true) }
                     voice.firstOrNull()?.let { tts.setVoice(it) }
                 }
 
@@ -346,7 +359,7 @@ class ActVideoChat : BaseContractActivity<ActVideoChatBinding>() {
 
                 textToSpeech?.let { tts ->
 
-                    val voice = viceList.filter { it.name.contains("ko-KR-SMTl01", ignoreCase = true) }
+                    val voice = voiceList.filter { it.name.contains("ko-KR-SMTl01", ignoreCase = true) }
                     voice.firstOrNull()?.let { tts.setVoice(it) }
                 }
 
@@ -396,10 +409,10 @@ class ActVideoChat : BaseContractActivity<ActVideoChatBinding>() {
 
         if (model == null) return
 
-        arFragment.apply {
+        arFragment?.apply {
 
             if (node != null) {
-                arSceneView.scene.removeChild(node)
+                arSceneView?.scene?.removeChild(node)
             }
 
             node = AnchorNode(hitResult.createAnchor()).apply {
