@@ -70,6 +70,14 @@ abstract class BaseActivity<B: ViewBinding> : AppCompatActivity() {
         if (backPressedCallback != null) onBackPressedDispatcher.addCallback(this, backPressedCallback!!)
     }
 
+    override fun onDestroy() {
+
+        commonPopup?.dismiss()
+        commonPopup = null
+
+        super.onDestroy()
+    }
+
     override fun finish() {
         super.finish()
 

@@ -78,7 +78,7 @@ class FrgAnalysis: BaseFragment<FrgAnalysisBinding>() {
     private val memberViewModel: MemberViewModel by activityViewModels()
 
     /** Analysis List Adapter */
-    private lateinit var analysisAdapter: AnalysisListAdapter
+    private var analysisAdapter: AnalysisListAdapter? = null
 
     /** ViewPager 관련 변수 */
     private var initSetPreviewBothSide: Boolean = false
@@ -87,7 +87,7 @@ class FrgAnalysis: BaseFragment<FrgAnalysisBinding>() {
     private var kakaoMap: KakaoMap? = null
 
     /** API 조회 Calendar */
-    private var calendar: Calendar = Calendar.getInstance()
+    private var calendar: Calendar? = null
 
     /** Bottom Sheet */
     private var datePickerBottomSheet: DatePickerBottomSheet? = null
@@ -112,7 +112,8 @@ class FrgAnalysis: BaseFragment<FrgAnalysisBinding>() {
     override fun initData() {
 
         // 하루 전날로 설정
-        calendar.add(Calendar.DAY_OF_MONTH, -1)
+        calendar = Calendar.getInstance()
+        calendar?.add(Calendar.DAY_OF_MONTH, -1)
 
         // viewModel data 초기화
         viewModel.resetData()
@@ -137,7 +138,7 @@ class FrgAnalysis: BaseFragment<FrgAnalysisBinding>() {
         super.onResume()
 
         // analysis list api 호출
-        callAnalysisApi(calendar)
+        calendar?.let { callAnalysisApi(it) }
     }
 
     override fun onPause() {
@@ -160,6 +161,9 @@ class FrgAnalysis: BaseFragment<FrgAnalysisBinding>() {
         progressBarAnimator?.cancel()
         progressBarAnimator = null
 
+        mBalloon?.dismiss()
+        mBalloon = null
+
         super.onDestroy()
     }
 
@@ -173,7 +177,7 @@ class FrgAnalysis: BaseFragment<FrgAnalysisBinding>() {
 
             controlContentsView(true)
             updateUI(it)
-            analysisAdapter.setAnalysisData(it)
+            analysisAdapter?.setAnalysisData(it)
 
             for (place in it.place_diversity) {
 
@@ -581,24 +585,27 @@ class FrgAnalysis: BaseFragment<FrgAnalysisBinding>() {
         // open animation
         controlDropDownAnimation(true)
 
-        datePickerBottomSheet?.dismiss()
-        datePickerBottomSheet = DatePickerBottomSheet(calendar, true, { newCalendar ->
+        calendar?.let { cal ->
 
-            // calendar 초기화
-            calendar.time = newCalendar.time
+            datePickerBottomSheet?.dismiss()
+            datePickerBottomSheet = DatePickerBottomSheet(cal, true, { newCalendar ->
 
-            // Date
-            mBinding.tvDate.text = DateUtil.getDateWithYearMonthDay(calendar)
+                // calendar 초기화
+                cal.time = newCalendar.time
 
-            // log data api 호출
-            callAnalysisApi(calendar)
+                // Date
+                mBinding.tvDate.text = DateUtil.getDateWithYearMonthDay(cal)
 
-        }, {
+                // log data api 호출
+                callAnalysisApi(cal)
 
-            // close animation
-            controlDropDownAnimation(false)
-        })
-        datePickerBottomSheet?.show(childFragmentManager, "")
+            }, {
+
+                // close animation
+                controlDropDownAnimation(false)
+            })
+            datePickerBottomSheet?.show(childFragmentManager, "")
+        }
     }
 
     /**

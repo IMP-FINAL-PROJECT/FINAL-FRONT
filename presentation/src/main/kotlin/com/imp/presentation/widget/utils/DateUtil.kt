@@ -46,10 +46,12 @@ class DateUtil {
         /**
          * Get Date with Year, Month, Day Text (yyyy년 MM월 dd일)
          */
-        fun getDateWithYearMonthDay(calendar: Calendar): String {
+        fun getDateWithYearMonthDay(calendar: Calendar?): String {
+
+            if (calendar == null) return ""
 
             val dateFormat = SimpleDateFormat("yyyy년 MM월 dd일", Locale.getDefault())
-            return dateFormat.format(calendar.time)
+            return dateFormat.format(calendar?.time)
         }
 
         /**
