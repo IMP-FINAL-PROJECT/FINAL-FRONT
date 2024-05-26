@@ -38,7 +38,8 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivProfile"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:src="@drawable/icon_default_profile" />
 
         </androidx.cardview.widget.CardView>
 
@@ -46,7 +47,7 @@
             android:id="@+id/llProfile"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="7dp"
+            android:layout_marginStart="12dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/cvProfile"
