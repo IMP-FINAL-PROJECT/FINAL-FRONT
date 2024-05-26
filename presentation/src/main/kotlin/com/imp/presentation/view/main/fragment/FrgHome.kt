@@ -273,6 +273,8 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
 
                     val id = PreferencesUtil.getPreferencesString(ctx, PreferencesUtil.AUTO_LOGIN_ID_KEY)
                     viewModel.saveMood(id, indicatorSeekbar.progress)
+
+                    Toast.makeText(ctx, getString(R.string.popup_text_7), Toast.LENGTH_SHORT).show()
                 }
             }
         }
