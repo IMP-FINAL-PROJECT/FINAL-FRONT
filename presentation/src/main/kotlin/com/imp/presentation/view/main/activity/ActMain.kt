@@ -110,7 +110,7 @@ class ActMain : BaseContractActivity<ActMainBinding>() {
     }
 
     /** Navigation Controller */
-    private lateinit var navController: NavController
+    private var navController: NavController? = null
 
     override fun getViewBinding() = ActMainBinding.inflate(layoutInflater)
 
@@ -122,6 +122,13 @@ class ActMain : BaseContractActivity<ActMainBinding>() {
 
         init()
         initNavigationBar()
+    }
+
+    override fun onDestroy() {
+
+        navController = null
+
+        super.onDestroy()
     }
 
     /**
@@ -147,7 +154,7 @@ class ActMain : BaseContractActivity<ActMainBinding>() {
             navController = (navHostFragment as NavHostFragment).findNavController()
 
             navigationBar.itemIconTintList = null
-            navigationBar.setupWithNavController(navController)
+            navController?.let { navigationBar.setupWithNavController(it) }
         }
     }
 

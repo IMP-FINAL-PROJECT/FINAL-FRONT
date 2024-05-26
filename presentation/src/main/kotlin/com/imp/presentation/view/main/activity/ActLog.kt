@@ -85,6 +85,17 @@ class ActLog : BaseContractActivity<ActLogBinding>() {
         viewModel.loadData(id, DateUtil.calendarToServerFormat(calendar))
     }
 
+    override fun onDestroy() {
+
+        datePickerBottomSheet?.dismiss()
+        datePickerBottomSheet = null
+
+        objectAnimator?.cancel()
+        objectAnimator = null
+
+        super.onDestroy()
+    }
+
     /**
      * Initialize Observer
      */

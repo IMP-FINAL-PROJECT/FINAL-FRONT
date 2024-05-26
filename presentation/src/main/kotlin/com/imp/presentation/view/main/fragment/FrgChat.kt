@@ -30,7 +30,7 @@ class FrgChat: BaseFragment<FrgChatBinding>() {
     private val viewModel: ChatViewModel by activityViewModels()
 
     /** Chat List Adapter */
-    private lateinit var chattingAdapter: ChatListAdapter
+    private var chattingAdapter: ChatListAdapter? = null
 
     override fun getViewBinding(inflater: LayoutInflater, container: ViewGroup?) = FrgChatBinding.inflate(inflater, container, false)
 
@@ -62,6 +62,12 @@ class FrgChat: BaseFragment<FrgChatBinding>() {
         }
     }
 
+    override fun onDestroy() {
+
+        chattingAdapter = null
+        super.onDestroy()
+    }
+
     /**
      * Initialize Observer
      */
@@ -70,11 +76,11 @@ class FrgChat: BaseFragment<FrgChatBinding>() {
         /** Chat List */
         viewModel.chatList.observe(viewLifecycleOwner) { chatList ->
 
-            if (::chattingAdapter.isInitialized) {
+            if (chattingAdapter != null) {
 
-                chattingAdapter.list.clear()
-                chattingAdapter.list.addAll(chatList)
-                chattingAdapter.notifyDataSetChanged()
+                chattingAdapter?.list?.clear()
+                chattingAdapter?.list?.addAll(chatList)
+                chattingAdapter?.notifyDataSetChanged()
             }
         }
 
@@ -125,7 +131,7 @@ class FrgChat: BaseFragment<FrgChatBinding>() {
                     chattingAdapter = ChatListAdapter(ctx, ArrayList())
                     layoutManager = LinearLayoutManager(ctx, LinearLayoutManager.VERTICAL, false)
                     adapter = chattingAdapter
-                    chattingAdapter.apply {
+                    chattingAdapter?.apply {
 
                         selectItem = object : ChatListAdapter.SelectItem {
 

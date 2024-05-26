@@ -9,6 +9,7 @@ import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.speech.tts.TextToSpeech
+import android.speech.tts.Voice
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
@@ -17,6 +18,7 @@ import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.ar.core.HitResult
 import com.google.ar.core.Plane
@@ -114,10 +116,11 @@ class ActVideoChat : BaseContractActivity<ActVideoChatBinding>() {
 
     /** TTS 관련 변수 */
     private var textToSpeech: TextToSpeech? = null
+    private var viceList: ArrayList<Voice> = ArrayList()
 
     /** STT 관련 변수 */
-    private lateinit var recognizerIntent: Intent
-    private lateinit var speechRecognizer: SpeechRecognizer
+    private var recognizerIntent: Intent? = null
+    private var speechRecognizer: SpeechRecognizer? = null
 
     /** Recognizer Listener */
     private val recognizerListener = object : RecognitionListener {
@@ -195,6 +198,13 @@ class ActVideoChat : BaseContractActivity<ActVideoChatBinding>() {
 
     override fun onDestroy() {
 
+        sttShowAnimator?.cancel()
+        sttShowAnimator = null
+
+        sttEndAnimator?.cancel()
+        sttEndAnimator = null
+
+        arFragment.destroy()
         stopTextToSpeech()
         super.onDestroy()
     }
@@ -309,8 +319,8 @@ class ActVideoChat : BaseContractActivity<ActVideoChatBinding>() {
             ctSpeech.setOnClickListener {
 
                 speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this@ActVideoChat)
-                speechRecognizer.setRecognitionListener(recognizerListener)
-                speechRecognizer.startListening(recognizerIntent)
+                speechRecognizer?.setRecognitionListener(recognizerListener)
+                speechRecognizer?.startListening(recognizerIntent)
             }
         }
     }

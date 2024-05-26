@@ -146,13 +146,30 @@ class FrgAnalysis: BaseFragment<FrgAnalysisBinding>() {
         super.onPause()
     }
 
+    override fun onDestroy() {
+
+        aiAnalysisBottomSheet?.dismiss()
+        aiAnalysisBottomSheet = null
+
+        datePickerBottomSheet?.dismiss()
+        datePickerBottomSheet = null
+
+        objectAnimator?.cancel()
+        objectAnimator = null
+
+        progressBarAnimator?.cancel()
+        progressBarAnimator = null
+
+        super.onDestroy()
+    }
+
     /**
      * Initialize Observer
      */
     private fun initObserver() {
 
         /** Analysis Data */
-        viewModel.analysisData.observe(this) {
+        viewModel.analysisData.observe(viewLifecycleOwner) {
 
             controlContentsView(true)
             updateUI(it)
@@ -167,13 +184,13 @@ class FrgAnalysis: BaseFragment<FrgAnalysisBinding>() {
         }
 
         /** Region Code List */
-        viewModel.regionCodeData.observe(this) { list ->
+        viewModel.regionCodeData.observe(viewLifecycleOwner) { list ->
 
             updatePlace(list)
         }
 
         /** Gps Point List */
-        viewModel.pointList.observe(this) { list ->
+        viewModel.pointList.observe(viewLifecycleOwner) { list ->
 
             kakaoMap?.let { addAreaPolygon(it, list) }
         }

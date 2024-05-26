@@ -37,6 +37,7 @@ import com.warkiz.widget.OnSeekChangeListener
 import com.warkiz.widget.SeekParams
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 
@@ -52,7 +53,7 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
     private var progressBarValueAnimator: ValueAnimator? = null
 
     /** Coroutine */
-    private val coroutineMain = CoroutineScope(Dispatchers.Main)
+    private var coroutineMain: Job? = null
 
     /** UI Update Broadcast Receiver */
     private val uiUpdateReceiver = object : BroadcastReceiver() {
@@ -63,7 +64,8 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
 
             with(mBinding) {
 
-                coroutineMain.launch {
+                coroutineMain?.cancel()
+                coroutineMain = CoroutineScope(Dispatchers.Main).launch {
 
                     when(intent.action) {
 
@@ -101,7 +103,7 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
     private var tackingManager: TrackingManager? = null
 
     /** Recommend List Adapter */
-    private lateinit var recommendAdapter: RecommendListAdapter
+    private var recommendAdapter: RecommendListAdapter? = null
 
     /** Bottom Sheet */
     private var scoreTransitionBottomSheet: ScoreTransitionBottomSheet? = null
@@ -153,6 +155,15 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
     override fun onDestroy() {
 
         progressBarValueAnimator?.cancel()
+        progressBarValueAnimator = null
+
+        scoreTransitionBottomSheet?.dismiss()
+        scoreTransitionBottomSheet = null
+
+        coroutineMain?.cancel()
+        coroutineMain = null
+
+        recommendAdapter = null
 //        resetMapView()
 
         super.onDestroy()
@@ -164,7 +175,7 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
     private fun initObserver() {
 
         /** Home Data */
-        viewModel.homeData.observe(this) {
+        viewModel.homeData.observe(viewLifecycleOwner) {
 
             // score board
             initScoreBoard(it)
@@ -174,13 +185,13 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
         }
 
         /** Recommend Data */
-        viewModel.recommendData.observe(this) { recommendList ->
+        viewModel.recommendData.observe(viewLifecycleOwner) { recommendList ->
 
-            if (::recommendAdapter.isInitialized) {
+            if (recommendAdapter != null) {
 
-                recommendAdapter.list.clear()
-                recommendAdapter.list.addAll(recommendList)
-                recommendAdapter.notifyDataSetChanged()
+                recommendAdapter?.list?.clear()
+                recommendAdapter?.list?.addAll(recommendList)
+                recommendAdapter?.notifyDataSetChanged()
             }
         }
 
@@ -335,7 +346,7 @@ class FrgHome: BaseFragment<FrgHomeBinding>() {
                     recommendAdapter = RecommendListAdapter(ctx, ArrayList())
                     layoutManager = LinearLayoutManager(ctx, LinearLayoutManager.VERTICAL, false)
                     adapter = recommendAdapter
-                    recommendAdapter.apply {
+                    recommendAdapter?.apply {
 
                         selectItem = object : RecommendListAdapter.SelectItem {
 
