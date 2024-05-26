@@ -236,8 +236,10 @@ class ActVideoChat : BaseContractActivity<ActVideoChatBinding>() {
                     // ko-KR-SMTf00 (일반 여성 아나운서 느낌), ko-KR-SMTl08 (소심한 여성)
                     // ko-KR-SMTl01 (일반 여성), ko-KR-SMTl04 (일반 여성 전자녀 느낌), ko-KR-SMTl05 (일반 여성 좀더 높나?..)
                     // ko-KR-default (일반 남성 아나운서 느낌), ko-KR-SMTg01 (일반 남성), ko-KR-SMTm01 (일반 남성 전자녀 남자버전?)
-                    val voices = tts.voices.filter { it.name.contains("ko-KR-SMTl08") }
-                    voices.firstOrNull()?.let {tts.setVoice(it) }
+                    val voices = tts.voices.filter { it.name.contains("ko-KR-SMTg01", ignoreCase = true) || it.name.contains("ko-KR-SMTl01", ignoreCase = true) }
+                    voices.firstOrNull()?.let { tts.setVoice(it) }
+
+                    viceList.addAll(voices)
                 }
             }
         }
@@ -302,6 +304,9 @@ class ActVideoChat : BaseContractActivity<ActVideoChatBinding>() {
 
             // speech 버튼 숨김 처리
             ctSpeech.visibility = View.GONE
+
+            // voice 버튼 숨김 처리
+            cvVoice.visibility = View.GONE
         }
     }
 
@@ -321,6 +326,32 @@ class ActVideoChat : BaseContractActivity<ActVideoChatBinding>() {
                 speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this@ActVideoChat)
                 speechRecognizer?.setRecognitionListener(recognizerListener)
                 speechRecognizer?.startListening(recognizerIntent)
+            }
+
+            // 남성 목소리 선택
+            tvMale.setOnClickListener {
+
+                textToSpeech?.let { tts ->
+
+                    val voice = viceList.filter { it.name.contains("ko-KR-SMTg01", ignoreCase = true) }
+                    voice.firstOrNull()?.let { tts.setVoice(it) }
+                }
+
+                // 버튼 선택 초기화
+                controlVoiceButton(true)
+            }
+
+            // 여성 목소리 선택
+            tvFemale.setOnClickListener {
+
+                textToSpeech?.let { tts ->
+
+                    val voice = viceList.filter { it.name.contains("ko-KR-SMTl01", ignoreCase = true) }
+                    voice.firstOrNull()?.let { tts.setVoice(it) }
+                }
+
+                // 버튼 선택 초기화
+                controlVoiceButton(false)
             }
         }
     }
@@ -394,6 +425,7 @@ class ActVideoChat : BaseContractActivity<ActVideoChatBinding>() {
             // 노출 여부 설정
             mBinding.tvDescription.visibility = View.GONE
             mBinding.ctSpeech.visibility = View.VISIBLE
+            mBinding.cvVoice.visibility = View.VISIBLE
         }
     }
 
@@ -477,6 +509,37 @@ class ActVideoChat : BaseContractActivity<ActVideoChatBinding>() {
             } else {
 
                 sttEndAnimator?.start()
+            }
+        }
+    }
+
+    /**
+     * Control Voice Button
+     *
+     * @param isMale
+     */
+    private fun controlVoiceButton(isMale: Boolean) {
+
+        with(mBinding) {
+
+            tvMale.isSelected = isMale
+            tvFemale.isSelected = !isMale
+
+            if (isMale) {
+
+                tvMale.setBackgroundColor(ContextCompat.getColor(this@ActVideoChat, R.color.color_3377ff))
+                tvMale.setTextColor(ContextCompat.getColor(this@ActVideoChat, R.color.white))
+
+                tvFemale.setBackgroundColor(ContextCompat.getColor(this@ActVideoChat, R.color.white))
+                tvFemale.setTextColor(ContextCompat.getColor(this@ActVideoChat, R.color.black))
+
+            } else {
+
+                tvMale.setBackgroundColor(ContextCompat.getColor(this@ActVideoChat, R.color.white))
+                tvMale.setTextColor(ContextCompat.getColor(this@ActVideoChat, R.color.black))
+
+                tvFemale.setBackgroundColor(ContextCompat.getColor(this@ActVideoChat, R.color.color_3377ff))
+                tvFemale.setTextColor(ContextCompat.getColor(this@ActVideoChat, R.color.white))
             }
         }
     }
