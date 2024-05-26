@@ -77,12 +77,13 @@ class AnalysisViewModel @Inject constructor(private val useCase: AnalysisUseCase
      */
     fun coordinateToRegionCode(x: String, y: String) = viewModelScope.launch {
 
+        regionCodeList.clear()
+
         useCase.coordinateToRegionCode(
             x = x,
             y = y,
             successCallback = {
 
-                regionCodeList.clear()
                 regionCodeList.add(it)
 
                 if (regionCodeList.size >= (_analysisData.value?.place_diversity?.size ?: 0)) {
