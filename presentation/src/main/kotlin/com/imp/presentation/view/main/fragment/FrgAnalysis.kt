@@ -274,6 +274,7 @@ class FrgAnalysis: BaseFragment<FrgAnalysisBinding>() {
                     )
 
                     analysisAdapter = AnalysisListAdapter(ctx, list, AnalysisModel())
+                    analysisAdapter?.setHasStableIds(true)
                     adapter = analysisAdapter
                     orientation = ViewPager2.ORIENTATION_HORIZONTAL
                     registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {

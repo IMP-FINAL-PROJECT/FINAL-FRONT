@@ -125,8 +125,8 @@
     <string name="analysis_text_18">주간보다 약 %s 만큼\n야간에 더 오래 통화 했어요.</string>
     <string name="analysis_text_19">야간보다 약 %s 만큼\n주간에 더 오래 통화 했어요.</string>
     <string name="analysis_text_20">오늘 하루 동안\n약 %s 동안 통화 했어요.</string>
-    <string name="analysis_text_21">주간보다 약 d회 만큼\n야간에 더 많이 통화 했어요.</string>
-    <string name="analysis_text_22">야간보다 약 d회 만큼\n주간에 더 많이 통화 했어요.</string>
+    <string name="analysis_text_21">주간보다 약 %d회 만큼\n야간에 더 많이 통화 했어요.</string>
+    <string name="analysis_text_22">야간보다 약 %d회 만큼\n주간에 더 많이 통화 했어요.</string>
     <string name="analysis_text_23">오늘 하루 동안\n약 %d회 만큼 통화 했어요.</string>
     <string name="analysis_text_24">생활의 규칙성</string>
     <string name="analysis_text_25">핸드폰 사용 시간</string>

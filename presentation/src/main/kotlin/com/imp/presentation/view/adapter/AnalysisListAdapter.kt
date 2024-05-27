@@ -2,6 +2,7 @@ package com.imp.presentation.view.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -44,6 +45,10 @@ class AnalysisListAdapter(var context: Context?, val list: ArrayList<Pair<String
 
     override fun getItemCount(): Int {
         return list.size
+    }
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
     }
 
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
@@ -169,6 +174,8 @@ class AnalysisListAdapter(var context: Context?, val list: ArrayList<Pair<String
                         // todo: 주소 값이 복사 되는 이슈 -> 깊은 복사 변경 필요
                         val maxValue = getAxisLeftMax(dao.day_light_exposure, dao.night_light_exposure)
                         chart.setAxisLeft(ChartUtil.getLabelCount(maxValue.first), 0f, maxValue.second)
+
+                        tvDescription.visibility = View.GONE
                     }
                 }
 
