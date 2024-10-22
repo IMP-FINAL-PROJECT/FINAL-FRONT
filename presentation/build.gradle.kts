@@ -124,8 +124,14 @@ dependencies {
     /** WorkManager */
     implementation(libs.androidx.work.runtime)
 
-    /** Indicator SeekBar */
-    implementation(libs.indicatorseekbar)
+    /**
+     * Indicator SeekBar
+     *
+     *  - Could not HEAD 'https://jitpack.io/com/github/warkiz/widget/indicatorseekbar/2.1.2/indicatorseekbar-2.1.2.pom'.
+     *  - Received status code 401 from server: Unauthorized
+     *  - The solution is to use v2.1.1 instead of v2.1.2.
+     */
+    implementation("com.github.warkiz:IndicatorSeekBar:v2.1.1")
 
     /** Indicator */
     implementation(libs.dotsindicator)
