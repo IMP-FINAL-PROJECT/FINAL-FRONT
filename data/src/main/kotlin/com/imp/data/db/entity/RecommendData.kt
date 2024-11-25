@@ -22,8 +22,8 @@ class RecommendData {
 
                     result.add(RecommendModel(
                         id = "0",
-                        title = "바베큐 파티는 못 참지",
-                        description = "도심 속에서 새로운 사람들을 만나고, 맛있는 바베큐 파티를 즐겨보세요!\n꿀꿀한 기분도 금방 날아갈 거예요!",
+                        title = "제목",
+                        description = "설명",
                         imageUrl = "https://previews.123rf.com/images/alexraths/alexraths1505/alexraths150500126/40695099-바베큐의-석탄을-통해-야채-모듬-맛있는-구운-고기.jpg",
                         url = "https://m.place.naver.com/place/1809648327/home?entry=pll"
                     ))

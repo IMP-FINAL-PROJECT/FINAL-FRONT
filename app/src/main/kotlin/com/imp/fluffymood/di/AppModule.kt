@@ -27,7 +27,7 @@ class AppModule: Application() {
 
         applicationContext?.let {
 
-            //getDebugHashKey()
+            getDebugHashKey()
 
             /** Initialize Kakao Map Api */
             KakaoMapSdk.init(this, BuildConfig.KAKAO_API_KEY)
