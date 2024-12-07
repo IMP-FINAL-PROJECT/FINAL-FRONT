@@ -13,14 +13,15 @@
         android:id="@+id/log"
         android:enabled="true"
         android:icon="@drawable/icon_log"
-        android:title="@string/navigation_analysis" />
+        android:title="@string/navigation_analysis"
+        android:visible="false" />
 
     <!-- chat -->
     <item
         android:id="@+id/chat"
-        android:enabled="true"
         android:icon="@drawable/icon_chat"
-        android:title="@string/navigation_chat" />
+        android:title="@string/navigation_chat"
+        android:visible="false" />
 
     <!-- my page -->
     <item

@@ -8,7 +8,9 @@
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="206dp"
+        tools:layout_editor_absoluteY="-58dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -16,6 +18,7 @@
             android:paddingBottom="14dp">
 
             <View
+                android:id="@+id/view3"
                 android:layout_width="match_parent"
                 android:layout_height="275dp"
                 android:background="@color/color_3377ff"
@@ -24,9 +27,10 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clMain"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:paddingBottom="20dp"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="166dp">
 
                 <!-- App Title -->
                 <androidx.appcompat.widget.AppCompatImageView
@@ -45,116 +49,11 @@
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_marginStart="-8dp"
-                    android:layout_marginTop="-8dp"
-                    android:layout_marginEnd="-8dp"
-                    android:layout_marginBottom="-8dp"
                     android:scaleType="fitXY"
                     android:src="@drawable/bg_shadow_card"
-                    app:layout_constraintBottom_toBottomOf="@+id/llScoreBoard"
-                    app:layout_constraintEnd_toEndOf="@+id/llScoreBoard"
-                    app:layout_constraintStart_toStartOf="@+id/llScoreBoard"
-                    app:layout_constraintTop_toTopOf="@+id/llScoreBoard" />
+                    tools:layout_editor_absoluteY="61dp" />
 
                 <!-- 오늘의 행복 점수 -->
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/llScoreBoard"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginTop="14dp"
-                    android:layout_marginEnd="24dp"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:paddingBottom="25dp"
-                    app:layout_constraintTop_toBottomOf="@+id/ivAppLogo">
-
-                    <!-- Score Detail -->
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/ivScoreDetail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="16dp"
-                        android:src="@drawable/icon_info"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <!-- 날짜 -->
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tvScoreDate"
-                        style="@style/suitRegular.14"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="25dp"
-                        android:includeFontPadding="false"
-                        android:textColor="@color/black_alpha_60"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:text="03월 04일" />
-
-                    <!-- 타이틀 -->
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tvScoreTitle"
-                        style="@style/aggroLight.18"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
-                        android:includeFontPadding="false"
-                        android:textColor="@color/black"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvScoreDate"
-                        tools:text="오늘의 행복 점수는?" />
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/ctProgress"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="27dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvScoreTitle">
-
-                        <!-- progress bar -->
-                        <com.imp.presentation.widget.component.CustomCircleBarView
-                            android:id="@+id/progressBar"
-                            android:layout_width="126dp"
-                            android:layout_height="126dp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <!-- 이미지 -->
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/ivScore"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/icon_mood_good"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    <!-- 점수 -->
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tvScore"
-                        style="@style/suitSemiBold.18"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:bufferType="spannable"
-                        android:includeFontPadding="false"
-                        android:textColor="@color/black"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/ctProgress"
-                        tools:text="70/100점" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <!-- Background Card View -->
                 <androidx.appcompat.widget.AppCompatImageView
@@ -172,72 +71,6 @@
                     app:layout_constraintTop_toTopOf="@+id/llMood" />
 
                 <!-- 오늘의 행복 점수 -->
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/llMood"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginEnd="24dp"
-                    android:orientation="vertical"
-                    android:padding="20dp"
-                    app:layout_constraintTop_toBottomOf="@+id/llScoreBoard">
-
-                    <!-- 타이틀 -->
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tvMood"
-                        style="@style/aggroLight.16"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
-                        android:includeFontPadding="false"
-                        android:textColor="@color/black"
-                        tools:text="지금 이 순간, 기분이 어떠신가요?" />
-
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
-                        android:orientation="horizontal">
-
-                        <com.warkiz.widget.IndicatorSeekBar
-                            android:id="@+id/indicatorSeekbar"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            app:isb_indicator_color="@color/color_3377ff"
-                            app:isb_max="100"
-                            app:isb_min="0"
-                            app:isb_progress="50"
-                            app:isb_show_indicator="circular_bubble"
-                            app:isb_thumb_color="@color/color_3377ff"
-                            app:isb_track_background_color="@color/color_f7f7f7"
-                            app:isb_track_background_size="4dp"
-                            app:isb_track_progress_color="@color/color_3377ff"
-                            app:isb_track_progress_size="4dp" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/tvSave"
-                            style="@style/suitSemiBold.16"
-                            android:layout_width="wrap_content"
-                            android:layout_height="36dp"
-                            android:layout_marginStart="8dp"
-                            android:background="@drawable/bg_common_button"
-                            android:enabled="true"
-                            android:gravity="center"
-                            android:includeFontPadding="false"
-                            android:paddingStart="12dp"
-                            android:paddingEnd="12dp"
-                            android:textColor="@color/color_common_button_text"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            tools:text="저장" />
-
-                    </androidx.appcompat.widget.LinearLayoutCompat>
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -246,7 +79,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/clMain">
+                app:layout_constraintTop_toBottomOf="@+id/clMain"
+                app:layout_constraintVertical_bias="0.0"
+                tools:layout_editor_absoluteX="196dp">
 
                 <!-- 타이틀 -->
                 <androidx.appcompat.widget.LinearLayoutCompat
@@ -562,47 +397,8 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <!-- 타이틀 -->
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/llRecommendTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginTop="18dp"
-                    android:layout_marginEnd="24dp"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:paddingTop="12dp"
-                    android:paddingBottom="12dp"
-                    app:layout_constraintTop_toBottomOf="@+id/clTracking">
-
-                    <!-- 타이틀 -->
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tvRecommendTitle"
-                        style="@style/suitSemiBold.18"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:includeFontPadding="false"
-                        android:textColor="@color/black"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:text="추천 활동" />
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <!-- 추천 리스트 -->
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvRecommend"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:clipToPadding="false"
-                    android:paddingStart="8dp"
-                    android:paddingTop="8dp"
-                    android:paddingEnd="8dp"
-                    android:paddingBottom="8dp"
-                    app:layout_constraintTop_toBottomOf="@+id/llRecommendTitle"
-                    tools:listitem="@layout/item_recommend_list" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
